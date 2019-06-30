@@ -1,9 +1,10 @@
 version: "3.7"
 services:
-  mysql:
-   image: mysql:8.0.16
+  mysql57:
+   image: mysql:5.7.26
    volumes:
       - db-mysql:/var/lib/mysql
+      - ./mysql:/docker-entrypoint-initdb.d
    environment:
       - MYSQL_ROOT_PASSWORD
       - MYSQL_DATABASE=piwigo
@@ -15,18 +16,20 @@ services:
    environment:
      VIRTUAL_HOST: photos.nas.home
      VIRTUAL_PORT: 80
-   links:
-      - mysql:mysql
    volumes:
-      - ${PIWIGO_GALLERIES}:/var/www/galleries
+      - ${PHOTO_DIR}:/var/www/galleries
       - piwigo-local:/var/www/local
       - piwigo-plugins:/var/www/plugins
       - piwigo-themes:/var/www/themes
       - piwigo-cache:/var/www/_data/i
       - piwigo-upload:/var/www/upload
       - piwigo-logs:/var/log/apache2
-   hostname: photos
-   domainname: MYDOMAIN.COM
+
+  lychee:
+    image: kolex/lychee:3.2.16
+    volumes:
+      - lychee-config:/usr/share/nginx/html/data
+      - ${PHOTO_DIR}:/usr/share/nginx/html/uploads
 
   nginx-proxy:
     image: jwilder/nginx-proxy
