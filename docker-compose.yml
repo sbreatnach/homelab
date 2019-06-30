@@ -1,0 +1,49 @@
+version: "3.7"
+services:
+  mysql:
+   image: mysql:8.0.16
+   volumes:
+      - db-mysql:/var/lib/mysql
+   environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE=piwigo
+      - MYSQL_USER=piwigo
+      - MYSQL_PASSWORD
+
+  piwigo:
+   image: mathieuruellan/piwigo:release-2.9.4
+   environment:
+     VIRTUAL_HOST: photos.nas.home
+     VIRTUAL_PORT: 80
+   links:
+      - mysql:mysql
+   volumes:
+      - ${PIWIGO_GALLERIES}:/var/www/galleries
+      - piwigo-local:/var/www/local
+      - piwigo-plugins:/var/www/plugins
+      - piwigo-themes:/var/www/themes
+      - piwigo-cache:/var/www/_data/i
+      - piwigo-upload:/var/www/upload
+      - piwigo-logs:/var/log/apache2
+   hostname: photos
+   domainname: MYDOMAIN.COM
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - proxy-certs:/etc/nginx/certs
+    ports:
+      # HTTP/HTTPS
+      - "80:80"
+      - "443:443"
+
+volumes:
+  db-mysql:
+  piwigo-local:
+  piwigo-plugins:
+  piwigo-themes:
+  piwigo-cache:
+  piwigo-upload:
+  piwigo-logs:
+  proxy-certs:
