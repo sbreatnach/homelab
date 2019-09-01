@@ -28,10 +28,19 @@ services:
       VIRTUAL_HOST: rompr.nas.home
       VIRTUAL_PORT: 8080
 
+  icecast:
+    image: infiniteproject/icecast
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: icecast.nas.home
+      VIRTUAL_PORT: 8000
+
   mopidy:
     image: wernight/mopidy:latest
     volumes:
       - mopidy-local:/var/lib/mopidy/local
+      - mopidy-playlists:/var/lib/mopidy/playlists
+      - ./mopidy/mopidy.conf:/config/mopidy.conf
       - /mnt/Backup1/Music:/var/lib/mopidy/media
     restart: unless-stopped
     network_mode: host
@@ -70,5 +79,6 @@ services:
 volumes:
   emby-config:
   mopidy-local:
+  mopidy-playlists:
   mysql-data:
   proxy-certs:
