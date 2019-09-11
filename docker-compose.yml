@@ -20,6 +20,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    networks:
+      - core
 
   rompr:
     image: sbreatnach/rmprdckr:1.31
@@ -27,6 +29,8 @@ services:
     environment:
       VIRTUAL_HOST: rompr.nas.home
       VIRTUAL_PORT: 8080
+    networks:
+      - core
 
   icecast:
     image: infiniteproject/icecast
@@ -34,13 +38,15 @@ services:
     environment:
       VIRTUAL_HOST: icecast.nas.home
       VIRTUAL_PORT: 8000
+    networks:
+      core:
+        ipv4_address: 10.5.0.1
 
   mopidy:
-    image: wernight/mopidy:latest
+    image: sbreatnach/mopidy:2.2.3
     volumes:
       - mopidy-local:/var/lib/mopidy/local
       - mopidy-playlists:/var/lib/mopidy/playlists
-      - ./mopidy/mopidy.conf:/config/mopidy.conf
       - /mnt/Backup1/Music:/var/lib/mopidy/media
     restart: unless-stopped
     network_mode: host
@@ -64,6 +70,8 @@ services:
       UID: 1000
       GID: 1000
       GIDLIST: 44
+    networks:
+      - core
 
   nginx-proxy:
     image: jwilder/nginx-proxy
@@ -75,6 +83,8 @@ services:
       # HTTP/HTTPS
       - "80:80"
       - "443:443"
+    networks:
+      - core
 
 volumes:
   emby-config:
@@ -82,3 +92,9 @@ volumes:
   mopidy-playlists:
   mysql-data:
   proxy-certs:
+
+networks:
+  core:
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
