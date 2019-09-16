@@ -21,7 +21,8 @@ services:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     networks:
-      - core
+      core:
+        ipv4_address: 10.5.0.10
 
   rompr:
     image: sbreatnach/rmprdckr:1.31
@@ -30,7 +31,8 @@ services:
       VIRTUAL_HOST: rompr.nas.home
       VIRTUAL_PORT: 8080
     networks:
-      - core
+      core:
+        ipv4_address: 10.5.0.11
 
   icecast:
     image: infiniteproject/icecast
@@ -40,7 +42,7 @@ services:
       VIRTUAL_PORT: 8000
     networks:
       core:
-        ipv4_address: 10.5.0.1
+        ipv4_address: 10.5.0.12
 
   mopidy:
     image: sbreatnach/mopidy:2.2.3
@@ -48,6 +50,9 @@ services:
       - mopidy-local:/var/lib/mopidy/local
       - mopidy-playlists:/var/lib/mopidy/playlists
       - /mnt/Backup1/Music:/var/lib/mopidy/media
+    environment:
+      - SCROBBLER_USERNAME
+      - SCROBBLER_PASSWORD
     restart: unless-stopped
     network_mode: host
 
@@ -71,7 +76,8 @@ services:
       GID: 1000
       GIDLIST: 44
     networks:
-      - core
+      core:
+        ipv4_address: 10.5.0.13
 
   nginx-proxy:
     image: jwilder/nginx-proxy
@@ -84,7 +90,8 @@ services:
       - "80:80"
       - "443:443"
     networks:
-      - core
+      core:
+        ipv4_address: 10.5.0.14
 
 volumes:
   emby-config:
