@@ -3,6 +3,8 @@ data_dir = /var/lib/mopidy
 max_tracklist_length = 100000
 
 [local]
+library = sqlite
+scan_flush_threshold = 100
 media_dir = /var/lib/mopidy/media
 
 [audio]
@@ -14,12 +16,6 @@ playlists_dir = /var/lib/mopidy/playlists
 [scrobbler]
 username = {{ SCROBBLER_USERNAME }}
 password = {{ SCROBBLER_PASSWORD }}
-
-[emby]
-username = {{ EMBY_USERNAME }}
-password = {{ EMBY_PASSWORD }}
-hostname = emby
-port = 8096
 
 [http]
 hostname = 0.0.0.0
