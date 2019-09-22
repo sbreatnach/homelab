@@ -26,7 +26,7 @@ RUN pip install --user --no-cache-dir mopidy==${MOPIDY_VERSION} \
     mopidy-local-sqlite==${MOPIDY_LOCAL_SQLITE_VERSION}
 ENV PATH=$PATH:/home/mopidy/.local/bin
 
-VOLUME ["/var/lib/mopidy/local", "/var/lib/mopidy/media"]
+VOLUME ["/var/lib/mopidy/local-sqlite", "/var/lib/mopidy/media"]
 
 EXPOSE 6600 6680 5555/udp
 

@@ -1,16 +1,5 @@
 version: "3.7"
 services:
-#  adguardhome:
-#    image: adguard/adguardhome:v0.96-hotfix
-#    volumes:
-#      - adguardhome-data:/opt/adguardhome/work
-#      - /etc/adguardhome:/opt/adguardhome/conf
-#    environment:
-#      VIRTUAL_HOST: adguard.nas.home
-#      VIRTUAL_PORT: 3000
-#    ports:
-#      - 53
-
   mysql:
     image: mysql:5.7.27
     volumes:
@@ -28,7 +17,7 @@ services:
     image: sbreatnach/rmprdckr:1.31
     restart: unless-stopped
     environment:
-      VIRTUAL_HOST: rompr.nas.home
+      VIRTUAL_HOST: music.nas.home
       VIRTUAL_PORT: 8080
     networks:
       core:
@@ -47,7 +36,7 @@ services:
   mopidy:
     image: sbreatnach/mopidy:2.2.3
     volumes:
-      - mopidy-local:/var/lib/mopidy/local
+      - mopidy-local:/var/lib/mopidy/local-sqlite
       - mopidy-playlists:/var/lib/mopidy/playlists
       - /mnt/Backup1/Music:/var/lib/mopidy/media
     environment:
@@ -79,6 +68,43 @@ services:
       core:
         ipv4_address: 10.5.0.13
 
+  registry:
+    image: registry:2.7
+    volumes:
+      - registry-data:/var/lib/registry
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: registry.nas.home
+      VIRTUAL_PORT: 5000
+    networks:
+      core:
+        ipv4_address: 10.5.0.15
+
+  adguardhome:
+    image: adguard/adguardhome:v0.96-hotfix
+    volumes:
+      - adguardhome-data:/opt/adguardhome/work
+      - adguardhome-conf:/opt/adguardhome/conf
+    environment:
+      VIRTUAL_HOST: adguard.nas.home
+      VIRTUAL_PORT: 3000
+    networks:
+      core:
+        ipv4_address: 10.5.0.16
+
+  coredns:
+    image: coredns/coredns:1.6.3
+    command:
+      - -conf
+      - /config/Corefile
+    volumes:
+      - ./coredns:/config
+    ports:
+      - 53:53/udp
+    networks:
+      core:
+        ipv4_address: 10.5.0.17
+
   nginx-proxy:
     image: jwilder/nginx-proxy
     volumes:
@@ -91,9 +117,12 @@ services:
       - "443:443"
     networks:
       core:
-        ipv4_address: 10.5.0.14
+        ipv4_address: 10.5.0.100
 
 volumes:
+  adguardhome-data:
+  adguardhome-conf:
+  registry-data:
   emby-config:
   mopidy-local:
   mopidy-playlists:
