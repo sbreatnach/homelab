@@ -109,6 +109,7 @@ services:
     image: jwilder/nginx-proxy
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./nginx-proxy:/etc/nginx/vhost.d
       - proxy-certs:/etc/nginx/certs
     restart: unless-stopped
     ports:
