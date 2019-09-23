@@ -8,7 +8,7 @@ scan_flush_threshold = 100
 media_dir = /var/lib/mopidy/media
 
 [audio]
-output = lamemp3enc ! shout2send async=false public=true mount=mopidy ip=10.5.0.12 port=8000 password=hackme
+output = audioresample ! audio/x-raw,rate=48000,channels=2,format=S16LE ! audioconvert ! wavenc ! filesink location=/snapcast/snapfifo
 
 [m3u]
 playlists_dir = /var/lib/mopidy/playlists

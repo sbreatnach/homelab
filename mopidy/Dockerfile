@@ -13,7 +13,6 @@ RUN apt update && apt install -y \
     adduser bash curl netcat-openbsd && \
     curl -sSL https://git.io/get-mo -o /usr/bin/mo && \
     chmod 755 /usr/bin/mo
-COPY mopidy.conf.tmpl ${MOPIDY_HOME}/mopidy.conf.tmpl
 COPY entrypoint.sh /entrypoint.sh
 RUN useradd -m mopidy && \
     mkdir -p ${MOPIDY_HOME}/local ${MOPIDY_HOME}/media && \
@@ -26,6 +25,7 @@ RUN pip install --user --no-cache-dir mopidy==${MOPIDY_VERSION} \
     mopidy-local-sqlite==${MOPIDY_LOCAL_SQLITE_VERSION}
 ENV PATH=$PATH:/home/mopidy/.local/bin
 
+COPY --chown=mopidy mopidy.conf.tmpl ${MOPIDY_HOME}/mopidy.conf.tmpl
 VOLUME ["/var/lib/mopidy/local-sqlite", "/var/lib/mopidy/media"]
 
 EXPOSE 6600 6680 5555/udp
