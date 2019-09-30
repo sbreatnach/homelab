@@ -110,6 +110,25 @@ services:
       core:
         ipv4_address: 10.5.0.17
 
+  transmission:
+    image: linuxserver/transmission:2.94-r1-ls28
+    environment:
+      PUID: ${UID}
+      PGID: ${GID}
+      TZ: Europe/Lisbon
+      VIRTUAL_HOST: transmission.nas.home
+      VIRTUAL_PORT: 9091
+    volumes:
+      - transmission-config:/config
+      - ./transmission/settings.json:/config/settings.json
+      - /mnt/Media/Torrents:/downloads
+    ports:
+      - 51413:51413
+      - 51413:51413/udp
+    networks:
+      core:
+        ipv4_address: 10.5.0.18
+
   nginx-proxy:
     image: jwilder/nginx-proxy
     volumes:
@@ -126,6 +145,7 @@ services:
         ipv4_address: 10.5.0.100
 
 volumes:
+  transmission-config:
   adguardhome-data:
   adguardhome-conf:
   registry-data:
