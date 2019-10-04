@@ -29,9 +29,9 @@ services:
       - snapserver
       - -s
       - pipe:///data/snapfifo?name=Mopidy&sampleformat=48000:16:2
-    restart: unless-stopped
     volumes:
       - ./snapcast:/data:rw
+    restart: unless-stopped
     ports:
       - 1704:1704
       - 1705:1705
@@ -44,10 +44,10 @@ services:
       - mopidy-playlists:/var/lib/mopidy/playlists
       - /mnt/Backup1/Music:/var/lib/mopidy/media
       - ./snapcast:/snapcast:rw
+    restart: unless-stopped
     environment:
       - SCROBBLER_USERNAME
       - SCROBBLER_PASSWORD
-    restart: unless-stopped
     network_mode: host
 
   emby:
@@ -90,6 +90,7 @@ services:
     volumes:
       - adguardhome-data:/opt/adguardhome/work
       - adguardhome-conf:/opt/adguardhome/conf
+    restart: unless-stopped
     environment:
       VIRTUAL_HOST: adguard.nas.home
       VIRTUAL_PORT: 3000
@@ -104,6 +105,7 @@ services:
       - /config/Corefile
     volumes:
       - ./coredns:/config
+    restart: unless-stopped
     ports:
       - 53:53/udp
     networks:
@@ -122,6 +124,7 @@ services:
       - transmission-config:/config
       - ./transmission/settings.json:/config/settings.json
       - /mnt/Media/Torrents:/downloads
+    restart: unless-stopped
     ports:
       - 51413:51413
       - 51413:51413/udp
