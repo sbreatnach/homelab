@@ -23,5 +23,6 @@ music	CNAME	www.nas.home.
 adguard	CNAME	www.nas.home.
 transmission	CNAME	www.nas.home.
 bitwarden	CNAME	www.nas.home.
+calibre	CNAME	www.nas.home.
 ;
 ;

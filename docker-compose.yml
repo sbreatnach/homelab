@@ -137,7 +137,7 @@ services:
 
   bitwarden:
     image: bitwardenrs/server:1.10.0-alpine
-    restart: always
+    restart: unless-stopped
     volumes:
       - bitwarden-data:/data
     ports:
@@ -150,6 +150,20 @@ services:
     networks:
       core:
         ipv4_address: 10.5.0.19
+
+  calibre-web:
+    image: technosoft2000/calibre-web:v1.3.2
+    restart: unless-stopped
+    environment:
+      PUID: ${UID}
+      PGID: ${GID}
+      VIRTUAL_HOST: calibre.nas.home
+      VIRTUAL_PORT: 8083
+    volumes:
+      - /mnt/Backup1/Books/CalibreLibrary:/books
+    networks:
+      core:
+        ipv4_address: 10.5.0.20
 
   nginx-proxy:
     image: jwilder/nginx-proxy
