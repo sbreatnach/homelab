@@ -67,7 +67,7 @@ services:
       VIRTUAL_HOST: media.nas.home
       VIRTUAL_PORT: 8096
       # UID of sbreatnach, GID of video
-      UID: 1000
+      UID: ${USER_ID}
       GID: 1000
       GIDLIST: 44
     networks:
@@ -118,7 +118,7 @@ services:
   transmission:
     image: linuxserver/transmission:2.94-r1-ls28
     environment:
-      PUID: ${UID}
+      PUID: ${USER_ID}
       PGID: ${GID}
       TZ: Europe/Lisbon
       VIRTUAL_HOST: transmission.nas.home
@@ -155,7 +155,7 @@ services:
     image: technosoft2000/calibre-web:v1.3.2
     restart: unless-stopped
     environment:
-      PUID: ${UID}
+      PUID: ${USER_ID}
       PGID: ${GID}
       VIRTUAL_HOST: calibre.nas.home
       VIRTUAL_PORT: 8083
