@@ -1,31 +1,8 @@
 version: "3.7"
 services:
-  mysql:
-    image: mysql:5.7.27
-    volumes:
-      - mysql-data:/var/lib/mysql
-      - ./mysql:/docker-entrypoint-initdb.d
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: ""
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-    networks:
-      core:
-        ipv4_address: 10.5.0.10
-
-  rompr:
-    image: registry.nas.home/rmprdckr:1.31
-    restart: unless-stopped
-    environment:
-      VIRTUAL_HOST: music.nas.home
-      VIRTUAL_PORT: 8080
-      NETWORK_ACCESS: internal
-    networks:
-      core:
-        ipv4_address: 10.5.0.11
-
   snapcast:
     image: registry.nas.home/snapcast:0.15.0
+    build: ./snapcast
     command:
       - snapserver
       - -s
@@ -40,16 +17,22 @@ services:
 
   mopidy:
     image: registry.nas.home/mopidy:2.2.3
+    build: ./mopidy
     volumes:
       - mopidy-local:/var/lib/mopidy/local-sqlite
       - mopidy-playlists:/var/lib/mopidy/playlists
       - /mnt/Backup1/Music:/var/lib/mopidy/media
       - ./snapcast:/snapcast:rw
+    depends_on:
+      - snapcast
     restart: unless-stopped
     environment:
-      - SCROBBLER_USERNAME
-      - SCROBBLER_PASSWORD
-    network_mode: host
+      VIRTUAL_HOST: music.nas.home
+      VIRTUAL_PORT: 6680
+      NETWORK_ACCESS: internal
+    networks:
+      core:
+        ipv4_address: 10.5.0.11
 
   emby:
     image: emby/embyserver:4.3.0.13
@@ -108,6 +91,8 @@ services:
       - /config/Corefile
     volumes:
       - ./coredns:/config
+    depends_on:
+      - adguardhome
     restart: unless-stopped
     ports:
       - 53:53/udp
@@ -165,6 +150,23 @@ services:
       core:
         ipv4_address: 10.5.0.20
 
+  subsonic:
+    image: stanvit/subsonic:6.1.3
+    volumes:
+      - subsonic-config:/subsonic/home
+      - subsonic-podcasts:/subsonic/podcasts
+      - subsonic-playlists:/subsonic/playlists
+      - /mnt/Backup1/Music:/subsonic/music
+    restart: unless-stopped
+    environment:
+      VIRTUAL_HOST: subsonic.nas.home
+      VIRTUAL_PORT: 4040
+      # UID of sbreatnach
+      SUBSONIC_USERID: ${USER_ID}
+    networks:
+      core:
+        ipv4_address: 10.5.0.21
+
   nginx-proxy:
     image: jwilder/nginx-proxy
     volumes:
@@ -172,6 +174,15 @@ services:
       - ./nginx-proxy:/etc/nginx/vhost.d
       - proxy-certs:/etc/nginx/certs
     restart: unless-stopped
+    depends_on:
+      - subsonic
+      - mopidy
+      - bitwarden
+      - calibre-web
+      - transmission
+      - adguardhome
+      - registry
+      - emby
     ports:
       # HTTP/HTTPS
       - "80:80"
@@ -186,9 +197,11 @@ volumes:
   adguardhome-conf:
   registry-data:
   emby-config:
+  subsonic-config:
+  subsonic-podcasts:
+  subsonic-playlists:
   mopidy-local:
   mopidy-playlists:
-  mysql-data:
   proxy-certs:
   bitwarden-data:
 

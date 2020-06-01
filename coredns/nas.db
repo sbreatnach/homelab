@@ -18,6 +18,7 @@ dns1	A	192.168.0.102
 www	A	192.168.0.102
 
 media	CNAME	www.nas.home.
+subsonic	CNAME	www.nas.home.
 registry	CNAME	www.nas.home.
 music	CNAME	www.nas.home.
 adguard	CNAME	www.nas.home.

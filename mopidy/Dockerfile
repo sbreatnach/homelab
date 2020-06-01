@@ -1,8 +1,8 @@
 FROM debian:buster
 
 ARG MOPIDY_VERSION
-ENV MOPIDY_SCROBBLER_VERSION=1.2.1 \
-    MOPIDY_INTERNETARCHIVE_VERSION=2.0.3 \
+ENV MOPIDY_IRIS_VERSION=3.43.0 \
+    MOPIDY_LOCAL_IMAGES_VERSION=1.0.0 \
     MOPIDY_LOCAL_SQLITE_VERSION=1.0.0 \
     MOPIDY_HOME=/var/lib/mopidy
 
@@ -20,8 +20,8 @@ RUN useradd -m mopidy && \
 
 USER mopidy
 RUN pip install --user --no-cache-dir mopidy==${MOPIDY_VERSION} \
-    mopidy-scrobbler==${MOPIDY_SCROBBLER_VERSION} \
-    mopidy-internetarchive==${MOPIDY_INTERNETARCHIVE_VERSION} \
+    mopidy-local-images==${MOPIDY_LOCAL_IMAGES_VERSION} \
+    mopidy-iris==${MOPIDY_IRIS_VERSION} \
     mopidy-local-sqlite==${MOPIDY_LOCAL_SQLITE_VERSION}
 ENV PATH=$PATH:/home/mopidy/.local/bin
 
