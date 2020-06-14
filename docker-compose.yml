@@ -2,37 +2,21 @@ version: "3.7"
 services:
   snapcast:
     image: registry.nas.home/snapcast:0.15.0
-    build: ./snapcast
+    build:
+      context: ./snapcast
+      args:
+        SNAPCAST_VERSION: 0.20.0
     command:
       - snapserver
       - -s
-      - pipe:///data/snapfifo?name=Mopidy&sampleformat=48000:16:2
+      - pipe:///shared/snapfifo?name=Stream&sampleformat=48000:16:2
     volumes:
-      - ./snapcast:/data:rw
+      - ./shared:/shared:rw
     restart: unless-stopped
     ports:
       - 1704:1704
       - 1705:1705
     network_mode: host
-
-  mopidy:
-    image: registry.nas.home/mopidy:2.2.3
-    build: ./mopidy
-    volumes:
-      - mopidy-local:/var/lib/mopidy/local-sqlite
-      - mopidy-playlists:/var/lib/mopidy/playlists
-      - /mnt/Backup1/Music:/var/lib/mopidy/media
-      - ./snapcast:/snapcast:rw
-    depends_on:
-      - snapcast
-    restart: unless-stopped
-    environment:
-      VIRTUAL_HOST: music.nas.home
-      VIRTUAL_PORT: 6680
-      NETWORK_ACCESS: internal
-    networks:
-      core:
-        ipv4_address: 10.5.0.11
 
   emby:
     image: emby/embyserver:4.3.0.13
@@ -150,22 +134,27 @@ services:
       core:
         ipv4_address: 10.5.0.20
 
-  subsonic:
-    image: stanvit/subsonic:6.1.3
+  music:
+    build:
+      context: ./airsonic
     volumes:
-      - subsonic-config:/subsonic/home
-      - subsonic-podcasts:/subsonic/podcasts
-      - subsonic-playlists:/subsonic/playlists
-      - /mnt/Backup1/Music:/subsonic/music
+      - music-config:/config
+      - music-podcasts:/podcasts
+      - music-playlists:/playlists
+      - /mnt/Backup1/Music:/music:rw
+      - ./shared:/shared:rw
     restart: unless-stopped
+    depends_on:
+      - snapcast
     environment:
-      VIRTUAL_HOST: subsonic.nas.home
+      VIRTUAL_HOST: music.nas.home
       VIRTUAL_PORT: 4040
       # UID of sbreatnach
-      SUBSONIC_USERID: ${USER_ID}
+      PUID: ${USER_ID}
+      PGID: ${GID}
     networks:
       core:
-        ipv4_address: 10.5.0.21
+        ipv4_address: 10.5.0.22
 
   nginx-proxy:
     image: jwilder/nginx-proxy
@@ -175,8 +164,7 @@ services:
       - proxy-certs:/etc/nginx/certs
     restart: unless-stopped
     depends_on:
-      - subsonic
-      - mopidy
+      - music
       - bitwarden
       - calibre-web
       - transmission
@@ -197,11 +185,12 @@ volumes:
   adguardhome-conf:
   registry-data:
   emby-config:
-  subsonic-config:
-  subsonic-podcasts:
-  subsonic-playlists:
-  mopidy-local:
-  mopidy-playlists:
+  player-config:
+  player-podcasts:
+  player-playlists:
+  music-config:
+  music-podcasts:
+  music-playlists:
   proxy-certs:
   bitwarden-data:
 
