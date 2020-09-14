@@ -1,6 +1,6 @@
 .:53 {
   file /config/nas.db nas.home
-  forward . 10.5.0.16:533
+  forward . 1.1.1.1:53
   cache
   log
   errors

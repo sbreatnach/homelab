@@ -55,7 +55,7 @@ services:
         ipv4_address: 10.5.0.15
 
   adguardhome:
-    image: adguard/adguardhome:v0.96-hotfix
+    image: adguard/adguardhome:v0.103.3
     volumes:
       - adguardhome-data:/opt/adguardhome/work
       - adguardhome-conf:/opt/adguardhome/conf
@@ -64,6 +64,10 @@ services:
       VIRTUAL_HOST: adguard.nas.home
       VIRTUAL_PORT: 3000
       NETWORK_ACCESS: internal
+    depends_on:
+      - coredns
+    ports:
+      - 553:53/udp
     networks:
       core:
         ipv4_address: 10.5.0.16
@@ -75,8 +79,6 @@ services:
       - /config/Corefile
     volumes:
       - ./coredns:/config
-    depends_on:
-      - adguardhome
     restart: unless-stopped
     ports:
       - 53:53/udp
