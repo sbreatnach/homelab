@@ -1,0 +1,29 @@
+$ORIGIN {{ dns.home_domain }}.
+$TTL 300
+@	SOA	dns1.{{ dns.home_domain }}.	hostmaster.{{ dns.home_domain }}. (
+		2019092215 ; serial
+		21600      ; refresh after 6 hours
+		3600       ; retry after 1 hour
+		604800     ; expire after 1 week
+		86400 )    ; minimum TTL of 1 day
+;
+;
+	NS	dns1.{{ dns.home_domain }}.
+	A	{{ dns.root_ip_address }}
+dns1	A	{{ dns.root_ip_address }}
+;
+;
+; This sample zone file illustrates sharing the same IP addresses for multiple services:
+;
+www	A	{{ dns.root_ip_address }}
+
+media	CNAME	www.{{ dns.home_domain }}.
+player	CNAME	www.{{ dns.home_domain }}.
+registry	CNAME	www.{{ dns.home_domain }}.
+music	CNAME	www.{{ dns.home_domain }}.
+adguard	CNAME	www.{{ dns.home_domain }}.
+transmission	CNAME	www.{{ dns.home_domain }}.
+bitwarden	CNAME	www.{{ dns.home_domain }}.
+calibre	CNAME	www.{{ dns.home_domain }}.
+;
+;

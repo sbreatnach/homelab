@@ -1,0 +1,10 @@
+adguard:
+    version: 0.104.0
+coredns:
+    version: 1.8.0
+dns:
+    archives:
+        - https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.104.0/AdGuardHome_linux_amd64.tar.gz
+        - https://github.com/coredns/coredns/releases/download/v1.8.0/coredns_1.8.0_linux_amd64.tgz
+    home_domain: nas.home
+    root_ip_address: "192.168.0.102"

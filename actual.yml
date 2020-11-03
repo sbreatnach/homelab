@@ -1,29 +1,31 @@
 ---
-defaults:
-  password: $6$6J3nXIJ4xZg7$RayRiuVr4oV20PBFkz7O9dKo0rzFeml6c2WWHGhYvV8cbikbnKr0MEDoGfQlF01ZOD/0HwsJBzO2/Iia2UVbf.
-  dirs:
-    tmp: /tmp
-    # ensure any override ends with /
-    resources: resources/
-    app: /usr/local/apps
-users: []
+users:
+  - username: sbreatnach
+    shell: /bin/bash
+    name: Shane Breatnach
+    password: $6$wRcr4eXqFBl0zm$fiNJk.aLqZY4Dp0xbQXigPmVJ5EjH.393V1LShe8yShrzMK8H3vLmTsn0.eoLTmkoyHgr1rXWhvorKOhtBLRB1
+    sudoer: true
 partitions:
   - path: /
-  - path: /mnt/Backup
+  - path: /mnt/Backup1
+    name: Backup1
     device: /dev/sda1
     filesystem: ntfs
     flags: defaults
   - path: /mnt/Backup2
+    name: Backup2
     device: /dev/sdb1
     filesystem: ntfs
     flags: defaults
   - path: /mnt/Backup
+    name: Backup
     device: /dev/sdc1
     filesystem: ntfs
     flags: defaults
   - path: /mnt/Media
+    name: Media
     device: /dev/sdd4
     filesystem: ntfs
     flags: defaults
 network_devices:
-  - eth0
+  - enp4s0

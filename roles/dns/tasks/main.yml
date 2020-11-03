@@ -1,0 +1,36 @@
+- name: create DNS serving user
+  user:
+    name: dns
+    comment: "DNS serving user"
+    home: /home/dns
+
+- name: download and extract DNS binaries
+  become_user: dns
+  unarchive:
+    src: "{{ item }}"
+    dest: /home/dns
+    remote_src: yes
+  with_items: "{{ dns.archives }}"
+
+- name: create DNS configurations
+  become_user: dns
+  template:
+    src: "{{ item.template }}"
+    dest: "{{ item.path }}"
+  with_items:
+    - template: adguard.yaml.j2
+      path: /home/dns/adguard.yaml
+    - template: Corefile.j2
+      path: /home/dns/Corefile
+    - template: nas.db.j2
+      path: /home/dns/nas.db
+
+- name: create systemd services
+  template:
+    src: "{{ item.template }}"
+    dest: "{{ item.path }}"
+  with_items:
+    - template: adguard.service.j2
+      path: /etc/systemd/system/adguardhome.service.j2
+    - template: coredns.service.j2
+      path: /etc/systemd/system/coredns.service.j2

@@ -1,0 +1,26 @@
+# Install Restic + cronjobs for music and photo backups
+- name: create backup user
+  user:
+    name: backup
+    comment: "Backup user"
+    home: /home/backup
+
+- name: download Restic
+  get_url:
+    url: https://github.com/restic/restic/releases/download/v0.10.0/restic_0.10.0_linux_amd64.bz2
+    dest: /tmp/restic.bz2
+
+- name: unpack Restic to path
+  shell: bzip2 -d -k /tmp/restic.bz2 && 
+         chmod 755 restic_*_linux_amd64 &&
+         cp restic_*_linux_amd64 /usr/bin/restic
+
+- name: install cron jobs
+  cron:
+    user: backup
+    job: "{{ item.job }}"
+    name: "{{ item.name }}"
+    minute: "{{ item.minute }}"
+    hour: "{{ item.hour }}"
+    day: "{{ item.day }}"
+  with_items: "{{ cronjobs }}"

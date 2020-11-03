@@ -10,36 +10,6 @@ ufw_rules:
     rule: allow
   - from_ip: 127.0.0.1/8
     rule: allow
-dnsmasq_dnsmasq_conf:
-  - |
-    port=53
-    listen-address={{ ansible_lo['ipv4']['address'] }}
-    bind-interfaces
-dnsmasq_dnsmasq_d_files_present:
-  nas-home:
-    - address=/.nas.home/192.168.0.102
-  cache:
-    - |
-      domain-needed
-      bogus-priv
-      no-hosts
-      cache-size=1000
-      resolv-file=/etc/resolv.dnsmasq
-      no-poll
-manala_cron_files:
-  - file: backups
-    user: sbreatnach
-    jobs:
-      - name: Music Backup
-        job: "source /home/sbreatnach/.sync-env && restic -v -r b2:whizz-music backup /mnt/Backup1/Music/ > /home/sbreatnach/restic_music_latest.txt"
-        minute: 0
-        hour: 4
-        day: 1
-      - name: Photo Backup
-        job: "source /home/sbreatnach/.sync-env && restic -v -r b2:whizz-photos backup /mnt/Backup1/PersonalMedia/ > /home/sbreatnach/restic_photos_latest.txt"
-        minute: 0
-        hour: 4
-        day: 2
 nfs_exports:
   - /mnt/Backup     192.168.0.0/24(rw,fsid=0,insecure,no_subtree_check,async)
   - /mnt/Backup1    192.168.0.0/24(rw,fsid=1,insecure,no_subtree_check,async)

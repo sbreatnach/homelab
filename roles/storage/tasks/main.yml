@@ -1,0 +1,28 @@
+# Veracrypt, NFS, Samba + fstab config
+- name: install storage packages
+  apt: "{% if item.name is defined %}
+       name={{ item.name }}{% if item.version is defined %}={{ item.version }}*{% endif %}
+       {% endif %}
+       {% if item.deb is defined %}
+       deb={{ item.deb }}
+       {% endif %}
+       state=present"
+  with_items: "{{ storage.packages }}"
+
+- name: configure NFS exports
+  template:
+    src: exports.j2
+    dest: /etc/exports
+
+- name: configure Samba mounts
+  template:
+    src: smb.conf.j2
+    dest: /etc/samba/smb.conf
+  
+- name: enable extra disks
+  lineinfile:
+    path: /etc/fstab
+    regexp: '^{{ item.device }}'
+    line: "{{ item.device }}    {{ item.path }} {{ item.filesystem }}   {{ item.flags }}    0   0"
+  when: item.device is defined
+  with_items: "{{ partitions }}"
