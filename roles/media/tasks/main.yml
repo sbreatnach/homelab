@@ -1,0 +1,16 @@
+# Emby + Snapcast Server install + config
+- name: install deb packages
+  apt: deb={{ item.path }} state=present
+  with_items: "{{ media.deb_packages }}"
+
+- name: configure media services
+  template:
+    src: "{{ item.name }}.j2"
+    dest: "{{ item.path }}"
+  with_items:
+    - name: snapserver.conf
+      path: /etc/snapserver.conf
+    - name: emby_system.xml
+      path: /var/lib/emby/config/system.xml
+  
+# TODO: configure music player to use snapserver pipe

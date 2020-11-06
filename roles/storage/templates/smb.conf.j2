@@ -259,8 +259,10 @@
 ;   write list = root, @lpadmin
 
 {% for partition in partitions %}
+{% if partition.device is defined %}
 [{{ partition.name }}]
 path = {{ partition.path }}
 valid users = {% for user in users %}{{ user.username }}{% if not loop.last %}, {% endif %}{% endfor %}
 read only = no
+{% endif %}
 {% endfor %}

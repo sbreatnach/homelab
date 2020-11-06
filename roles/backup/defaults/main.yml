@@ -1,5 +1,6 @@
 restic:
     key: dummy
+    version: "0.10.0"
 backblaze:
     key_id: dummy
     key: dummy

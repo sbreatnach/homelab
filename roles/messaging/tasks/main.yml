@@ -1,0 +1,36 @@
+# Matrix server + bridges to Google Hangouts, Facebook Messenger, et al
+- name: setup repository keys
+  apt_key:
+    url: https://packages.matrix.org/debian/matrix-org-archive-keyring.gpg
+    keyring: /usr/share/keyrings/matrix-org-archive-keyring.gpg
+    state: present
+
+- name: setup repositories
+  apt_repository:
+    repo: deb [signed-by=/usr/share/keyrings/matrix-org-archive-keyring.gpg] https://packages.matrix.org/debian/ buster main
+    state: present
+    filename: matrix-org
+
+- name: install messaging packages
+  apt:
+    name: "{{ item }}"
+    state: present
+    update: true
+  with_items:
+    - matrix-synapse-py3
+
+# - name: configure messaging packages
+#   template:
+#     src: "{{ item.name }}".j2
+#     dest: "{{ item.path }}/{{ item.name }}"
+#   with_items:
+#     - name: homeserver.yaml
+#       path: /etc/matrix-synapse
+      
+# - name: configure systemd files
+#   template:
+#     src: "{{ item }}".j2
+#     dest: "/etc/systemd/system/{{ item }}"
+#   with_items:
+#     - matrix-synapse.service
+#     - matrix-synapse.target

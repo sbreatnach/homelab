@@ -1,5 +1,12 @@
-bind_host: 127.0.0.1
-bind_port: 1053
+bind_host: 0.0.0.0
+bind_port: 8001
 users:
-    - name: adguard
-      password: $2y$05$inIe5eMmXvHz.ZW3nYUr/O.YoHDos4cLPxMwCmgf7AnHwvsffZmVu
+  - name: adguard
+    password: $2y$05$inIe5eMmXvHz.ZW3nYUr/O.YoHDos4cLPxMwCmgf7AnHwvsffZmVu
+dns:
+  bind_host: 127.0.0.1
+  port: 1053
+  bootstrap_dns:
+    - 1.1.1.1
+  upstream_dns:
+    - 1.1.1.1

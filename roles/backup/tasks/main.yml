@@ -7,13 +7,24 @@
 
 - name: download Restic
   get_url:
-    url: https://github.com/restic/restic/releases/download/v0.10.0/restic_0.10.0_linux_amd64.bz2
+    url: https://github.com/restic/restic/releases/download/v{{ restic.version }}/restic_{{ restic.version }}_linux_amd64.bz2
     dest: /tmp/restic.bz2
 
 - name: unpack Restic to path
   shell: bzip2 -d -k /tmp/restic.bz2 && 
-         chmod 755 restic_*_linux_amd64 &&
-         cp restic_*_linux_amd64 /usr/bin/restic
+         chmod 755 /tmp/restic &&
+         mv /tmp/restic /usr/bin/restic
+
+- name: install credential files
+  template:
+    src: "{{ item.src }}.j2"
+    dest: "{{ item.dest }}"
+    owner: backup
+  with_items:
+    - src: env
+      dest: /home/backup/.env
+    - src: restic-creds.txt
+      dest: /home/backup/restic-creds.txt
 
 - name: install cron jobs
   cron:

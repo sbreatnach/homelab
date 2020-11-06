@@ -1,13 +1,12 @@
 # Veracrypt, NFS, Samba + fstab config
-- name: install storage packages
-  apt: "{% if item.name is defined %}
-       name={{ item.name }}{% if item.version is defined %}={{ item.version }}*{% endif %}
-       {% endif %}
-       {% if item.deb is defined %}
-       deb={{ item.deb }}
-       {% endif %}
-       state=present"
-  with_items: "{{ storage.packages }}"
+- name: install apt packages
+  apt: name={{ item.name }}{% if item.version is defined %}={{ item.version }}*{% endif %}
+       state=present
+  with_items: "{{ storage.apt_packages }}"
+
+- name: install deb packages
+  apt: deb={{ item.path }} state=present
+  with_items: "{{ storage.deb_packages }}"
 
 - name: configure NFS exports
   template:

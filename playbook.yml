@@ -1,6 +1,6 @@
 ---
 - name:
-  hosts: all
+  hosts: nas
   roles:
     - role: base
       tags: [base]

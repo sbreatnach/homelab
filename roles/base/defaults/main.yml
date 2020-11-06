@@ -1,6 +1,6 @@
 ---
 base:
-    extra_paths: []
+  extra_paths: []
   packages:
     - name: git
     - name: golang
@@ -8,3 +8,6 @@ base:
     - name: openjdk-11-jdk
     - name: bash-completion
     - name: bzip2
+    - name: unzip
+    - name: emacs-nox
+    - name: apt-transport-https

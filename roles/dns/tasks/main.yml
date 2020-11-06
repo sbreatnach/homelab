@@ -5,7 +5,6 @@
     home: /home/dns
 
 - name: download and extract DNS binaries
-  become_user: dns
   unarchive:
     src: "{{ item }}"
     dest: /home/dns
@@ -13,7 +12,6 @@
   with_items: "{{ dns.archives }}"
 
 - name: create DNS configurations
-  become_user: dns
   template:
     src: "{{ item.template }}"
     dest: "{{ item.path }}"
@@ -25,12 +23,24 @@
     - template: nas.db.j2
       path: /home/dns/nas.db
 
+- name: set filesystem permissions
+  shell: chown -R dns:dns /home/dns
+
 - name: create systemd services
   template:
     src: "{{ item.template }}"
     dest: "{{ item.path }}"
   with_items:
     - template: adguard.service.j2
-      path: /etc/systemd/system/adguardhome.service.j2
+      path: /etc/systemd/system/adguardhome.service
     - template: coredns.service.j2
-      path: /etc/systemd/system/coredns.service.j2
+      path: /etc/systemd/system/coredns.service
+
+- name: enable systemd services
+  systemd:
+    state: started
+    enabled: true
+    name: "{{ item }}"
+  with_items:
+    - coredns
+    - adguardhome
