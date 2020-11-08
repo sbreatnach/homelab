@@ -11,3 +11,5 @@ base:
     - name: unzip
     - name: emacs-nox
     - name: apt-transport-https
+    - name: ntp
+    - name: cron

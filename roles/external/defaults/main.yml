@@ -1,0 +1,18 @@
+cloudflare:
+    token: dummy
+external:
+    certificates:
+        matrix:
+            full_chain: /etc/letsencrypt/live/matrix.somethinginterestinghere.com/fullchain.pem
+            key: /etc/letsencrypt/live/matrix.somethinginterestinghere.com/privkey.pem
+    notification_email: sbreatnach@protonmail.com
+    certificate_domains:
+        - matrix.somethinginterestinghere.com
+    internet_domain: somethinginterestinghere.com
+    intranet_domain: nas.home
+    apt_packages:
+        - nginx
+    pip_packages:
+        - certbot
+        - certbot-dns-cloudflare
+        - certbot-nginx

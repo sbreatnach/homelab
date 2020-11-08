@@ -1,0 +1,58 @@
+# install Nginx, TLS certificates, Let's Encrypt, certbot, etc.
+- name: install external packages
+  apt: name={{ item }}
+       state=present
+  with_items: "{{ external.apt_packages }}"
+
+- name: install python packages
+  pip: name={{ item }}
+       state=present
+  with_items: "{{ external.pip_packages }}"
+
+- name: create site configs
+  template:
+    src: "{{ item.name }}.j2"
+    dest: "{{ item.path }}/{{ item.name }}"
+    mode: 0600
+  with_items:
+    - name: adguard.conf
+      path: /etc/nginx/sites-available
+    - name: emby.conf
+      path: /etc/nginx/sites-available
+    - name: matrix.conf
+      path: /etc/nginx/sites-available
+    - name: cloudflare.ini
+      path: /root
+
+- name: remove default site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: enable site configs
+  file:
+    state: link
+    src: "{{ item.src }}"
+    path: "{{ item.dest }}"
+  with_items:
+    - src: /etc/nginx/sites-available/adguard.conf
+      dest: /etc/nginx/sites-enabled/adguard.conf
+    - src: /etc/nginx/sites-available/emby.conf
+      dest: /etc/nginx/sites-enabled/emby.conf
+    - src: /etc/nginx/sites-available/matrix.conf
+      dest: /etc/nginx/sites-enabled/matrix.conf
+
+- name: install certbot certificate
+  shell: certbot certonly --dns-cloudflare -n
+         --agree-tos -m {{ external.notification_email }}
+         --dns-cloudflare-credentials /root/cloudflare.ini \
+         -d {{ external.certificate_domains|join(',') }}
+         creates=/etc/letsencrypt/live/matrix.somethinginterestinghere.com/fullchain.pem
+
+- name: configure certbot cron
+  cron:
+    user: root
+    minute: "0"
+    hour: "0,12"
+    name: renew certbot
+    job: certbot renew -q --post-hook 'systemctl reload nginx'

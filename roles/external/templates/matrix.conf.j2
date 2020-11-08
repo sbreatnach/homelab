@@ -1,0 +1,36 @@
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    # For the federation port
+    listen 8448 ssl default_server;
+    listen [::]:8448 ssl default_server;
+
+    ssl_certificate {{ external.certificates.matrix.full_chain }};
+    ssl_certificate_key {{ external.certificates.matrix.key }};
+
+    server_name matrix.{{ external.internet_domain }};
+
+    location ~* ^(\/_matrix|\/_synapse\/client) {
+        proxy_pass http://localhost:8008;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        # Nginx by default only allows file uploads up to 1M in size
+        # Increase client_max_body_size to match max_upload_size defined in homeserver.yaml
+        client_max_body_size 50M;
+    }
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name matrix.{{ external.intranet_domain }};
+
+    location / {
+        proxy_pass http://localhost:8008;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        # Nginx by default only allows file uploads up to 1M in size
+        # Increase client_max_body_size to match max_upload_size defined in homeserver.yaml
+        client_max_body_size 50M;
+    }
+}
