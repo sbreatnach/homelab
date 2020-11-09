@@ -2,5 +2,20 @@ storage:
   apt_packages:
     - name: nfs-common
     - name: samba
+    - name: postgresql
+    - name: python3-psycopg2
+    - name: libpq-dev
   deb_packages:
     - path: https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-console-1.24-Update7-Debian-10-amd64.deb
+  postgresql:
+    databases:
+      - name: synapse
+        owner: synapse
+    users:
+      - name: synapse
+    hba:
+      - connection_type: host
+        databases: synapse
+        users: synapse
+        source: ::1/128
+        method: trust

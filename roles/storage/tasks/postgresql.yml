@@ -1,0 +1,27 @@
+- name: create users
+  become_user: postgres
+  community.general.postgresql_user:
+    name: "{{ item.name }}"
+  with_items: "{{ storage.postgresql.users }}"
+
+- name: create databases
+  become_user: postgres
+  community.general.postgresql_db:
+    name: "{{ item.name }}"
+    encoding: UTF-8
+    lc_collate: C
+    lc_ctype: C
+    template: template0
+    owner: "{{ item.owner }}"
+  with_items: "{{ storage.postgresql.databases }}"
+
+- name: set hba access
+  become_user: postgres
+  community.general.postgresql_pg_hba:
+    dest: /etc/postgresql/11/main/pg_hba.conf
+    contype: "{{ item.connection_type }}"
+    users: "{{ item.users }}"
+    source: "{{ item.source }}"
+    databases: "{{ item.databases }}"
+    method: "{{ item.method }}"
+  with_items: "{{ storage.postgresql.hba }}"

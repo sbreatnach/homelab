@@ -19,6 +19,14 @@
   with_items:
     - matrix-synapse-py3
 
+- name: install messaging extras
+  pip:
+    virtualenv: /opt/venvs/matrix-synapse
+    name: "{{ item }}"
+  with_items:
+    - mautrix-facebook
+    - mautrix-hangouts
+
 - name: configure messaging packages
   template:
     src: "{{ item.name }}.j2"

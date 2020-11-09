@@ -25,3 +25,5 @@
     line: "{{ item.device }}    {{ item.path }} {{ item.filesystem }}   {{ item.flags }}    0   0"
   when: item.device is defined
   with_items: "{{ partitions }}"
+
+- include: postgresql.yml
