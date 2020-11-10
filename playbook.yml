@@ -20,6 +20,8 @@
       tags: [dns]
     - role: storage
       tags: [storage]
+    - role: auth
+      tags: [auth]
     - role: backup
       tags: [backup]
     - role: media

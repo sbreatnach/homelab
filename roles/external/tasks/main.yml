@@ -17,6 +17,8 @@
   with_items:
     - name: adguard.conf
       path: /etc/nginx/sites-available
+    - name: keycloak.conf
+      path: /etc/nginx/sites-available
     - name: emby.conf
       path: /etc/nginx/sites-available
     - name: matrix.conf
@@ -46,8 +48,9 @@
   shell: certbot certonly --dns-cloudflare -n
          --agree-tos -m {{ external.notification_email }}
          --dns-cloudflare-credentials /root/cloudflare.ini \
-         -d {{ external.certificate_domains|join(',') }}
-         creates=/etc/letsencrypt/live/matrix.somethinginterestinghere.com/fullchain.pem
+         -d {{ item }}
+         creates=/etc/letsencrypt/live/{{ item }}/fullchain.pem
+  with_items: "{{ external.certificate_domains }}"
 
 - name: configure certbot cron
   cron:

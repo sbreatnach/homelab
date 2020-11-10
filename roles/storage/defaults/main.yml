@@ -11,11 +11,19 @@ storage:
     databases:
       - name: synapse
         owner: synapse
+      - name: keycloak
+        owner: keycloak
     users:
       - name: synapse
+      - name: keycloak
     hba:
       - connection_type: host
         databases: synapse
         users: synapse
+        source: ::1/128
+        method: trust
+      - connection_type: host
+        databases: keycloak
+        users: keycloak
         source: ::1/128
         method: trust

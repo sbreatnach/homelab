@@ -1,0 +1,13 @@
+[Unit]
+Description=Keycloak
+Documentation=https://keycloak.org
+After=network.target
+
+[Service]
+User=auth
+WorkingDirectory=/home/auth/keycloak-{{ keycloak.version }}
+ExecStart=/home/auth/keycloak-{{ keycloak.version }}/bin/standalone.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

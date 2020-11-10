@@ -1,1 +1,50 @@
-# Keycloak, OpenLDAP + any other authentication apparatus
+# Keycloak + any other authentication apparatus
+- name: create auth user
+  user:
+    name: auth
+    comment: "Auth user"
+    home: /home/auth
+
+- name: download Keycloak archive
+  unarchive:
+    src: https://downloads.jboss.org/keycloak/{{ keycloak.version }}/keycloak-{{ keycloak.version }}.zip
+    dest: /home/auth
+    remote_src: true
+    owner: auth
+
+- name: create module directories
+  file:
+    state: directory
+    path: "{{ item }}"
+    owner: auth
+  with_items:
+    - /home/auth/keycloak-{{ keycloak.version }}/modules/system/layers/keycloak/org/postgresql/main
+
+- name: download Postgresql JDBC driver
+  get_url:
+    url: https://jdbc.postgresql.org/download/postgresql-42.2.18.jar
+    dest: /home/auth/keycloak-{{ keycloak.version }}/modules/system/layers/keycloak/org/postgresql/main/postgresql.jar
+    owner: auth
+
+- name: create keycloak config files
+  template:
+    src: "{{ item.template }}.j2"
+    dest: "{{ item.path }}/{{ item.template }}"
+    owner: "{{ item.owner|default('root') }}"
+  with_items:
+    - template: keycloak.service
+      path: /etc/systemd/system
+    - template: standalone.xml
+      path: /home/auth/keycloak-{{ keycloak.version }}/standalone/configuration
+      owner: auth
+    - template: module.xml
+      path: /home/auth/keycloak-{{ keycloak.version }}/modules/system/layers/keycloak/org/postgresql/main
+      owner: auth
+
+- name: enable systemd services
+  systemd:
+    state: started
+    enabled: true
+    name: "{{ item }}"
+  with_items:
+    - keycloak
