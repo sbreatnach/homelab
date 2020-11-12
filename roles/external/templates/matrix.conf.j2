@@ -9,7 +9,7 @@ server {
     ssl_certificate {{ external.certificates.matrix.full_chain }};
     ssl_certificate_key {{ external.certificates.matrix.key }};
 
-    server_name matrix.{{ external.internet_domain }};
+    server_name matrix.{{ domains.external }};
 
     location ~* ^(\/_matrix|\/_synapse\/client) {
         proxy_pass http://localhost:8008;
@@ -24,7 +24,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name matrix.{{ external.intranet_domain }};
+    server_name matrix.{{ domains.internal }};
 
     location / {
         proxy_pass http://localhost:8008;

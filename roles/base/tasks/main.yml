@@ -9,6 +9,10 @@
         password={{ item.password|default(defaults.password) }} shell={{ item.shell }}
   with_items: "{{ users }}"
 
+- name: create default tmux config for users
+  copy: src=tmux.conf dest=/home/{{ item.username }}/.tmux.conf
+  with_items: "{{ users }}"
+
 - name: enable sudo access for appropriate users
   template: src=sudoers.j2 dest=/etc/sudoers.d/users
 

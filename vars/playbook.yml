@@ -4,12 +4,18 @@ ufw_rules:
     rule: allow
   - port: 443
     rule: allow
+  - port: 8448
+    rule: allow
   - port: 53
     rule: allow
   - port: 22
     rule: allow
   - from_ip: 127.0.0.1/8
     rule: allow
+domains:
+  internal: nas.home
+  external: somethinginterestinghere.com
+root_ip_address: 192.168.0.102
 nfs_exports:
   - /mnt/Backup     192.168.0.0/24(rw,fsid=0,insecure,no_subtree_check,async)
   - /mnt/Backup1    192.168.0.0/24(rw,fsid=1,insecure,no_subtree_check,async)

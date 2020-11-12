@@ -50,7 +50,7 @@ pid_file: "/var/run/matrix-synapse.pid"
 # use synapse with a reverse proxy, this should be the URL to reach
 # synapse via the proxy.
 #
-#public_baseurl: https://example.com/
+public_baseurl: https://matrix.{{ domains.external }}/
 
 # Set the soft limit on the number of file descriptors synapse can use
 # Zero is used to indicate synapse should set the soft limit to the
@@ -1393,7 +1393,7 @@ metrics_flags:
 # the registration_shared_secret is used, if one is given; otherwise,
 # a secret key is derived from the signing key.
 #
-#macaroon_secret_key: <PRIVATE STRING>
+macaroon_secret_key: {{ matrix.macaroon_secret_key }}
 
 # a secret which is used to calculate HMACs for form values, to stop
 # falsification of values. Must be specified for the User Consent

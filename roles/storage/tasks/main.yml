@@ -17,12 +17,14 @@
   template:
     src: smb.conf.j2
     dest: /etc/samba/smb.conf
-  
+
 - name: enable extra disks
-  lineinfile:
-    path: /etc/fstab
-    regexp: '^{{ item.device }}'
-    line: "{{ item.device }}    {{ item.path }} {{ item.filesystem }}   {{ item.flags }}    0   0"
+  ansible.posix.mount:
+    path: "{{ item.path }}"
+    src: "{{ item.device }}"
+    fstype: "{{ item.filesystem }}"
+    opts: "{{ item.flags }}"
+    state: present
   when: item.device is defined
   with_items: "{{ partitions }}"
 

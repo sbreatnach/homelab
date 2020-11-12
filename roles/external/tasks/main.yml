@@ -43,6 +43,8 @@
       dest: /etc/nginx/sites-enabled/emby.conf
     - src: /etc/nginx/sites-available/matrix.conf
       dest: /etc/nginx/sites-enabled/matrix.conf
+    - src: /etc/nginx/sites-available/keycloak.conf
+      dest: /etc/nginx/sites-enabled/keycloak.conf
 
 - name: install certbot certificate
   shell: certbot certonly --dns-cloudflare -n

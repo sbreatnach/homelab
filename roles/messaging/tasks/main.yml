@@ -34,6 +34,8 @@
   with_items:
     - name: homeserver.yaml
       path: /etc/matrix-synapse
+    - name: server_name.yaml
+      path: /etc/matrix-synapse/conf.d
 
 # TODO: configure workers using documented approach in wiki:
 # https://github.com/matrix-org/synapse/tree/develop/docs/systemd-with-workers

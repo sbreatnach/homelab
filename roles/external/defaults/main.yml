@@ -12,8 +12,6 @@ external:
     certificate_domains:
         - matrix.somethinginterestinghere.com
         - auth.somethinginterestinghere.com
-    internet_domain: somethinginterestinghere.com
-    intranet_domain: nas.home
     apt_packages:
         - nginx
     pip_packages:

@@ -2,6 +2,7 @@
   become_user: postgres
   community.general.postgresql_user:
     name: "{{ item.name }}"
+    password: "{{ item.password|default('') }}"
   with_items: "{{ storage.postgresql.users }}"
 
 - name: create databases

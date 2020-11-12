@@ -1,0 +1,3 @@
+matrix:
+    macaroon_secret_key: dummy
+    form_secret: dummy

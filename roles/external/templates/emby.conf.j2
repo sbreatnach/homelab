@@ -2,7 +2,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name media.{{ external.intranet_domain }};
+    server_name media.{{ domains.internal }};
 
     location / {
         proxy_pass http://localhost:8096;

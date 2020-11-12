@@ -1,6 +1,6 @@
-$ORIGIN {{ dns.home_domain }}.
+$ORIGIN {{ domains.internal }}.
 $TTL 300
-@	SOA	dns1.{{ dns.home_domain }}.	hostmaster.{{ dns.home_domain }}. (
+@	SOA	dns1.{{ domains.internal }}.	hostmaster.{{ domains.internal }}. (
 		2019092215 ; serial
 		21600      ; refresh after 6 hours
 		3600       ; retry after 1 hour
@@ -8,22 +8,23 @@ $TTL 300
 		86400 )    ; minimum TTL of 1 day
 ;
 ;
-	NS	dns1.{{ dns.home_domain }}.
-	A	{{ dns.root_ip_address }}
-dns1	A	{{ dns.root_ip_address }}
+	NS	dns1.{{ domains.internal }}.
+	A	{{ root_ip_address }}
+dns1	A	{{ root_ip_address }}
 ;
 ;
 ; This sample zone file illustrates sharing the same IP addresses for multiple services:
 ;
-www	A	{{ dns.root_ip_address }}
+www	A	{{ root_ip_address }}
 
-media	CNAME	www.{{ dns.home_domain }}.
-player	CNAME	www.{{ dns.home_domain }}.
-registry	CNAME	www.{{ dns.home_domain }}.
-music	CNAME	www.{{ dns.home_domain }}.
-adguard	CNAME	www.{{ dns.home_domain }}.
-transmission	CNAME	www.{{ dns.home_domain }}.
-bitwarden	CNAME	www.{{ dns.home_domain }}.
-calibre	CNAME	www.{{ dns.home_domain }}.
+media	CNAME	www.{{ domains.internal }}.
+player	CNAME	www.{{ domains.internal }}.
+auth	CNAME	www.{{ domains.internal }}.
+music	CNAME	www.{{ domains.internal }}.
+adblock	CNAME	www.{{ domains.internal }}.
+torrents	CNAME	www.{{ domains.internal }}.
+matrix	CNAME	www.{{ domains.internal }}.
+bitwarden	CNAME	www.{{ domains.internal }}.
+calibre	CNAME	www.{{ domains.internal }}.
 ;
 ;

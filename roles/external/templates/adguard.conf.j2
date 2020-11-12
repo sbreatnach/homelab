@@ -2,7 +2,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name adblock.{{ external.intranet_domain }};
+    server_name adblock.{{ domains.internal }};
 
     location / {
         proxy_pass http://localhost:8001;

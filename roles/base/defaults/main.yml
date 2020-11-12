@@ -13,3 +13,4 @@ base:
     - name: apt-transport-https
     - name: ntp
     - name: cron
+    - name: tmux
