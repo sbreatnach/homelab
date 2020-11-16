@@ -1,0 +1,31 @@
+- name: create Samba users
+  user:
+    name: "{{ item.key }}"
+    home: /samba/{{ item.key }}
+  with_dict: "{{ storage.samba_users }}"
+
+- name: Configure Samba user passwords.
+  shell:
+    cmd: |
+      smbpasswd -s -a {{ item.key }} << END
+      {{ item.value.password }}
+      {{ item.value.password }}
+      END
+  with_dict: "{{ storage.samba_users }}"
+
+- name: Enable Samba users
+  shell: smbpasswd -e {{ item.key }}
+  with_dict: "{{ storage.samba_users }}"
+
+- name: configure Samba mounts
+  template:
+    src: smb.conf.j2
+    dest: /etc/samba/smb.conf
+
+- name: disable netbios service
+  systemd:
+    state: stopped
+    enabled: false
+    name: "{{ item }}"
+  with_items:
+    - nmbd

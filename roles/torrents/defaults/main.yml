@@ -1,0 +1,4 @@
+torrents:
+    root_path: /var/lib/transmission-daemon
+    apt_packages:
+        - name: transmission-daemon
