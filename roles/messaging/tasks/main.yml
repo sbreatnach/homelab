@@ -45,4 +45,5 @@
     dest: "/etc/systemd/system/{{ item }}"
   with_items:
     - matrix-synapse.service
+    - mautrix-facebook.service
     - matrix-synapse.target

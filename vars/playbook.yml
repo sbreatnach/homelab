@@ -1,16 +1,32 @@
 ---
 ufw_rules:
+  # HTTP/HTTPS
   - port: 80
     rule: allow
   - port: 443
     rule: allow
-  - port: 8448
-    rule: allow
+  # DNS serving
   - port: 53
     rule: allow
+  # SSH
   - port: 22
     rule: allow
+  # anything goes on local loop
   - from_ip: 127.0.0.1/8
+    rule: allow
+  # NFS
+  - port: 111
+    rule: allow
+  - port: 2049
+    rule: allow
+  # samba
+  - port: 445
+    rule: allow
+  # matrix federation
+  - port: 8448
+    rule: allow
+  # torrent peering
+  - port: 51413
     rule: allow
 domains:
   internal: nas.home

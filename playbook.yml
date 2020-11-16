@@ -30,7 +30,5 @@
       tags: [messaging]
     - role: torrents
       tags: [torrents]
-    - role: 0x0i.systemd
-      tags: [processes]
   vars_files:
     - vars/playbook.yml

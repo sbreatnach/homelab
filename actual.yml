@@ -5,6 +5,8 @@ users:
     name: Shane Breatnach
     password: $6$wRcr4eXqFBl0zm$fiNJk.aLqZY4Dp0xbQXigPmVJ5EjH.393V1LShe8yShrzMK8H3vLmTsn0.eoLTmkoyHgr1rXWhvorKOhtBLRB1
     sudoer: true
+torrents:
+  root_path: /mnt/Media/Torrents
 partitions:
   - path: /
   - path: /mnt/Backup1

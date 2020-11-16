@@ -18,3 +18,9 @@ external:
         - certbot
         - certbot-dns-cloudflare
         - certbot-nginx
+    sites:
+        - name: adguard
+        - name: emby
+        - name: matrix
+        - name: keycloak
+        - name: transmission

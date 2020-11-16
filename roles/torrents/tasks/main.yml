@@ -1,1 +1,19 @@
 # Transmission daemon + web UI + config
+- name: Install torrenting packages
+  apt:
+    name: "{{ item.name }}"
+    install_recommends: false
+  with_items: "{{ torrents.apt_packages }}"
+
+- name: Configure services
+  template:
+    src: settings.json.j2
+    dest: /etc/transmission-daemon/settings.json
+
+- name: reload systemd services
+  systemd:
+    state: reloaded
+    enabled: true
+    name: "{{ item }}"
+  with_items:
+    - transmission-daemon

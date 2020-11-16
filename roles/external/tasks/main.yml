@@ -9,20 +9,12 @@
        state=present
   with_items: "{{ external.pip_packages }}"
 
-- name: create site configs
+- name: create configuration files
   template:
     src: "{{ item.name }}.j2"
     dest: "{{ item.path }}/{{ item.name }}"
     mode: 0600
   with_items:
-    - name: adguard.conf
-      path: /etc/nginx/sites-available
-    - name: keycloak.conf
-      path: /etc/nginx/sites-available
-    - name: emby.conf
-      path: /etc/nginx/sites-available
-    - name: matrix.conf
-      path: /etc/nginx/sites-available
     - name: cloudflare.ini
       path: /root
 
@@ -31,20 +23,19 @@
     path: /etc/nginx/sites-enabled/default
     state: absent
 
+- name: create site configs
+  template:
+    src: "{{ item.name }}.conf.j2"
+    dest: "/etc/nginx/sites-available/{{ item.name }}.conf"
+    mode: 0600
+  with_items: "{{ external.sites }}"
+
 - name: enable site configs
   file:
     state: link
-    src: "{{ item.src }}"
-    path: "{{ item.dest }}"
-  with_items:
-    - src: /etc/nginx/sites-available/adguard.conf
-      dest: /etc/nginx/sites-enabled/adguard.conf
-    - src: /etc/nginx/sites-available/emby.conf
-      dest: /etc/nginx/sites-enabled/emby.conf
-    - src: /etc/nginx/sites-available/matrix.conf
-      dest: /etc/nginx/sites-enabled/matrix.conf
-    - src: /etc/nginx/sites-available/keycloak.conf
-      dest: /etc/nginx/sites-enabled/keycloak.conf
+    src: "/etc/nginx/sites-available/{{ item.name }}.conf"
+    path: "/etc/nginx/sites-enabled/{{ item.name }}.conf"
+  with_items: "{{ external.sites }}"
 
 - name: install certbot certificate
   shell: certbot certonly --dns-cloudflare -n
@@ -60,4 +51,4 @@
     minute: "0"
     hour: "0,12"
     name: renew certbot
-    job: certbot renew -q --post-hook 'systemctl reload nginx'
+    job: /usr/local/bin/certbot renew -q --post-hook '/usr/bin/systemctl reload nginx'

@@ -1,4 +1,7 @@
 storage:
+  samba_users:
+    sambauser:
+      password: dummy
   apt_packages:
     - name: nfs-common
     - name: samba
@@ -14,16 +17,25 @@ storage:
         owner: synapse
       - name: keycloak
         owner: keycloak
+      - name: mautrixfacebook
+        owner: mautrixfacebook
     users:
       - name: synapse
       - name: keycloak
         password: keycloak
+      - name: mautrixfacebook
+        password: mautrixfacebook
     hba:
       - connection_type: host
         databases: synapse
         users: synapse
         source: ::1/128
         method: trust
+      - connection_type: host
+        databases: mautrixfacebook
+        users: mautrixfacebook
+        source: ::1/128
+        method: md5
       - connection_type: host
         databases: keycloak
         users: keycloak
