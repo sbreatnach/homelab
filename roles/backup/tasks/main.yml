@@ -21,11 +21,11 @@
     src: "{{ item.src }}.j2"
     dest: "{{ item.dest }}"
     owner: backup
+    mode: "{{ item.mode }}"
   with_items:
     - src: env
       dest: /home/backup/.env
-    - src: restic-creds.txt
-      dest: /home/backup/restic-creds.txt
+      mode: "700"
 
 - name: install cron jobs
   cron:

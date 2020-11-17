@@ -12,6 +12,9 @@ external:
     certificate_domains:
         - matrix.somethinginterestinghere.com
         - auth.somethinginterestinghere.com
+    subdomains:
+        - matrix
+        - auth
     apt_packages:
         - nginx
     pip_packages:

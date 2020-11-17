@@ -13,10 +13,14 @@
   template:
     src: "{{ item.name }}.j2"
     dest: "{{ item.path }}/{{ item.name }}"
-    mode: 0600
+    mode: "{{ item.mode }}"
   with_items:
     - name: cloudflare.ini
       path: /root
+      mode: "600"
+    - name: dynamic_ip.sh
+      path: /root
+      mode: "700"
 
 - name: remove default site
   file:
@@ -52,3 +56,10 @@
     hour: "0,12"
     name: renew certbot
     job: /usr/local/bin/certbot renew -q --post-hook '/usr/bin/systemctl reload nginx'
+
+- name: configure dynamic ip cron
+  cron:
+    user: root
+    minute: "*/11"
+    name: update dynamic IP with DNS provider
+    job: /root/dynamic_ip.sh

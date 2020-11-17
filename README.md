@@ -10,7 +10,6 @@ ansible-playbook --ask-vault-pass -b -e @vm_vars.yml -e @vars/secure.yml -i vm_i
 * Automate public IP setting
 * Wireguard VPN
 * Matrix bridges for Facebook Messenger + Whatsapp + Hangouts
-* Torrent daemon + UI
 * Turtl
 * Snapcast server
 * Local music streamer (e.g. MPD + web UI)
