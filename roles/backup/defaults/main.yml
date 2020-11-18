@@ -6,12 +6,12 @@ backblaze:
     key: dummy
 cronjobs:
   - name: Music Backup
-    job: ". /home/backup/.env && /usr/bin/restic -v -r b2:whizz-music backup /mnt/Backup1/Music/"
+    job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-music backup /mnt/Backup1/Music/"
     minute: 0
     hour: 4
     day: 1
   - name: Photo Backup
-    job: ". /home/backup/.env && /usr/bin/restic -v -r b2:whizz-photos backup /mnt/Backup1/PersonalMedia/"
+    job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-photos backup /mnt/Backup1/PersonalMedia/"
     minute: 0
     hour: 4
     day: 2

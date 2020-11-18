@@ -1,0 +1,74 @@
+#!/bin/bash
+# Cloudflare as Dynamic DNS
+# From: https://letswp.io/cloudflare-as-dynamic-dns-raspberry-pi/
+# Based on: https://gist.github.com/benkulbertis/fff10759c2391b6618dd/
+# Original non-RPi article: https://phillymesh.net/2016/02/23/setting-up-dynamic-dns-for-your-registered-domain-through-cloudflare/
+
+# Fixed and documented version by Christian Gambardella (https://gambo.io)
+# 1. Create a cloudflare account
+# 2. Create a zone and a record with any ip address.
+#    It will be updated by the script.
+#    Just put 127.0.0.1 or so.
+# 3. Create a token with those permissions:
+#    zone / zone / read
+#    zone / DNS / edit
+#    limit to all zones from your account or all zones. specific zones are not enough.
+# 4. Update this script to include your zone name, record name and auth token.
+# 5. Put it somewhere
+# 6. Install a cronjob using `crontab -e`
+# 7. Add line to update every 10 minutes: `*/10 * * * * /home/pi/cron/lwp-cloudflare-dyndns.sh`
+
+# Update these with real values
+auth_token="{{ cloudflare.token }}"
+zone_name="{{ domains.external }}"
+record_name="home.{{ domains.external }}"
+
+# Don't touch these
+ip=$(curl -s http://ipv4.icanhazip.com)
+ip_file="ip.txt"
+id_file="cloudflare.ids"
+log_file="cloudflare.log"
+
+# Keep files in the same folder when run from cron
+current="$(pwd)"
+cd "$(dirname "$(readlink -f "$0")")"
+
+log() {
+    if [ "$1" ]; then
+        echo -e "[$(date)] - $1" >> $log_file
+    fi
+}
+
+if [ -f $ip_file ]; then
+    old_ip=$(cat $ip_file)
+    if [ $ip == $old_ip ]; then
+        exit 0
+    fi
+fi
+
+if [ -f $id_file ] && [ $(wc -l $id_file | cut -d " " -f 1) == 2 ]; then
+    zone_identifier=$(head -1 $id_file)
+    record_identifier=$(tail -1 $id_file)
+else
+    zone_identifier=$( curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=$zone_name" -H "Authorization: Bearer $auth_token" -H "Content-Type: application/json" | grep -Po '"id": *\K"[^"]*"' | head -1 | tr -d \" )
+    record_identifier=$( curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$zone_identifier/dns_records?name=$record_name" -H "Authorization: Bearer $auth_token" -H "Content-Type: application/json" | grep -Po '(?<="id":")[^"]*' )
+    echo "$zone_identifier" > $id_file
+    echo "$record_identifier" >> $id_file
+fi
+
+echo "record: $record_identifier"
+echo "zone: $zone_identifier"
+
+update=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/$zone_identifier/dns_records/$record_identifier" -H "Authorization: Bearer $auth_token" -H "Content-Type: application/json" --data "{\"id\":\"$zone_identifier\",\"type\":\"A\",\"name\":\"$record_name\",\"content\":\"$ip\"}")
+
+if [[ $update == *"\"success\":false"* ]]; then
+    message="API UPDATE FAILED. DUMPING RESULTS:\n$update"
+    log "$message"
+    echo -e "$message"
+    exit 1
+else
+    message="IP changed to: $ip"
+    echo "$ip" > $ip_file
+    log "$message"
+    echo "$message"
+fi
