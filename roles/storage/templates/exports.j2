@@ -1,5 +1,5 @@
 {% for partition in partitions %}
 {% if partition.device is defined %}
-{{ partition.device }}     192.168.0.0/24(rw,fsid={{ loop.index }},insecure,no_subtree_check,async)
+{{ partition.path }}     192.168.0.0/24(rw,fsid={{ loop.index }},insecure,no_subtree_check,async)
 {% endif %}
 {% endfor %}

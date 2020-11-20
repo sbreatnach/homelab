@@ -19,6 +19,22 @@ ufw_rules:
     rule: allow
   - port: 2049
     rule: allow
+  - port: 34668
+    rule: allow
+  - port: 60185
+    rule: allow
+  - port: 39390
+    rule: allow
+  - port: 53877
+    rule: allow
+  - port: 41168
+    rule: allow
+  - port: 43127
+    rule: allow
+  - port: 56964
+    rule: allow
+  - port: 43437
+    rule: allow
   # samba
   - port: 445
     rule: allow

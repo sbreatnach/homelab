@@ -4,7 +4,7 @@ PartOf=matrix-synapse.target
 
 [Service]
 WorkingDirectory=/var/lib/matrix-synapse
-ExecStart=/opt/venvs/matrix-synapse/bin/python -m mautrix_facebook -c /var/lib/matrix-synapse/mautrix-facebook.yaml -r /var/lib/matrix-synapse/mautrix-facebook.registration
+ExecStart=/opt/venvs/matrix-synapse/bin/python -m mautrix_facebook -c /etc/matrix-synapse/conf.d/mautrix-facebook-config.yaml -r  /etc/matrix-synapse/conf.d/mautrix-facebook.registration
 ExecStart=/usr/local/src/mautrix-facebook/bin/python -m mautrix_facebook
 User=matrix-synapse
 

@@ -4,6 +4,7 @@ storage:
       password: dummy
   apt_packages:
     - name: nfs-common
+    - name: nfs-kernel-server
     - name: samba
     - name: postgresql
     - name: python3-psycopg2

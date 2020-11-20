@@ -7,7 +7,6 @@ ansible-playbook --ask-vault-pass -b -e @vm_vars.yml -e @vars/secure.yml -i vm_i
 
 # Wishlist
 
-* Automate public IP setting
 * Wireguard VPN
 * Matrix bridges for Facebook Messenger + Whatsapp + Hangouts
 * Turtl
