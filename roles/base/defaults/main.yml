@@ -14,3 +14,4 @@ base:
     - name: ntp
     - name: cron
     - name: tmux
+    - name: unattended-upgrades

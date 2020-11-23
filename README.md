@@ -15,7 +15,7 @@ ansible-playbook --ask-vault-pass -b -e @vm_vars.yml -e @vars/secure.yml -i vm_i
 * Bitwarden password manager
 * Logging aggregator
 * Metrics aggregator
-* Email server
+* Email server (https://workaround.org/ispmail/buster/ for setup, https://mail-tester.com for testing, http://www.anti-abuse.org/multi-rbl-check/ for IP blacklist check, relay emails through GMail/PepiPost/Smtp2GO/etc.)
 * Ebook reader service (e.g. Calibre Web)
 * Youtube downloader service (e.g. Alltube)
 * Bookmarking service
