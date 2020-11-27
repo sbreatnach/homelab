@@ -1,3 +1,25 @@
 matrix:
+    directory:
+        venv: /opt/venvs/matrix-synapse
+        main: /var/lib/matrix-synapse   
+        conf: /etc/matrix-synapse
+        extraconf: /etc/matrix-synapse/conf.d
+    libraries:
+        - repo: https://github.com/tulir/mautrix-facebook.git
+          version: v0.1.1
+          name: mautrix-facebook
+        - repo: https://github.com/tulir/mautrix-hangouts.git
+          version: v0.1.4
+          name: mautrix-hangouts
+    oidc:
+        client_secret: dummy
     macaroon_secret_key: dummy
     form_secret: dummy
+    hangouts:
+        as_token: dummy
+        hs_token: dummy
+        sender_localpart: dummy
+    facebook:
+        as_token: dummy
+        hs_token: dummy
+        sender_localpart: dummy

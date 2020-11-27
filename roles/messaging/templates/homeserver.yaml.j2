@@ -1073,7 +1073,7 @@ url_preview_accept_language:
 
 # Enable registration for new users.
 #
-#enable_registration: false
+enable_registration: false
 
 # Optional account validity configuration. This allows for accounts to be denied
 # any request after a given period.
@@ -1379,8 +1379,9 @@ metrics_flags:
 
 # A list of application service config files to use
 #
-#app_service_config_files:
-#  - app_service_1.yaml
+app_service_config_files:
+  - {{ matrix.directory.extraconf }}/mautrix-hangouts-registration.yaml
+  - {{ matrix.directory.extraconf }}/mautrix-facebook-registration.yaml
 #  - app_service_2.yaml
 
 # Uncomment to enable tracking of application service IP addresses. Implicitly
@@ -1405,7 +1406,7 @@ macaroon_secret_key: {{ matrix.macaroon_secret_key }}
 
 # Path to the signing key to sign messages with
 #
-signing_key_path: "/etc/matrix-synapse/homeserver.signing.key"
+signing_key_path: "{{ matrix.directory.conf }}/homeserver.signing.key"
 
 # The keys that the server used to sign messages with but won't use
 # to sign new messages.
@@ -1644,7 +1645,7 @@ oidc_config:
   #
   # Required if 'enabled' is true.
   #
-  issuer: "https://auth.somethinginterestinghere.com/auth/realms/home/"
+  issuer: "https://auth.{{ domains.external }}/auth/realms/home/"
 
   # oauth2 client id to use.
   #
@@ -1656,7 +1657,7 @@ oidc_config:
   #
   # Required if 'enabled' is true.
   #
-  client_secret: "dummy"
+  client_secret: "{{ matrix.oidc.client_secret }}"
 
   # auth method to use when exchanging the token.
   # Valid values are 'client_secret_basic' (default), 'client_secret_post' and
@@ -1790,9 +1791,8 @@ sso:
     #
     # By default, this list is empty.
     #
-    #client_whitelist:
-    #  - https://riot.im/develop
-    #  - https://my.custom.client/
+    client_whitelist:
+      - https://matrix.{{ domains.external }}/
 
     # Directory in which Synapse will try to find the template files below.
     # If not set, default templates from within the Synapse package will be used.
@@ -1915,7 +1915,7 @@ sso:
 password_config:
    # Uncomment to disable password login
    #
-   #enabled: false
+   enabled: false
 
    # Uncomment to disable authentication against the local password
    # database. This is ignored if `enabled` is false, and is only useful

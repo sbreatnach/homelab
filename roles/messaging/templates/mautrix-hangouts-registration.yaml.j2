@@ -1,0 +1,16 @@
+id: hangouts
+as_token: {{ matrix.hangouts.as_token }}
+hs_token: {{ matrix.hangouts.hs_token }}
+namespaces:
+    users:
+    - exclusive: true
+      regex: '@hangouts_.*:matrix\.somethinginterestinghere\.com'
+      group_id: +hangouts:matrix.{{ domains.external }}
+    - exclusive: true
+      regex: '@hangoutsbot:matrix\.somethinginterestinghere\.com'
+    aliases: []
+url: http://localhost:29320
+sender_localpart: {{ matrix.hangouts.sender_localpart }}
+rate_limited: false
+de.sorunome.msc2409.push_ephemeral: true
+push_ephemeral: true

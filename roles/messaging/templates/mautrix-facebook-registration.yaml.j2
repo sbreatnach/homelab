@@ -1,0 +1,16 @@
+id: facebook
+as_token: {{ matrix.facebook.as_token }}
+hs_token: {{ matrix.facebook.hs_token }}
+namespaces:
+    users:
+    - exclusive: true
+      regex: '@facebook_.*:matrix\.somethinginterestinghere\.com'
+      group_id: +facebook:matrix.{{ domains.external }}
+    - exclusive: true
+      regex: '@facebookbot:matrix\.somethinginterestinghere\.com'
+    aliases: []
+url: http://localhost:29319
+sender_localpart: {{ matrix.facebook.sender_localpart }}
+rate_limited: false
+de.sorunome.msc2409.push_ephemeral: true
+push_ephemeral: true

@@ -8,10 +8,10 @@ PartOf=matrix-synapse.target
 Type=notify
 NotifyAccess=main
 User=matrix-synapse
-WorkingDirectory=/var/lib/matrix-synapse
+WorkingDirectory={{ matrix.directory.main }}
 EnvironmentFile=/etc/default/matrix-synapse
-ExecStartPre=/opt/venvs/matrix-synapse/bin/python -m synapse.app.homeserver --config-path=/etc/matrix-synapse/homeserver.yaml --config-path=/etc/matrix-synapse/conf.d/ --generate-keys
-ExecStart=/opt/venvs/matrix-synapse/bin/python -m synapse.app.homeserver --config-path=/etc/matrix-synapse/homeserver.yaml --config-path=/etc/matrix-synapse/conf.d/
+ExecStartPre={{ matrix.directory.venv }}/bin/python -m synapse.app.homeserver --config-path={{ matrix.directory.conf}}/homeserver.yaml --config-path={{ matrix.directory.extraconf }}/ --generate-keys
+ExecStart={{ matrix.directory.venv }}/bin/python -m synapse.app.homeserver --config-path={{ matrix.directory.conf}}/homeserver.yaml --config-path={{ matrix.directory.extraconf }}/
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=always
 RestartSec=3

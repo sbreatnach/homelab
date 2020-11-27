@@ -25,6 +25,8 @@ record_name="home.{{ domains.external }}"
 
 # Don't touch these
 ip=$(curl -s http://ipv4.icanhazip.com)
+ip_check_retval=$?
+
 ip_file="ip.txt"
 id_file="cloudflare.ids"
 log_file="cloudflare.log"
@@ -38,6 +40,12 @@ log() {
         echo -e "[$(date)] - $1" >> $log_file
     fi
 }
+
+if [ ${ip_check_retval} != 0 ]
+then
+    log "IP API check failed"
+    exit 11
+fi
 
 if [ -f $ip_file ]; then
     old_ip=$(cat $ip_file)
