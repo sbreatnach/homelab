@@ -25,5 +25,6 @@ external:
         - name: adguard
         - name: emby
         - name: matrix
+        - name: hangoutsbridge
         - name: keycloak
         - name: transmission
