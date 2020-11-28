@@ -50,6 +50,27 @@
     - name: mautrix
       version: "0.8.3"
 
+- name: download web client
+  unarchive:
+    src: https://github.com/vector-im/element-web/releases/download/{{ matrix.web_version }}/riot-{{ matrix.web_version }}.tar.gz
+    dest: /tmp
+    remote_src: true
+
+- name: move client files to www location
+  command:
+    cmd: mv /tmp/riot-{{ matrix.web_version }} /var/www/matrixweb
+    removes: /tmp/riot-{{ matrix.web_version }}
+
+- name: override web client files
+  template:
+    src: "{{ item.src }}.j2"
+    dest: /var/www/matrixweb/{{ item.dest }}
+  with_items:
+    - src: matrixweb-config.json
+      dest: config.json
+    - src: matrixweb-index.html
+      dest: index.html
+
 - name: checkout additional libraries
   git:
     repo: "{{ item.repo }}"

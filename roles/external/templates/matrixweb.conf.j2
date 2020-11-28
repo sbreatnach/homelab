@@ -1,0 +1,25 @@
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    ssl_certificate {{ external.certificates.matrixweb.full_chain }};
+    ssl_certificate_key {{ external.certificates.matrixweb.key }};
+
+    server_name matrixweb.{{ domains.external }};
+
+    location ~* ^/(index.html|config.json|i18n|home|sites)$ {
+        root /var/www/matrixweb;
+
+        # disable cache for specific files, as per element docs
+        add_header Last-Modified $date_gmt;
+        add_header Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
+        if_modified_since off;
+        expires off;
+        etag off;
+    }
+
+    location / {
+        root /var/www/matrixweb;
+        index index.html;
+    }
+}

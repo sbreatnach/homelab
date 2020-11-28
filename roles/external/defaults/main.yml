@@ -8,12 +8,17 @@ external:
         auth:
             full_chain: /etc/letsencrypt/live/auth.somethinginterestinghere.com/fullchain.pem
             key: /etc/letsencrypt/live/auth.somethinginterestinghere.com/privkey.pem
+        matrixweb:
+            full_chain: /etc/letsencrypt/live/matrixweb.somethinginterestinghere.com/fullchain.pem
+            key: /etc/letsencrypt/live/matrixweb.somethinginterestinghere.com/privkey.pem
     notification_email: sbreatnach@protonmail.com
     certificate_domains:
         - matrix.somethinginterestinghere.com
+        - matrixweb.somethinginterestinghere.com
         - auth.somethinginterestinghere.com
     subdomains:
         - matrix
+        - matrixweb
         - auth
     apt_packages:
         - nginx
@@ -25,6 +30,7 @@ external:
         - name: adguard
         - name: emby
         - name: matrix
+        - name: matrixweb
         - name: hangoutsbridge
         - name: keycloak
         - name: transmission
