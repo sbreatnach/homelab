@@ -6,11 +6,26 @@ ansible-galaxy collection install community.general
 ansible-playbook --ask-vault-pass -b -e @vm_vars.yml -e @vars/secure.yml -i vm_inventory -k -K playbook.yml
 ```
 
+# Photo Preparation
+
+Copy all photos to a directory named sorted and run the following:
+```
+exiftool -ee -d "sorted/%Y/%Y%m%d-%H%M%S.%%e" "-filename<CreateDate" .
+```
+
+Photos stored from iOS usually have the CreateDate metadata set but, randomly, some do not.
+Strangely though, the photos are marked with a date in iCloud.com.
+`exiftool` can be used to fix this manually. For example, this sets the create date for
+a single image:
+```
+exiftool -createdate="2019:07:10 12:01:55" IMG_3369.JPG
+```
+
 # Wishlist (in order of preference)
 
-* Matrix bridges for Facebook Messenger + Whatsapp + Hangouts
-* Hosted Matrix web app configured for homeserver e.g. Element
+* Setup OneDrive photo backup
 * Backups for everything and document restore steps
+* Regular backups of iCloud photos + videos
 * Wireguard VPN
 * Local music streamer (e.g. MPD + web UI)
 * Turtl or equivalent bookmarking service with iOS app

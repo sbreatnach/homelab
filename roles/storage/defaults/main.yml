@@ -2,6 +2,12 @@ storage:
   samba_users:
     sambauser:
       password: dummy
+  directory:
+    libraries: /root/lib
+  libraries:
+    - repo: https://github.com/skilion/onedrive.git
+      name: skilion-onedrive
+      version: v1.1.4
   apt_packages:
     - name: nfs-common
     - name: nfs-kernel-server
@@ -10,8 +16,11 @@ storage:
     - name: python3-psycopg2
     - name: libpq-dev
     - name: ntfs-3g
+    - name: libcurl4-openssl-dev
+    - name: libsqlite3-dev
   deb_packages:
     - path: https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-console-1.24-Update7-Debian-10-amd64.deb
+    - path: http://downloads.dlang.org/releases/2.x/2.094.2/dmd_2.094.2-0_amd64.deb
   postgresql:
     databases:
       - name: synapse

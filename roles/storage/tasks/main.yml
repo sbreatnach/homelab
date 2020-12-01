@@ -8,6 +8,20 @@
   apt: deb={{ item.path }} state=present
   with_items: "{{ storage.deb_packages }}"
 
+- name: checkout additional libraries
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ storage.directory.libraries }}/{{ item.name }}"
+    version: "{{ item.version }}"
+    force: true
+  with_items: "{{ storage.libraries }}"
+
+- name: install additional libraries
+  shell:
+    chdir: "{{ storage.directory.libraries }}/{{ item.name }}"
+    cmd: make && make install
+  with_items: "{{ storage.libraries }}"
+
 - name: enable extra disks
   ansible.posix.mount:
     path: "{{ item.path }}"
@@ -21,3 +35,12 @@
 - include: nfs.yml
 - include: samba.yml
 - include: postgresql.yml
+
+- name: configure onedrive systemd for users
+  become_user: "{{ item.username }}"
+  systemd:
+    state: started
+    enabled: true
+    name: onedrive
+    scope: user
+  with_items: "{{ users }}"
