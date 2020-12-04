@@ -4,6 +4,9 @@ restic:
 backblaze:
     key_id: dummy
     key: dummy
+backup:
+    apt_packages:
+        - name: exiftool
 cronjobs:
   - name: Music Backup
     job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-music backup /mnt/Backup1/Music/"
@@ -15,3 +18,8 @@ cronjobs:
     minute: 0
     hour: 4
     day: 2
+  - name: sbreatnach OneDrive Backup
+    job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-onedrive backup /home/sbreatnach/OneDrive/"
+    minute: 0
+    hour: 4
+    day: 3

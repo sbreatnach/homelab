@@ -38,6 +38,10 @@
       path: "{{ matrix.directory.extraconf }}"
     - name: mautrix-hangouts-registration.yaml
       path: "{{ matrix.directory.extraconf }}"
+    - name: mautrix-whatsapp-config.yaml
+      path: "{{ matrix.directory.extraconf }}"
+    - name: mautrix-whatsapp-registration.yaml
+      path: "{{ matrix.directory.extraconf }}"
     - name: with_env.sh
       path: "{{ matrix.directory.main }}"
 
@@ -50,26 +54,45 @@
     - name: mautrix
       version: "0.8.3"
 
-- name: download web client
+- name: register web client directory
+  stat:
+    path: /var/www/matrixweb
+  register: client_result
+
+- name: Install web client
+  when: not client_result.stat.exists
+  block:
+    - name: download web client
+      unarchive:
+        src: https://github.com/vector-im/element-web/releases/download/{{ matrix.web_version }}/riot-{{ matrix.web_version }}.tar.gz
+        dest: /tmp
+        remote_src: true
+
+    - name: move client files to www location
+      command:
+        cmd: mv /tmp/riot-{{ matrix.web_version }} /var/www/matrixweb
+        removes: /tmp/riot-{{ matrix.web_version }}
+
+    - name: override web client files
+      template:
+        src: "{{ item.src }}.j2"
+        dest: /var/www/matrixweb/{{ item.dest }}
+      with_items:
+        - src: matrixweb-config.json
+          dest: config.json
+        - src: matrixweb-index.html
+          dest: index.html
+
+- name: create pre-built directories
+  file:
+    path: "{{ matrix.directory.main }}/mautrix-whatsapp"
+    state: directory
+
+- name: install pre-built library archive
   unarchive:
-    src: https://github.com/vector-im/element-web/releases/download/{{ matrix.web_version }}/riot-{{ matrix.web_version }}.tar.gz
-    dest: /tmp
+    src: https://mau.dev/tulir/mautrix-whatsapp/-/jobs/5321/artifacts/download?file_type=archive
+    dest: "{{ matrix.directory.main }}/mautrix-whatsapp"
     remote_src: true
-
-- name: move client files to www location
-  command:
-    cmd: mv /tmp/riot-{{ matrix.web_version }} /var/www/matrixweb
-    removes: /tmp/riot-{{ matrix.web_version }}
-
-- name: override web client files
-  template:
-    src: "{{ item.src }}.j2"
-    dest: /var/www/matrixweb/{{ item.dest }}
-  with_items:
-    - src: matrixweb-config.json
-      dest: config.json
-    - src: matrixweb-index.html
-      dest: index.html
 
 - name: checkout additional libraries
   git:
@@ -99,6 +122,7 @@
     - matrix-synapse.service
     - mautrix-hangouts.service
     - mautrix-facebook.service
+    - mautrix-whatsapp.service
     - matrix-synapse.target
 
 - name: enable systemd services
@@ -109,3 +133,4 @@
   with_items:
     - mautrix-hangouts
     - mautrix-facebook
+    - mautrix-whatsapp

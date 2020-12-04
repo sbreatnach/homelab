@@ -1,0 +1,12 @@
+id: whatsapp
+url: http://localhost:29318
+as_token: {{ matrix.whatsapp.as_token }}
+hs_token: {{ matrix.whatsapp.hs_token }}
+sender_localpart: {{ matrix.whatsapp.sender_localpart }}
+rate_limited: false
+namespaces:
+  users:
+  - regex: ^@whatsapp_[0-9]+:matrix.{{ domains.external }}$
+    exclusive: true
+  - regex: ^@whatsappbot:matrix.{{ domains.external }}$
+    exclusive: true

@@ -5,6 +5,11 @@
     comment: "Backup user"
     home: /home/backup
 
+- name: install backup packages
+  apt:
+    name: "{{ item.name }}"
+  with_items: "{{ backup.apt_packages }}"
+
 - name: download Restic
   get_url:
     url: https://github.com/restic/restic/releases/download/v{{ restic.version }}/restic_{{ restic.version }}_linux_amd64.bz2

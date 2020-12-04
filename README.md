@@ -8,7 +8,7 @@ ansible-playbook --ask-vault-pass -b -e @vm_vars.yml -e @vars/secure.yml -i vm_i
 
 # Photo Preparation
 
-Copy all photos to a directory named sorted and run the following:
+Copy all photos to a directory named Unsorted and run the following:
 ```
 exiftool -ee -d "sorted/%Y/%Y%m%d-%H%M%S.%%e" "-filename<CreateDate" .
 ```
@@ -21,13 +21,20 @@ a single image:
 exiftool -createdate="2019:07:10 12:01:55" IMG_3369.JPG
 ```
 
+# Backblaze + Restic Preparation
+
+Any new Restic repository must be initialised first before use:
+```
+sudo su -s /bin/bash backup
+. ~/.env
+# the name of the Backblaze bucket must be unique
+restic -r b2:whizz-onedrive:/ init
+```
+
 # Wishlist (in order of preference)
 
-* Setup OneDrive photo backup
-* Backups for everything and document restore steps
-* Regular backups of iCloud photos + videos
-* Wireguard VPN
 * Local music streamer (e.g. MPD + web UI)
+* Wireguard VPN
 * Turtl or equivalent bookmarking service with iOS app
 * Ebook reader service (e.g. Calibre Web)
 * Email server (https://workaround.org/ispmail/buster/ for setup, https://mail-tester.com for testing, http://www.anti-abuse.org/multi-rbl-check/ for IP blacklist check, relay emails through GMail/PepiPost/Smtp2GO/etc.)

@@ -31,6 +31,8 @@ storage:
         owner: mautrixfacebook
       - name: mautrixhangouts
         owner: mautrixhangouts
+      - name: mautrixwhatsapp
+        owner: mautrixwhatsapp
     users:
       - name: synapse
       - name: keycloak
@@ -39,6 +41,8 @@ storage:
         password: mautrixfacebook
       - name: mautrixhangouts
         password: mautrixhangouts
+      - name: mautrixwhatsapp
+        password: mautrixwhatsapp
     hba:
       - connection_type: host
         databases: synapse
@@ -53,6 +57,11 @@ storage:
       - connection_type: host
         databases: mautrixhangouts
         users: mautrixhangouts
+        source: ::1/128
+        method: md5
+      - connection_type: host
+        databases: mautrixwhatsapp
+        users: mautrixwhatsapp
         source: ::1/128
         method: md5
       - connection_type: host

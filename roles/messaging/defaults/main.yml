@@ -24,3 +24,7 @@ matrix:
         as_token: dummy
         hs_token: dummy
         sender_localpart: dummy
+    whatsapp:
+        as_token: dummy
+        hs_token: dummy
+        sender_localpart: dummy
