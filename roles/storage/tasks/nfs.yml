@@ -7,6 +7,10 @@
       dir: /etc
     - name: nfs-common
       dir: /etc/default
+    - name: nfs-kernel-server
+      dir: /etc/default
+    - name: 99-nfs-sysctl.conf
+      dir: /etc/sysctl.d
 
 - name: configure NFS exports
   template:
