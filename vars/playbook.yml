@@ -37,6 +37,8 @@ ufw_rules:
 domains:
   internal: nas.home
   external: somethinginterestinghere.com
+  external_name: somethinginterestinghere
+  external_tld: com
 root_ip_address: 192.168.0.102
 nfs_exports:
   - /mnt/Backup     192.168.0.0/24(rw,fsid=0,insecure,no_subtree_check,async)

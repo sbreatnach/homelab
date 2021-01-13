@@ -1,2 +1,12 @@
 keycloak:
-    version: 11.0.3
+  version: 11.0.3
+openldap:
+  # passwords here can be generated using slappasswd
+  admin_password: dummy
+  admin_password_hash: dummy
+  users:
+    shane:
+      first_name: Shane
+      second_name: Breatnach
+      email: shane@somethinginterestinghere.com
+      password: dummy

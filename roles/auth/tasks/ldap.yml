@@ -1,0 +1,70 @@
+- name: install apt packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - slapd
+    - ldapscripts
+    - libldap2-dev
+    - libsasl2-dev
+    - python-dev
+    - libssl-dev
+
+- name: install pip packages
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python-ldap
+
+- name: create base data
+  community.general.ldap_attrs:
+    dn: olcDatabase={1}mdb,cn=config
+    attributes:
+      olcSuffix: dc={{ domains.external_name }},dc={{ domains.external_tld }}
+      olcRootDN: cn=root,dc={{ domains.external_name }},dc={{ domains.external_tld }}
+      olcRootPW: "{{ openldap.admin_password_hash }}"
+    state: exact
+
+- set_fact:
+    ldap_auth:
+      server_uri: ldapi:///
+      bind_dn: cn=root,dc={{ domains.external_name }},dc={{ domains.external_tld }}
+      bind_pw: "{{ openldap.admin_password }}"
+
+- name: Configure root DN
+  community.general.ldap_entry:
+    dn: dc={{ domains.external_name }},dc={{ domains.external_tld }}
+    objectClass: domain
+    state: present
+  args: "{{ ldap_auth }}"
+
+- name: Configure organizational unit
+  community.general.ldap_entry:
+    dn: ou=users,dc={{ domains.external_name }},dc={{ domains.external_tld }}
+    objectClass: organizationalUnit
+    state: present
+  args: "{{ ldap_auth }}"
+
+- name: Create users
+  community.general.ldap_entry:
+    dn: uid={{ item.key }},ou=users,dc={{ domains.external_name }},dc={{ domains.external_tld }}
+    objectClass:
+      - top
+      - person
+      - organizationalPerson
+      - inetOrgPerson
+    attributes:
+      uid: "{{ item.key }}"
+      cn: "{{ item.value.first_name }}"
+      sn: "{{ item.value.second_name }}"
+      mail: "{{ item.value.email }}"
+  args: "{{ ldap_auth }}"
+  with_dict: "{{ openldap.users }}"
+
+- name: Set a password for each user
+  community.general.ldap_passwd:
+    dn: uid={{ item.key }},ou=users,dc={{ domains.external_name }},dc={{ domains.external_tld }}
+    passwd: "{{ item.value.password }}"
+  args: "{{ ldap_auth }}"
+  with_dict: "{{ openldap.users }}"
