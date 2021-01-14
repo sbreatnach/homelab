@@ -131,6 +131,8 @@
     enabled: true
     name: "{{ item }}"
   with_items:
+    - matrix-synapse
     - mautrix-hangouts
     - mautrix-facebook
     - mautrix-whatsapp
+    - matrix-synapse.target

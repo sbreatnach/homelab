@@ -58,6 +58,7 @@
       uid: "{{ item.key }}"
       cn: "{{ item.value.first_name }}"
       sn: "{{ item.value.second_name }}"
+      givenName: "{{ item.value.first_name }} {{ item.value.second_name }}"
       mail: "{{ item.value.email }}"
   args: "{{ ldap_auth }}"
   with_dict: "{{ openldap.users }}"

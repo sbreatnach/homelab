@@ -6,7 +6,7 @@ sender_localpart: {{ matrix.whatsapp.sender_localpart }}
 rate_limited: false
 namespaces:
   users:
-  - regex: ^@whatsapp_[0-9]+:matrix.{{ domains.external }}$
+  - regex: ^@whatsapp_[0-9]+:matrix\.{{ domains.external_name }}\.{{ domains.external_tld }}$
     exclusive: true
-  - regex: ^@whatsappbot:matrix.{{ domains.external }}$
+  - regex: ^@whatsappbot:matrix\.{{ domains.external_name }}\.{{ domains.external_tld }}$
     exclusive: true

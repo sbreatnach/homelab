@@ -1634,7 +1634,7 @@ oidc_config:
   # Uncomment the following to enable authorization against an OpenID Connect
   # server. Defaults to false.
   #
-  enabled: true
+  #enabled: true
 
   # Uncomment the following to disable use of the OIDC discovery mechanism to
   # discover endpoints. Defaults to true.
@@ -1916,13 +1916,13 @@ sso:
 password_config:
    # Uncomment to disable password login
    #
-   enabled: false
+   enabled: true
 
    # Uncomment to disable authentication against the local password
    # database. This is ignored if `enabled` is false, and is only useful
    # if you have other password_providers.
    #
-   #localdb_enabled: false
+   localdb_enabled: false
 
    # Uncomment and change to a secret random string for extra security.
    # DO NOT CHANGE THIS AFTER INITIAL SETUP!
@@ -2153,20 +2153,19 @@ email:
 # respectively.
 #
 password_providers:
-#    # Example config for an LDAP auth provider
-#    - module: "ldap_auth_provider.LdapAuthProvider"
-#      config:
-#        enabled: true
-#        uri: "ldap://ldap.example.com:389"
-#        start_tls: true
-#        base: "ou=users,dc=example,dc=com"
-#        attributes:
-#           uid: "cn"
-#           mail: "email"
-#           name: "givenName"
-#        #bind_dn:
-#        #bind_password:
-#        #filter: "(objectClass=posixAccount)"
+   - module: "ldap_auth_provider.LdapAuthProvider"
+     config:
+       enabled: true
+       uri: "ldap://localhost:389"
+       mode: "search"
+       start_tls: false
+       base: "ou=users,dc={{ domains.external_name }},dc={{ domains.external_tld }}"
+       attributes:
+          uid: "uid"
+          mail: "mail"
+          name: "givenName"
+       bind_dn: "cn=root,dc={{ domains.external_name }},dc={{ domains.external_tld }}"
+       bind_password: "{{ openldap.admin_password }}"
 
 
 

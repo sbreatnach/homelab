@@ -6,4 +6,6 @@
     home: /home/auth
 
 - include: ldap.yml
+  tags: [ldap]
 - include: keycloak.yml
+  tags: [keycloak]

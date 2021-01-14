@@ -4,10 +4,10 @@ hs_token: {{ matrix.facebook.hs_token }}
 namespaces:
     users:
     - exclusive: true
-      regex: '@facebook_.*:matrix\.somethinginterestinghere\.com'
+      regex: '@facebook_.*:matrix\.{{ domains.external_name }}\.{{ domains.external_tld }}'
       group_id: +facebook:matrix.{{ domains.external }}
     - exclusive: true
-      regex: '@facebookbot:matrix\.somethinginterestinghere\.com'
+      regex: '@facebookbot:matrix\.{{ domains.external_name }}\.{{ domains.external_tld }}'
     aliases: []
 url: http://localhost:29319
 sender_localpart: {{ matrix.facebook.sender_localpart }}
