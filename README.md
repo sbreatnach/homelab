@@ -33,9 +33,6 @@ restic -r b2:whizz-onedrive:/ init
 
 # Wishlist (in order of preference)
 
-* OpenLDAP install
-* Federate Keycloak with LDAP
-* Integrate LDAP provider with Matrix
 * 2FA Authorisation server
 * Email server (https://workaround.org/ispmail/buster/ for setup, https://mail-tester.com for testing, http://www.anti-abuse.org/multi-rbl-check/ for IP blacklist check, relay emails through GMail/PepiPost/Smtp2GO/etc.)
 * Local music streamer (e.g. MPD + web UI)
@@ -57,3 +54,23 @@ restic -r b2:whizz-onedrive:/ init
 * Version control service (e.g. Gitlab)
 
 See https://github.com/awesome-selfhosted/awesome-selfhosted for inspiration
+
+# PinePhone Daily Driver
+
+The following apps and functionality must function to use the PinePhone daily:
+
+* Web Browsing
+* Hangouts, Whatsapp, Skype messaging
+* Gmail, Hotmail, Yahoo Mail and Protonmail receiving
+* Photo taking (front + back cameras)
+* Automatic photo backups
+* Contacts listing
+* Contacts backups
+* Alarms and timers
+* Podcasts
+* Music
+* Weather
+* Calendar + backups
+* Bitwarden
+* AIB Mobile
+* Authy

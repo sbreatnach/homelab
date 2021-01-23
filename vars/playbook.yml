@@ -31,6 +31,16 @@ ufw_rules:
   # matrix federation
   - port: 8448
     rule: allow
+  # MPD API
+  - port: 6600
+    rule: allow
+  # Snapserver
+  - port: 1780
+    rule: allow
+  - port: 1705
+    rule: allow
+  - port: 1704
+    rule: allow
   # torrent peering
   - port: 51413
     rule: allow
