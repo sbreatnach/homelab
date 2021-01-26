@@ -1,4 +1,13 @@
-# Emby + Snapcast Server install + config
+# Media players install + config
+- name: create directories
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ item.user }}"
+    state: directory
+  with_items:
+    - path: "{{ media.directories.ampd }}"
+      user: mpd
+
 - name: install apt packages
   apt:
     name: "{{ item.name }}"
@@ -7,6 +16,12 @@
 - name: install deb packages
   apt: deb={{ item.path }} state=present
   with_items: "{{ media.deb_packages }}"
+
+- name: download java packages
+  get_url:
+    url: "{{ item.url }}"
+    dest: "{{ item.path }}"
+  with_items: "{{ media.java_packages }}"
 
 - name: configure media services
   template:
@@ -19,6 +34,8 @@
       path: /var/lib/emby/config/system.xml
     - name: mpd.conf
       path: /etc/mpd.conf
+    - name: ampd.service
+      path: /etc/systemd/system/ampd.service
 
 - name: enable systemd services
   systemd:
@@ -27,3 +44,4 @@
     name: "{{ item }}"
   with_items:
     - snapserver
+    - ampd

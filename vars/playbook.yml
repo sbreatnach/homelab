@@ -31,7 +31,7 @@ ufw_rules:
   # matrix federation
   - port: 8448
     rule: allow
-  # MPD API
+  # MPD API and web UI
   - port: 6600
     rule: allow
   # Snapserver

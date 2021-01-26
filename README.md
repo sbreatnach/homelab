@@ -35,7 +35,6 @@ restic -r b2:whizz-onedrive:/ init
 
 * 2FA Authorisation server
 * Email server (https://workaround.org/ispmail/buster/ for setup, https://mail-tester.com for testing, http://www.anti-abuse.org/multi-rbl-check/ for IP blacklist check, relay emails through GMail/PepiPost/Smtp2GO/etc.)
-* Local music streamer (e.g. MPD + web UI)
 * Wireguard VPN
 * Turtl or equivalent bookmarking service with iOS app
 * Ebook reader service (e.g. Calibre Web)
@@ -44,7 +43,6 @@ restic -r b2:whizz-onedrive:/ init
 * Rearrange all hard drives to use ZFS/BTRFS/GlusterFS for one large, redundant pool
 * File sharing (Nextcloud, Owncloud, Syncthing, etc.)
 * Monitoring: logging aggregator
-* Snapcast server
 * Home Assistant
 * Read it later service (e.g. Wallabag)
 * Youtube downloader service (e.g. Alltube)

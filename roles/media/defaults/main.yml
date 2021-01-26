@@ -1,8 +1,12 @@
 media:
     directories:
         music: /var/lib/mpd/music
+        ampd: /opt/ampd
     apt_packages:
         - name: mpd
+    java_packages:
+        - url: https://github.com/rain0r/ampd/releases/download/ampd-1.2.7/ampd-1.2.7.jar
+          path: /opt/ampd/ampd.jar
     deb_packages:
         - path: https://github.com/MediaBrowser/Emby.Releases/releases/download/4.5.2.0/emby-server-deb_4.5.2.0_amd64.deb
         - path: https://github.com/badaix/snapcast/releases/download/v0.22.0/snapserver_0.22.0-1_amd64.deb

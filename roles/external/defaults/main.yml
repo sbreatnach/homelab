@@ -34,3 +34,4 @@ external:
         - name: hangoutsbridge
         - name: keycloak
         - name: transmission
+        - name: ampd
