@@ -23,3 +23,14 @@ cronjobs:
     minute: 0
     hour: 4
     day: 3
+  - name: Local DB Backup
+    user: postgres
+    job: "rm -rf /var/lib/postgresql/curbackup && pg_basebackup -D /var/lib/postgresql/curbackup && chmod -R 750 /var/lib/postgresql/curbackup"
+    minute: 0
+    hour: 2
+    day: "*"
+  - name: Remote DB Backup
+    job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-db backup /var/lib/postgresql/curbackup/"
+    minute: 0
+    hour: 3
+    day: "*"

@@ -4,6 +4,8 @@
     name: backup
     comment: "Backup user"
     home: /home/backup
+    groups:
+      - postgres
 
 - name: install backup packages
   apt:
@@ -34,7 +36,7 @@
 
 - name: install cron jobs
   cron:
-    user: backup
+    user: "{{ item.user|default('backup') }}"
     job: "{{ item.job }}"
     name: "{{ item.name }}"
     minute: "{{ item.minute }}"
