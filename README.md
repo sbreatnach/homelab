@@ -37,7 +37,6 @@ restic -r b2:whizz-onedrive:/ init
 * Email server (https://workaround.org/ispmail/buster/ for setup, https://mail-tester.com for testing, http://www.anti-abuse.org/multi-rbl-check/ for IP blacklist check, relay emails through GMail/PepiPost/Smtp2GO/etc.)
 * Wireguard VPN
 * Turtl or equivalent bookmarking service with iOS app
-* Ebook reader service (e.g. Calibre Web)
 * Bitwarden password manager
 * Monitoring: metrics aggregator and email alerts
 * Rearrange all hard drives to use ZFS/BTRFS/GlusterFS for one large, redundant pool

@@ -5,6 +5,8 @@ base:
     - name: git
     - name: golang
     - name: python3-pip
+    - name: python3-virtualenv
+    - name: virtualenv
     - name: openjdk-11-jdk
     - name: bash-completion
     - name: bzip2

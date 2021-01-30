@@ -35,3 +35,4 @@ external:
         - name: keycloak
         - name: transmission
         - name: ampd
+        - name: calibreweb

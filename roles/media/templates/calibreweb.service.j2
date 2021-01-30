@@ -1,0 +1,12 @@
+[Unit]
+Description=Calibre-Web
+
+[Service]
+Type=simple
+WorkingDirectory={{ media.directories.calibre }}/calibre-web
+ExecStart={{ media.directories.calibre }}/calibre-web/venv/bin/python {{ media.directories.calibre }}/calibre-web/cps.py
+User=calibre
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

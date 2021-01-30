@@ -1,9 +1,23 @@
 media:
+    users:
+        calibre:
+            shell: /bin/bash
     directories:
         music: /var/lib/mpd/music
         ampd: /opt/ampd
+        calibre: /opt/calibre
+    python_libraries:
+        - repo: https://github.com/janeczku/calibre-web.git
+          version: "0.6.10"
+          name: calibre-web
+          directory_key: calibre
+          owner: calibre
+          extra_dependencies:
+            - python-ldap
     apt_packages:
         - name: mpd
+        - name: calibre
+          install_recommends: false
     java_packages:
         - url: https://github.com/rain0r/ampd/releases/download/ampd-1.2.7/ampd-1.2.7.jar
           path: /opt/ampd/ampd.jar

@@ -1,4 +1,11 @@
 # Media players install + config
+- name: create users
+  user:
+    name: "{{ item.key }}"
+    shell: "{{ item.value.shell }}"
+    home: "/home/{{ item.key }}"
+  with_dict: "{{ media.users }}"
+
 - name: create directories
   file:
     path: "{{ item.path }}"
@@ -7,10 +14,13 @@
   with_items:
     - path: "{{ media.directories.ampd }}"
       user: mpd
+    - path: "{{ media.directories.calibre }}"
+      user: calibre
 
 - name: install apt packages
   apt:
     name: "{{ item.name }}"
+    install_recommends: "{{ item.install_recommends|default(True) }}"
   with_items: "{{ media.apt_packages }}"
 
 - name: install deb packages
@@ -22,6 +32,35 @@
     url: "{{ item.url }}"
     dest: "{{ item.path }}"
   with_items: "{{ media.java_packages }}"
+
+- name: checkout Git libraries
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ media.directories[item.directory_key] }}/{{ item.name }}"
+    version: "{{ item.version }}"
+    force: true
+  with_items: "{{ media.python_libraries }}"
+
+- name: install library dependencies
+  pip:
+    chdir: "{{ media.directories[item.directory_key] }}/{{ item.name }}"
+    requirements: requirements.txt
+    virtualenv: "{{ media.directories[item.directory_key] }}/{{ item.name }}/venv"
+  with_items: "{{ media.python_libraries }}"
+
+- name: install optional dependencies
+  pip:
+    chdir: "{{ media.directories[item.directory_key] }}/{{ item.name }}"
+    requirements: optional-requirements.txt
+    virtualenv: "{{ media.directories[item.directory_key] }}/{{ item.name }}/venv"
+  with_items:
+   - "{{ media.python_libraries }}"
+
+- name: give user library ownership
+  command: chown -R {{ item.owner }}:{{ item.owner }}
+           {{ media.directories[item.directory_key] }}/{{ item.name }}
+  with_items:
+    - "{{ media.python_libraries }}"
 
 - name: configure media services
   template:
@@ -36,6 +75,8 @@
       path: /etc/mpd.conf
     - name: ampd.service
       path: /etc/systemd/system/ampd.service
+    - name: calibreweb.service
+      path: /etc/systemd/system/calibreweb.service
 
 - name: enable systemd services
   systemd:
@@ -45,3 +86,4 @@
   with_items:
     - snapserver
     - ampd
+    - calibreweb
