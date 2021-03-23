@@ -22,6 +22,8 @@
       tags: [storage]
     - role: auth
       tags: [auth]
+    - role: nextcloud
+      tags: [nextcloud]
     - role: backup
       tags: [backup]
     - role: media

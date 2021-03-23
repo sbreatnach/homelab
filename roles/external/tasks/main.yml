@@ -21,6 +21,12 @@
     - name: dynamic_ip.sh
       path: /root
       mode: "700"
+    - name: php.ini
+      path: /etc/php/7.3/fpm
+      mode: "644"
+    - name: nextcloud-common.conf
+      path: /etc/nginx/sites-available
+      mode: "644"
 
 - name: remove default site
   file:

@@ -1,6 +1,9 @@
 cloudflare:
     token: dummy
 external:
+    php:
+        upload_max_filesize: 512M
+        request_timeout: 60
     certificates:
         matrix:
             full_chain: /etc/letsencrypt/live/matrix.somethinginterestinghere.com/fullchain.pem
@@ -11,17 +14,25 @@ external:
         matrixweb:
             full_chain: /etc/letsencrypt/live/matrixweb.somethinginterestinghere.com/fullchain.pem
             key: /etc/letsencrypt/live/matrixweb.somethinginterestinghere.com/privkey.pem
+        nextcloud:
+            full_chain: /etc/letsencrypt/live/nextcloud.somethinginterestinghere.com/fullchain.pem
+            key: /etc/letsencrypt/live/nextcloud.somethinginterestinghere.com/privkey.pem
     notification_email: sbreatnach@protonmail.com
     certificate_domains:
         - matrix.somethinginterestinghere.com
         - matrixweb.somethinginterestinghere.com
         - auth.somethinginterestinghere.com
+        - nextcloud.somethinginterestinghere.com
     subdomains:
         - matrix
         - matrixweb
         - auth
+        - nextcloud
     apt_packages:
         - nginx
+        - php7.3
+        - composer
+        - php7.3-fpm
     pip_packages:
         - certbot
         - certbot-dns-cloudflare
@@ -36,3 +47,4 @@ external:
         - name: transmission
         - name: ampd
         - name: calibreweb
+        - name: nextcloud

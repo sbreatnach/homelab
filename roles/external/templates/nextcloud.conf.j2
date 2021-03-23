@@ -1,0 +1,23 @@
+upstream php-handler {
+    server unix:/run/php/php7.3-fpm.sock;
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name nextcloud.{{ domains.internal }};
+
+    include /etc/nginx/sites-available/nextcloud-common.conf;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    ssl_certificate {{ external.certificates.nextcloud.full_chain }};
+    ssl_certificate_key {{ external.certificates.nextcloud.key }};
+
+    server_name nextcloud.{{ domains.external }};
+
+    include /etc/nginx/sites-available/nextcloud-common.conf;
+}

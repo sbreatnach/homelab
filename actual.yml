@@ -30,7 +30,11 @@ partitions:
   - path: /mnt/Media
     name: Media
     device: /dev/sdd4
-    filesystem: ntfs
+    filesystem: ext4
     flags: defaults
 network_devices:
   - enp4s0
+nextcloud:
+  directories:
+    web: /var/www/nextcloud
+    data: /mnt/Media/nextcloud

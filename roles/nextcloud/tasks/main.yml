@@ -1,0 +1,81 @@
+---
+- name: create all directories
+  file:
+    path: "{{ item.value }}"
+    owner: "{{ nextcloud.user }}"
+    mode: "0750"
+    state: directory
+  with_dict: "{{ nextcloud.directories }}"
+
+- name: install base data
+  unarchive:
+    src: '{{ nextcloud.repo_url }}/nextcloud-{{ nextcloud.version }}.tar.bz2'
+    extra_opts:
+      - '--strip-components=1'
+      - '--show-stored-names'
+    remote_src: true
+    dest: '{{ nextcloud.directories.web }}'
+    owner: "{{ nextcloud.user }}"
+    creates: "{{ nextcloud.directories.web }}/index.php"
+
+- name: install required packages
+  apt:
+    name: "{{ nextcloud.apt_packages }}"
+    state: present
+
+- name: install php dependencies
+  become_user: "{{ nextcloud.user }}"
+  community.general.composer:
+    command: require
+    arguments: "{{ item }}"
+    working_dir: '{{ nextcloud.directories.web }}'
+  with_items: "{{ nextcloud.composer_packages }}"
+
+- name: initial install
+  become_user: "{{ nextcloud.user }}"
+  shell: php occ maintenance:install --database pgsql
+    --database-name {{ nextcloud.db.name }}
+    --database-user {{ nextcloud.db.username }}
+    --database-pass {{ nextcloud.db.password }}
+    --admin-user {{ nextcloud.admin.username }}
+    --admin-pass {{ nextcloud.admin.password }}
+    --data-dir {{ nextcloud.directories.data }}
+  args:
+    chdir: "{{ nextcloud.directories.web }}"
+    creates: "{{ nextcloud.directories.web }}/config/config.php"
+
+- name: set trusted domains
+  become_user: "{{ nextcloud.user }}"
+  shell: php occ config:system:set trusted_domains {{ item.0 }}
+         --value="{{ item.1 }}"
+  args:
+    chdir: "{{ nextcloud.directories.web }}"
+  with_indexed_items:
+    - localhost
+    - "nextcloud.{{ domains.external }}"
+    - "nextcloud.{{ domains.internal }}"
+
+- name: set standard config
+  become_user: "{{ nextcloud.user }}"
+  shell: php occ config:system:set {{ item.setting }}
+    --value="{{ item.value }}"
+  args:
+    chdir: "{{ nextcloud.directories.web }}"
+  with_items:
+    - setting: overwrite.cli.url
+      value: "nextcloud.{{ domains.internal }}"
+
+- name: install cron jobs
+  cron:
+    name: "Nextcloud Cronjob"
+    minute: "*/5"
+    user: "{{ nextcloud.user }}"
+    job: "{{ item }}"
+  with_items:
+    - php -f {{ nextcloud.directories.web }}/cron.php
+
+- name: configure cron method to crontab
+  become_user: "{{ nextcloud.user }}"
+  shell: php occ background:cron
+  args:
+    chdir: "{{ nextcloud.directories.web }}"

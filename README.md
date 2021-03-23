@@ -33,6 +33,7 @@ restic -r b2:whizz-onedrive:/ init
 
 # Wishlist (in order of preference)
 
+* Note taking backend for Pinephone app
 * 2FA Authorisation server
 * Email server (https://workaround.org/ispmail/buster/ for setup, https://mail-tester.com for testing, http://www.anti-abuse.org/multi-rbl-check/ for IP blacklist check, relay emails through GMail/PepiPost/Smtp2GO/etc.)
 * Wireguard VPN

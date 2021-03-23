@@ -8,6 +8,11 @@ backup:
     apt_packages:
         - name: exiftool
 cronjobs:
+  - name: Books Backup
+    job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-books backup /mnt/Backup1/Books/"
+    minute: 0
+    hour: 3
+    day: 1
   - name: Music Backup
     job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-music backup /mnt/Backup1/Music/"
     minute: 0
