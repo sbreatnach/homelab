@@ -41,13 +41,11 @@ restic -r b2:whizz-onedrive:/ init
 * Bitwarden password manager
 * Monitoring: metrics aggregator and email alerts
 * Rearrange all hard drives to use ZFS/BTRFS/GlusterFS for one large, redundant pool
-* File sharing (Nextcloud, Owncloud, Syncthing, etc.)
 * Monitoring: logging aggregator
 * Home Assistant
 * Read it later service (e.g. Wallabag)
 * Youtube downloader service (e.g. Alltube)
 * Document scanning service (https://github.com/the-paperless-project/paperless)
-* RSS reader
 * Web games e.g. Chess :)
 * Version control service (e.g. Gitlab)
 

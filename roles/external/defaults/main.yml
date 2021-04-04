@@ -48,3 +48,4 @@ external:
         - name: ampd
         - name: calibreweb
         - name: nextcloud
+        - name: wallabag

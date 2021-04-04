@@ -1,0 +1,60 @@
+parameters:
+    database_driver: pdo_pgsql
+    database_host: localhost
+    database_port: 5432
+    database_name: wallabag
+    database_user: wallabag
+    database_password: wallabag
+    database_path: null
+    database_table_prefix: wallabag_
+    database_socket: null
+    # with PostgreSQL and SQLite, you must set "utf8"
+    database_charset: utf8
+
+    domain_name: http://wallabag.{{ domains.internal }}
+    server_name: "Wallabag"
+
+    mailer_transport:  smtp
+    mailer_user:       ~
+    mailer_password:   ~
+    mailer_host:       localhost
+    mailer_port:       25
+    mailer_encryption: null
+    mailer_auth_mode:  null
+
+    locale: en
+
+    # A secret key that's used to generate certain security-related tokens
+    secret: "{{ wallabag.secret }}"
+
+    # two factor stuff
+    twofactor_auth: false
+    twofactor_sender: no-reply@wallabag.org
+
+    # fosuser stuff
+    fosuser_registration: false
+    fosuser_confirmation: false
+
+    # how long the access token should live in seconds for the API
+    fos_oauth_server_access_token_lifetime: 3600
+    # how long the refresh token should life in seconds for the API
+    fos_oauth_server_refresh_token_lifetime: 1209600
+
+    from_email: no-reply@wallabag.org
+
+    rss_limit: 50
+
+    # Redis processing
+    redis_scheme: tcp
+    redis_host: localhost
+    redis_port: 6379
+    redis_path: null
+    redis_password: null
+
+    rabbitmq_host: localhost
+    rabbitmq_port: 5672
+    rabbitmq_user: guest
+    rabbitmq_password: guest
+    rabbitmq_prefetch_count: 10
+
+    sentry_dsn: null

@@ -1,0 +1,41 @@
+- name: create all directories
+  file:
+    path: "{{ item.value }}"
+    owner: "{{ wallabag.user }}"
+    mode: "0750"
+    state: directory
+  with_dict: "{{ wallabag.directories }}"
+
+- name: checkout project
+  become_user: "{{ wallabag.user }}"
+  git:
+    repo: "{{ wallabag.repo.url }}"
+    dest: "{{ wallabag.directories.web }}"
+    version: "{{ wallabag.repo.tag }}"
+    force: true
+
+- name: install required packages
+  apt:
+    name: "{{ wallabag.apt_packages }}"
+    state: present
+
+- name: create configuration files
+  template:
+    src: "{{ item.name }}.j2"
+    dest: "{{ item.path }}/{{ item.name }}"
+    mode: "{{ item.mode }}"
+    owner: "{{ wallabag.user }}"
+  with_items:
+    - name: parameters.yml
+      path: "{{ wallabag.directories.web }}/app/config"
+      mode: "640"
+
+- name: install dependencies
+  become_user: "{{ wallabag.user }}"
+  shell: SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist
+  args:
+    chdir: "{{ wallabag.directories.web }}"
+
+- name: run install command
+  become_user: "{{ wallabag.user }}"
+  shell: php bin/console wallabag:install --env=prod --reset --no-interaction

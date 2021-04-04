@@ -24,6 +24,8 @@
       tags: [auth]
     - role: nextcloud
       tags: [nextcloud]
+    - role: wallabag
+      tags: [wallabag]
     - role: backup
       tags: [backup]
     - role: media

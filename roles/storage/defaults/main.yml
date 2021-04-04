@@ -18,6 +18,7 @@ storage:
     - name: ntfs-3g
     - name: libcurl4-openssl-dev
     - name: libsqlite3-dev
+    - name: redis-server
   deb_packages:
     - path: https://launchpad.net/veracrypt/trunk/1.24-update7/+download/veracrypt-console-1.24-Update7-Debian-10-amd64.deb
     - path: http://downloads.dlang.org/releases/2.x/2.094.2/dmd_2.094.2-0_amd64.deb
@@ -35,6 +36,8 @@ storage:
         owner: mautrixwhatsapp
       - name: nextcloud
         owner: nextcloud
+      - name: wallabag
+        owner: wallabag
     users:
       - name: synapse
       - name: keycloak
@@ -47,6 +50,8 @@ storage:
         password: mautrixwhatsapp
       - name: nextcloud
         password: nextcloud
+      - name: wallabag
+        password: wallabag
     hba:
       - connection_type: host
         databases: synapse
@@ -76,5 +81,10 @@ storage:
       - connection_type: host
         databases: nextcloud
         users: nextcloud
+        source: ::1/128
+        method: md5
+      - connection_type: host
+        databases: wallabag
+        users: wallabag
         source: ::1/128
         method: md5
