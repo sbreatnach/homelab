@@ -33,7 +33,6 @@ restic -r b2:whizz-onedrive:/ init
 
 # Wishlist (in order of preference)
 
-* Note taking backend for Pinephone app
 * 2FA Authorisation server
 * Email server (https://workaround.org/ispmail/buster/ for setup, https://mail-tester.com for testing, http://www.anti-abuse.org/multi-rbl-check/ for IP blacklist check, relay emails through GMail/PepiPost/Smtp2GO/etc.)
 * Wireguard VPN
@@ -43,7 +42,6 @@ restic -r b2:whizz-onedrive:/ init
 * Rearrange all hard drives to use ZFS/BTRFS/GlusterFS for one large, redundant pool
 * Monitoring: logging aggregator
 * Home Assistant
-* Read it later service (e.g. Wallabag)
 * Youtube downloader service (e.g. Alltube)
 * Document scanning service (https://github.com/the-paperless-project/paperless)
 * Web games e.g. Chess :)

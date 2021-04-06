@@ -1,0 +1,12 @@
+email:
+  apt_packages:
+    - postfix
+    - postfix-pgsql
+    - rspamd
+    - swaks
+    - dovecot-pgsql
+    - dovecot-pop3d
+    - dovecot-imapd
+    - dovecot-managesieved
+    - dovecot-lmtpd
+  users: {}

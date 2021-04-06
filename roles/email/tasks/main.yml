@@ -1,0 +1,36 @@
+- name: install required packages
+  apt:
+    name: "{{ email.apt_packages }}"
+    state: present
+
+- name: generate configuration files
+  template:
+    src: "{{ item.name }}.j2"
+    dest: "{{ item.path }}/{{ item.name }}"
+  with_items:
+    - name: postfix_init.sql
+      path: /tmp
+    - name: pgsql-virtual_mailbox_domains.cf
+      path: /etc/postfix
+    - name: pgsql-virtual_mailbox_maps.cf
+      path: /etc/postfix
+    - name: pgsql-virtual_alias_maps.cf
+      path: /etc/postfix
+
+- name: update postfix DB with generated SQL
+  shell: PGPASSWORD=mailserver psql -h localhost -U mailserver
+         -f /tmp/postfix_init.sql mailserver
+
+- name: link postfix DB configs
+  shell: postconf {{ item }}=pgsql:/etc/postfix/pgsql-{{ item }}.cf
+  with_items:
+    - virtual_mailbox_domains
+    - virtual_mailbox_maps
+    - virtual_alias_maps
+
+#- name: clean temp files
+#  file:
+#    path: "{{ item }}"
+#    state: absent
+#  with_items:
+#    - /tmp/postfix_init.sql

@@ -38,3 +38,9 @@ nextcloud:
   directories:
     web: /var/www/nextcloud
     data: /mnt/Media/nextcloud
+email:
+  users:
+    shane:
+      password: dummy
+      aliases:
+        - deesno

@@ -38,6 +38,8 @@ storage:
         owner: nextcloud
       - name: wallabag
         owner: wallabag
+      - name: mailserver
+        owner: mailserver
     users:
       - name: synapse
       - name: keycloak
@@ -52,6 +54,10 @@ storage:
         password: nextcloud
       - name: wallabag
         password: wallabag
+      - name: mailserver
+        password: mailserver
+      - name: mailadmin
+        password: mailadmin
     hba:
       - connection_type: host
         databases: synapse

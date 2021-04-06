@@ -26,6 +26,8 @@
       tags: [nextcloud]
     - role: wallabag
       tags: [wallabag]
+    - role: email
+      tags: [email]
     - role: backup
       tags: [backup]
     - role: media
