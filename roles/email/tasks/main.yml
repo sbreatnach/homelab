@@ -3,10 +3,31 @@
     name: "{{ email.apt_packages }}"
     state: present
 
+- name: create system groups
+  group:
+    name: "{{ item.name }}"
+    gid: "{{ item.gid|default(omit) }}"
+  with_items:
+    - name: vmail
+
+- name: create system users
+  user:
+    name: "{{ item.username }}"
+    home: "{{ item.home_dir }}"
+    group: "{{ item.group|default(omit) }}"
+    uid: "{{ item.uid|default(omit) }}"
+    system: "{{ item.system|default(False) }}"
+  with_items:
+    - username: vmail
+      home_dir: /var/vmail
+      group: vmail
+      system: true
+
 - name: generate configuration files
   template:
     src: "{{ item.name }}.j2"
     dest: "{{ item.path }}/{{ item.name }}"
+    mode: "{{ item.mode|default(omit) }}"
   with_items:
     - name: postfix_init.sql
       path: /tmp
@@ -16,17 +37,42 @@
       path: /etc/postfix
     - name: pgsql-virtual_alias_maps.cf
       path: /etc/postfix
+    - name: 10-auth.conf
+      path: /etc/dovecot/conf.d
+    - name: 10-mail.conf
+      path: /etc/dovecot/conf.d
+    - name: dovecot-sql.conf.ext
+      path: /etc/dovecot
+      mode: "0640"
+    - name: 10-master.conf
+      path: /etc/dovecot/conf.d
+    - name: 20-lmtp.conf
+      path: /etc/dovecot/conf.d
+    - name: 20-imap.conf
+      path: /etc/dovecot/conf.d
+    - name: 90-quota.conf
+      path: /etc/dovecot/conf.d
+    - name: quota-warning.sh
+      path: /usr/local/bin
+      mode: "0755"
 
 - name: update postfix DB with generated SQL
   shell: PGPASSWORD=mailserver psql -h localhost -U mailserver
          -f /tmp/postfix_init.sql mailserver
 
-- name: link postfix DB configs
-  shell: postconf {{ item }}=pgsql:/etc/postfix/pgsql-{{ item }}.cf
+- name: update postfix configuration
+  shell: postconf "{{ item.key }}={{ item.value }}"
   with_items:
-    - virtual_mailbox_domains
-    - virtual_mailbox_maps
-    - virtual_alias_maps
+    - key: virtual_mailbox_domains
+      value: pgsql:/etc/postfix/pgsql-virtual_mailbox_domains.cf
+    - key: virtual_mailbox_maps
+      value: pgsql:/etc/postfix/pgsql-virtual_mailbox_maps.cf
+    - key: virtual_alias_maps
+      value: pgsql:/etc/postfix/pgsql-virtual_alias_maps.cf
+    - key: virtual_transport
+      value: lmtp:unix:private/dovecot-lmtp
+    - key: smtpd_recipient_restrictions
+      value: reject_unauth_destination check_policy_service unix:private/quota-status
 
 #- name: clean temp files
 #  file:

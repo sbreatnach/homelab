@@ -1,6 +1,24 @@
 cloudflare:
     token: dummy
 external:
+    dns_records:
+      - record: auth
+        type: CNAME
+        value: home.{{ domains.external }}
+      - record: matrix
+        type: CNAME
+        value: home.{{ domains.external }}
+      - record: matrixweb
+        type: CNAME
+        value: home.{{ domains.external }}
+      - record: nextcloud
+        type: CNAME
+        value: home.{{ domains.external }}
+      - record: mail
+        type: CNAME
+        value: home.{{ domains.external }}
+      - type: MX
+        value: home.{{ domains.external }}
     php:
         upload_max_filesize: 512M
         request_timeout: 60

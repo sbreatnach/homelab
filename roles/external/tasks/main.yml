@@ -69,3 +69,12 @@
     minute: "*/11"
     name: update dynamic IP with DNS provider
     job: /root/dynamic_ip.sh
+
+- name: Create DNS records for external access
+  community.general.cloudflare_dns:
+    zone: "{{ domains.external }}"
+    record: "{{ item.record|default(omit) }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    api_token: "{{ cloudflare.token }}"
+  with_items: "{{ external.dns_records }}"
