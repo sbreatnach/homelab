@@ -3,6 +3,21 @@
     name: "{{ email.apt_packages }}"
     state: present
 
+- name: create required directories
+  file:
+    name: "{{ item.name }}"
+    mode: "{{ item.mode|default(omit) }}"
+    owner: "{{ item.owner|default(omit) }}"
+    group: "{{ item.group|default(omit) }}"
+    state: directory
+  with_items:
+    - name: /etc/dovecot/sieve-after
+      owner: vmail
+      group: vmail
+    - name: /etc/dovecot/sieve
+      owner: vmail
+      group: vmail
+
 - name: create system groups
   group:
     name: "{{ item.name }}"
@@ -27,6 +42,8 @@
   template:
     src: "{{ item.name }}.j2"
     dest: "{{ item.path }}/{{ item.name }}"
+    owner: "{{ item.owner|default(omit) }}"
+    group: "{{ item.group|default(omit) }}"
     mode: "{{ item.mode|default(omit) }}"
   with_items:
     - name: postfix_init.sql
@@ -52,6 +69,42 @@
       path: /etc/dovecot/conf.d
     - name: 90-quota.conf
       path: /etc/dovecot/conf.d
+    - name: 90-sieve.conf
+      path: /etc/dovecot/conf.d
+    - name: spam-to-folder.sieve
+      path: /etc/dovecot/sieve-after
+      owner: vmail
+      group: vmail
+    - name: learn-spam.sieve
+      owner: vmail
+      group: vmail
+      path: /etc/dovecot/sieve
+    - name: learn-ham.sieve
+      owner: vmail
+      group: vmail
+      path: /etc/dovecot/sieve
+    - name: rspamd-learn-spam.sh
+      path: /etc/dovecot/sieve
+      owner: vmail
+      group: vmail
+      mode: "0755"
+    - name: rspamd-learn-ham.sh
+      path: /etc/dovecot/sieve
+      owner: vmail
+      group: vmail
+      mode: "0755"
+    - name: master.cf
+      path: /etc/postfix
+    - name: worker-controller.inc
+      path: /etc/rspamd/local.d
+    - name: milter_headers.conf
+      path: /etc/rspamd/override.d
+    - name: classifier-bayes.conf
+      path: /etc/rspamd/override.d
+    - name: redis.conf
+      path: /etc/rspamd/override.d
+    - name: statistic.conf
+      path: /etc/rspamd/override.d
     - name: quota-warning.sh
       path: /usr/local/bin
       mode: "0755"
@@ -59,6 +112,36 @@
 - name: update postfix DB with generated SQL
   shell: PGPASSWORD=mailserver psql -h localhost -U mailserver
          -f /tmp/postfix_init.sql mailserver
+
+- name: restart dovecot before compilation
+  systemd:
+    state: restarted
+    name: dovecot
+
+- name: compile dovecot sieve files
+  shell: sievec {{ item }}
+  with_items:
+    - /etc/dovecot/sieve-after/spam-to-folder.sieve
+    - /etc/dovecot/sieve/learn-spam.sieve
+    - /etc/dovecot/sieve/learn-ham.sieve
+
+- name: correct file permissions
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode|default(omit) }}"
+    state: file
+  with_items:
+    - path: /etc/dovecot/sieve-after/spam-to-folder.svbin
+      owner: vmail
+      group: vmail
+    - path: /etc/dovecot/sieve/learn-spam.svbin
+      owner: vmail
+      group: vmail
+    - path: /etc/dovecot/sieve/learn-ham.svbin
+      owner: vmail
+      group: vmail
 
 - name: update postfix configuration
   shell: postconf "{{ item.key }}={{ item.value }}"
@@ -73,7 +156,52 @@
       value: lmtp:unix:private/dovecot-lmtp
     - key: smtpd_recipient_restrictions
       value: reject_unauth_destination check_policy_service unix:private/quota-status
-
+    - key: smtpd_sasl_type
+      value: dovecot
+    - key: smtpd_sasl_auth_enable
+      value: "yes"
+    - key: smtpd_sasl_path
+      value: private/auth
+    - key: smtpd_tls_security_level
+      value: may
+    - key: smtpd_tls_auth_only
+      value: "yes"
+    - key: smtpd_tls_cert_file
+      value: /etc/letsencrypt/live/mail.somethinginterestinghere.com/fullchain.pem
+    - key: smtpd_tls_key_file
+      value: /etc/letsencrypt/live/mail.somethinginterestinghere.com/privkey.pem
+    - key: smtp_tls_security_level
+      value: may
+    - key: delay_warning_time
+      value: "4h"
+    - key: message_size_limit
+      value: "41943040"
+    - key: disable_vrfy_command
+      value: "yes"
+    - key: smtpd_helo_required
+      value: "yes"
+    - key: smtpd_sasl_authenticated_header
+      value: "yes"
+    - key: smtpd_discard_ehlo_keywords
+      value: silent-discard, dsn
+    - key: smtpd_tls_received_header
+      value: "yes"
+    - key: show_user_unknown_table_name
+      value: "no"
+    - key: authorized_flush_users
+      value: root
+    - key: authorized_mailq_users
+      value: root
+    - key: enable_long_queue_ids
+      value: "yes"
+    - key: smtpd_tls_security_level
+      value: may
+    - key: smtpd_milters
+      value: inet:127.0.0.1:11332
+    - key: non_smtpd_milters
+      value: inet:127.0.0.1:11332
+    - key: milter_mail_macros
+      value: "i {mail_addr} {client_addr} {client_name} {auth_authen}"
 #- name: clean temp files
 #  file:
 #    path: "{{ item }}"

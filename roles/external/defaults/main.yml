@@ -72,3 +72,4 @@ external:
         - name: calibreweb
         - name: nextcloud
         - name: wallabag
+        - name: rspamd
