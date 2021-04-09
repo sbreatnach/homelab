@@ -17,8 +17,6 @@ external:
       - record: mail
         type: CNAME
         value: home.{{ domains.external }}
-      - type: MX
-        value: home.{{ domains.external }}
     php:
         upload_max_filesize: 512M
         request_timeout: 60

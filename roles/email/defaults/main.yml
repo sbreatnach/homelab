@@ -1,4 +1,19 @@
 email:
+  dns_records:
+    - type: MX
+      value: home.{{ domains.external }}
+    - type: TXT
+      record: "@"
+      value: "v=spf1 mx -all"
+    - type: TXT
+      record: _dmarc
+      # TODO: add RUA/RUF emails to get data on fraud attempts
+      value: "v=DMARC1; p=reject; adkim=s; aspf=s"
+    - type: TXT
+      record: "2021040906._domainkey"
+      value: "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDPBC9rp2vji2eljpFsvMfL7Sz9gqrLu5hDu1Ig62MRh1Mzz5jF7FZEy7leCwlvMU3L1fNXoEr69JNh7rjrHGdfbLljNej6kjbT7l60VscXhAqsVixyN4K7rWq+DIwF5Cft6YiBtyhGSSIfoRqkbtnKxhQho0f4SbmznmrggAnypQIDAQAB"
+  dkim_private_keys:
+    2021040906: dummy
   apt_packages:
     - postfix
     - postfix-pgsql
@@ -9,4 +24,7 @@ email:
     - dovecot-imapd
     - dovecot-managesieved
     - dovecot-lmtpd
+    - clamav
+    - clamav-daemon
+    - clamav-unofficial-sigs
   users: {}

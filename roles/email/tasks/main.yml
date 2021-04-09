@@ -3,6 +3,15 @@
     name: "{{ email.apt_packages }}"
     state: present
 
+- name: Create DNS records for email
+  community.general.cloudflare_dns:
+    zone: "{{ domains.external }}"
+    record: "{{ item.record|default(omit) }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    api_token: "{{ cloudflare.token }}"
+  with_items: "{{ email.dns_records }}"
+
 - name: create required directories
   file:
     name: "{{ item.name }}"
@@ -17,6 +26,9 @@
     - name: /etc/dovecot/sieve
       owner: vmail
       group: vmail
+    - name: /var/lib/rspamd/dkim
+      owner: _rspamd
+      group: _rspamd
 
 - name: create system groups
   group:
@@ -37,6 +49,14 @@
       home_dir: /var/vmail
       group: vmail
       system: true
+
+- name: generate DKIM private key files
+  copy:
+    dest: "/var/lib/rspamd/dkim/{{ domains.external }}.{{ item.key }}.key"
+    content: "{{ item.value }}"
+    owner: "_rspamd"
+    mode: "0600"
+  with_dict: "{{ email.dkim_private_keys }}"
 
 - name: generate configuration files
   template:
@@ -95,7 +115,11 @@
       mode: "0755"
     - name: master.cf
       path: /etc/postfix
+    - name: dkim_selectors.map
+      path: /etc/rspamd
     - name: worker-controller.inc
+      path: /etc/rspamd/local.d
+    - name: dkim_signing.conf
       path: /etc/rspamd/local.d
     - name: milter_headers.conf
       path: /etc/rspamd/override.d
@@ -105,6 +129,10 @@
       path: /etc/rspamd/override.d
     - name: statistic.conf
       path: /etc/rspamd/override.d
+    - name: antivirus.conf
+      path: /etc/rspamd/override.d
+    - name: 00-clamav-unofficial-sigs.conf
+      path: /usr/share/clamav-unofficial-sigs/conf.d
     - name: quota-warning.sh
       path: /usr/local/bin
       mode: "0755"
