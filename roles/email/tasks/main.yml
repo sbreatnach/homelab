@@ -3,15 +3,6 @@
     name: "{{ email.apt_packages }}"
     state: present
 
-- name: Create DNS records for email
-  community.general.cloudflare_dns:
-    zone: "{{ domains.external }}"
-    record: "{{ item.record|default(omit) }}"
-    type: "{{ item.type }}"
-    value: "{{ item.value }}"
-    api_token: "{{ cloudflare.token }}"
-  with_items: "{{ email.dns_records }}"
-
 - name: create required directories
   file:
     name: "{{ item.name }}"
@@ -36,19 +27,32 @@
     gid: "{{ item.gid|default(omit) }}"
   with_items:
     - name: vmail
+      gid: 5000
+    - name: userli
 
-- name: create system users
+- name: create/update system users
   user:
     name: "{{ item.username }}"
-    home: "{{ item.home_dir }}"
+    home: "{{ item.home_dir|default(omit) }}"
     group: "{{ item.group|default(omit) }}"
     uid: "{{ item.uid|default(omit) }}"
+    append: "{{ item.append|default(omit) }}"
+    groups: "{{ item.groups|default(omit) }}"
     system: "{{ item.system|default(False) }}"
   with_items:
     - username: vmail
       home_dir: /var/vmail
       group: vmail
+      uid: 5000
       system: true
+    - username: userli
+      group: userli
+      system: true
+    - username: dovecot
+      append: true
+      groups: userli
+
+- include: userli.yml
 
 - name: generate DKIM private key files
   copy:
@@ -87,9 +91,13 @@
       path: /etc/dovecot/conf.d
     - name: 20-imap.conf
       path: /etc/dovecot/conf.d
+    - name: 90-mail-crypt.conf
+      path: /etc/dovecot/conf.d
     - name: 90-quota.conf
       path: /etc/dovecot/conf.d
     - name: 90-sieve.conf
+      path: /etc/dovecot/conf.d
+    - name: auth-checkpassword.conf.ext
       path: /etc/dovecot/conf.d
     - name: spam-to-folder.sieve
       path: /etc/dovecot/sieve-after
@@ -230,9 +238,19 @@
       value: inet:127.0.0.1:11332
     - key: milter_mail_macros
       value: "i {mail_addr} {client_addr} {client_name} {auth_authen}"
-#- name: clean temp files
-#  file:
-#    path: "{{ item }}"
-#    state: absent
-#  with_items:
-#    - /tmp/postfix_init.sql
+
+- name: Create DNS records for email
+  community.general.cloudflare_dns:
+    zone: "{{ domains.external }}"
+    record: "{{ item.record|default(omit) }}"
+    type: "{{ item.type }}"
+    value: "{{ item.value }}"
+    api_token: "{{ cloudflare.token }}"
+  with_items: "{{ email.dns_records }}"
+
+- name: clean temp files
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /tmp/postfix_init.sql

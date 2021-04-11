@@ -40,6 +40,8 @@ storage:
         owner: wallabag
       - name: mailserver
         owner: mailserver
+      - name: userli
+        owner: userli
     users:
       - name: synapse
       - name: keycloak
@@ -58,6 +60,8 @@ storage:
         password: mailserver
       - name: mailadmin
         password: mailadmin
+      - name: userli
+        password: userli
     hba:
       - connection_type: host
         databases: synapse
@@ -92,5 +96,10 @@ storage:
       - connection_type: host
         databases: wallabag
         users: wallabag
+        source: ::1/128
+        method: md5
+      - connection_type: host
+        databases: userli
+        users: userli
         source: ::1/128
         method: md5

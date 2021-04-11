@@ -28,3 +28,9 @@ email:
     - clamav-daemon
     - clamav-unofficial-sigs
   users: {}
+userli:
+  version: 2.7.8
+  user: userli
+  app_secret: dummy
+  directories:
+    web: /var/www/userli
