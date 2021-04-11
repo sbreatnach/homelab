@@ -8,6 +8,23 @@ ufw_rules:
   # DNS serving
   - port: 53
     rule: allow
+  # Email server
+  - port: 110
+    rule: allow
+  - port: 143
+    rule: allow
+  - port: 995
+    rule: allow
+  - port: 993
+    rule: allow
+  - port: 25
+    rule: allow
+  - port: 2525
+    rule: allow
+  - port: 465
+    rule: allow
+  - port: 587
+    rule: allow
   # SSH
   - port: 22
     rule: allow

@@ -1,0 +1,20 @@
+[dovecot]
+enabled = true
+port    = pop3,pop3s,imap2,imaps,submission,465,sieve
+
+[postfix]
+enabled = true
+
+[matrix-synapse]
+enabled = true
+filter = matrix-synapse
+logpath = /var/log/matrix-synapse/homeserver.log
+maxretry = 5
+
+[keycloak]
+enabled = true
+port = https,8443
+logpath = /home/auth/keycloak/standalone/log/server.log
+maxretry = 6
+findtime = 600
+bantime = 600

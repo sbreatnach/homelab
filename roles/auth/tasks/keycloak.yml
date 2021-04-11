@@ -34,6 +34,14 @@
       path: /home/auth/keycloak-{{ keycloak.version }}/modules/system/layers/keycloak/org/postgresql/main
       owner: auth
 
+- name: create keycloak directory link
+  file:
+    src: /home/auth/keycloak-{{ keycloak.version }}
+    dest: /home/auth/keycloak
+    owner: auth
+    group: auth
+    state: link
+
 - name: enable systemd services
   systemd:
     state: started

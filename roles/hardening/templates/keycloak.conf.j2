@@ -1,0 +1,14 @@
+[INCLUDES]
+
+before = common.conf
+
+[Definition]
+
+_threadName = [a-z][-_0-9a-z]*(\s[a-z][-_0-9a-z]*)*
+_userId = (null|[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})
+_realmName = ([a-zA-Z][-_a-zA-Z0-9]*)
+
+failregex =
+    ^\s*WARN\s+\[org\.keycloak\.events\]\s+\(%(_threadName)s\) type=LOGIN_ERROR, realmId=%(_realmName)s, clientId=account, userId=%(_userId)s, ipAddress=<HOST>
+
+ignoreregex =

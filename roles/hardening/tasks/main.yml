@@ -1,0 +1,19 @@
+- name: install required packages
+  apt:
+    name: "{{ hardening.apt_packages }}"
+    state: present
+
+- name: generate configuration files
+  template:
+    src: "{{ item.name }}.j2"
+    dest: "{{ item.path }}/{{ item.name }}"
+    owner: "{{ item.owner|default(omit) }}"
+    group: "{{ item.group|default(omit) }}"
+    mode: "{{ item.mode|default(omit) }}"
+  with_items:
+    - name: homelab.conf
+      path: /etc/fail2ban/jail.d
+    - name: matrix-synapse.conf
+      path: /etc/fail2ban/filter.d
+    - name: keycloak.conf
+      path: /etc/fail2ban/filter.d

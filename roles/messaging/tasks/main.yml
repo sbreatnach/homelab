@@ -28,6 +28,8 @@
   with_items:
     - name: homeserver.yaml
       path: "{{ matrix.directory.conf }}"
+    - name: log.yaml
+      path: "{{ matrix.directory.conf }}"
     - name: server_name.yaml
       path: "{{ matrix.directory.extraconf }}"
     - name: mautrix-facebook-config.yaml

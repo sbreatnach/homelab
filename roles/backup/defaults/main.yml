@@ -39,3 +39,9 @@ cronjobs:
     minute: 0
     hour: 3
     day: "*"
+  - name: Email Server Backup
+    job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-mail backup /var/vmail /var/lib/rspamd/dkim"
+    minute: 0
+    hour: 3
+    day: "*"
+    user: root
