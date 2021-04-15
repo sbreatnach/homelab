@@ -70,15 +70,18 @@
     group: "{{ item.group|default(omit) }}"
     mode: "{{ item.mode|default(omit) }}"
   with_items:
-    - name: postfix_init.sql
-      path: /tmp
     - name: pgsql-virtual_mailbox_domains.cf
       path: /etc/postfix
     - name: pgsql-virtual_mailbox_maps.cf
       path: /etc/postfix
     - name: pgsql-virtual_alias_maps.cf
       path: /etc/postfix
+    - name: sasl_passwd
+      path: /etc/postfix
+      mode: "0600"
     - name: 10-auth.conf
+      path: /etc/dovecot/conf.d
+    - name: 10-ssl.conf
       path: /etc/dovecot/conf.d
     - name: 10-mail.conf
       path: /etc/dovecot/conf.d
@@ -145,10 +148,6 @@
       path: /usr/local/bin
       mode: "0755"
 
-- name: update postfix DB with generated SQL
-  shell: PGPASSWORD=mailserver psql -h localhost -U mailserver
-         -f /tmp/postfix_init.sql mailserver
-
 - name: restart dovecot before compilation
   systemd:
     state: restarted
@@ -182,6 +181,16 @@
 - name: update postfix configuration
   shell: postconf "{{ item.key }}={{ item.value }}"
   with_items:
+    - key: myhostname
+      value: "mail.{{ domains.external }}"
+    - key: mydomain
+      value: "{{ domains.external }}"
+    - key: myorigin
+      value: "{{ domains.external }}"
+    - key: relayhost
+      value: "{{ gmail.relay_host }}"
+    - key: mynetworks
+      value: 192.168.0.0/24,192.168.1.0/24,127.0.0.0/8
     - key: virtual_mailbox_domains
       value: pgsql:/etc/postfix/pgsql-virtual_mailbox_domains.cf
     - key: virtual_mailbox_maps
@@ -206,6 +215,20 @@
       value: /etc/letsencrypt/live/mail.somethinginterestinghere.com/fullchain.pem
     - key: smtpd_tls_key_file
       value: /etc/letsencrypt/live/mail.somethinginterestinghere.com/privkey.pem
+    - key: smtp_use_tls
+      value: "yes"
+    - key: smtp_sasl_auth_enable
+      value: "yes"
+    - key: smtp_sasl_password_maps
+      value: hash:/etc/postfix/sasl_passwd
+    - key: smtp_sasl_security_options
+      value: noanonymous
+    - key: smtp_sasl_tls_security_options
+      value: noanonymous
+    - key: smtp_tls_CApath
+      value: /etc/ssl/certs
+    - key: smtp_tls_CAfile
+      value: /etc/ssl/certs/ca-certificates.crt
     - key: smtp_tls_security_level
       value: may
     - key: delay_warning_time
@@ -239,6 +262,11 @@
     - key: milter_mail_macros
       value: "i {mail_addr} {client_addr} {client_name} {auth_authen}"
 
+- name: update postfix lookup tables
+  shell: postmap {{ item }}
+  with_items:
+    - /etc/postfix/sasl_passwd
+
 - name: Create DNS records for email
   community.general.cloudflare_dns:
     zone: "{{ domains.external }}"
@@ -247,10 +275,3 @@
     value: "{{ item.value }}"
     api_token: "{{ cloudflare.token }}"
   with_items: "{{ email.dns_records }}"
-
-- name: clean temp files
-  file:
-    path: "{{ item }}"
-    state: absent
-  with_items:
-    - /tmp/postfix_init.sql

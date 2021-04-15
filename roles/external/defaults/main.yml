@@ -71,3 +71,4 @@ external:
         - name: nextcloud
         - name: wallabag
         - name: rspamd
+        - name: userli

@@ -26,10 +26,10 @@ submission inet n       -       y       -       -       smtpd
   -o smtpd_recipient_restrictions=
   -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
   -o milter_macro_daemon_name=ORIGINATING
-  -o smtpd_restriction_classes = mua_sender_restrictions, mua_client_restrictions, mua_helo_restrictions
-  -o mua_client_restrictions = permit_sasl_authenticated, reject
-  -o mua_sender_restrictions = permit_sasl_authenticated, reject
-  -o mua_helo_restrictions = permit_mynetworks, reject_non_fqdn_hostname, reject_invalid_hostname, permit
+  -o smtpd_restriction_classes=mua_sender_restrictions,mua_client_restrictions,mua_helo_restrictions
+  -o mua_client_restrictions=permit_sasl_authenticated,reject
+  -o mua_sender_restrictions=permit_sasl_authenticated,reject
+  -o mua_helo_restrictions=permit_mynetworks,reject_non_fqdn_hostname,reject_invalid_hostname,permit
 #smtps     inet  n       -       y       -       -       smtpd
 #  -o syslog_name=postfix/smtps
 #  -o smtpd_tls_wrappermode=yes

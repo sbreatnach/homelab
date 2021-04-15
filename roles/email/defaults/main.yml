@@ -34,3 +34,9 @@ userli:
   app_secret: dummy
   directories:
     web: /var/www/userli
+rspamd:
+  password: dummy
+gmail:
+  relay_host: "[smtp.gmail.com]:587"
+  username: dummy
+  app_password: dummy
