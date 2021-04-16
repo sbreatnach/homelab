@@ -12,6 +12,13 @@ email:
     - type: TXT
       record: "2021040906._domainkey"
       value: "v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDPBC9rp2vji2eljpFsvMfL7Sz9gqrLu5hDu1Ig62MRh1Mzz5jF7FZEy7leCwlvMU3L1fNXoEr69JNh7rjrHGdfbLljNej6kjbT7l60VscXhAqsVixyN4K7rWq+DIwF5Cft6YiBtyhGSSIfoRqkbtnKxhQho0f4SbmznmrggAnypQIDAQAB"
+    # SMTP2GO DNS records for smtp relay
+    - type: CNAME
+      record: s663679._domainkey
+      value: dkim.smtp2go.net
+    - type: CNAME
+      record: em663679
+      value: return.smtp2go.net
   dkim_private_keys:
     2021040906: dummy
   apt_packages:
@@ -27,6 +34,7 @@ email:
     - clamav
     - clamav-daemon
     - clamav-unofficial-sigs
+    - ca-certificates
   users: {}
 userli:
   version: 2.7.8
@@ -40,3 +48,7 @@ gmail:
   relay_host: "[smtp.gmail.com]:587"
   username: dummy
   app_password: dummy
+smtp2go:
+  relay_host: "[mail.smtp2go.com]:587"
+  username: smtp2go.somethinginterestinghere.com
+  password: dummy

@@ -3,6 +3,9 @@
     name: "{{ email.apt_packages }}"
     state: present
 
+- name: generate TLS certs
+  shell: update-ca-certificates
+
 - name: create required directories
   file:
     name: "{{ item.name }}"
@@ -85,9 +88,6 @@
       path: /etc/dovecot/conf.d
     - name: 10-mail.conf
       path: /etc/dovecot/conf.d
-    - name: dovecot-sql.conf.ext
-      path: /etc/dovecot
-      mode: "0640"
     - name: 10-master.conf
       path: /etc/dovecot/conf.d
     - name: 20-lmtp.conf
@@ -188,7 +188,7 @@
     - key: myorigin
       value: "{{ domains.external }}"
     - key: relayhost
-      value: "{{ gmail.relay_host }}"
+      value: "{{ smtp2go.relay_host }}"
     - key: mynetworks
       value: 192.168.0.0/24,192.168.1.0/24,127.0.0.0/8
     - key: virtual_mailbox_domains
@@ -230,7 +230,7 @@
     - key: smtp_tls_CAfile
       value: /etc/ssl/certs/ca-certificates.crt
     - key: smtp_tls_security_level
-      value: may
+      value: encrypt
     - key: delay_warning_time
       value: "4h"
     - key: message_size_limit
