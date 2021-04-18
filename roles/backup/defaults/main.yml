@@ -23,6 +23,12 @@ cronjobs:
     minute: 0
     hour: 4
     day: 2
+  - name: General Documents Backup
+    job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-documents backup /mnt/Backup/Documents /mnt/Media/nextcloud /mnt/Backup/Work /mnt/Backup/Development /mnt/Backup/Stuff"
+    minute: 0
+    hour: 1
+    day: "*"
+    user: www-data
   - name: sbreatnach OneDrive Backup
     job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-onedrive backup /home/sbreatnach/OneDrive/"
     minute: 0

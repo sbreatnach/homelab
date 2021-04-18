@@ -34,7 +34,7 @@ restic -r b2:whizz-onedrive:/ init
 # Wishlist (in order of preference)
 
 * 2FA Authorisation server
-* Email server (https://workaround.org/ispmail/buster/ for setup, https://mail-tester.com for testing, http://www.anti-abuse.org/multi-rbl-check/ for IP blacklist check, relay emails through GMail/PepiPost/Smtp2GO/etc.)
+* Fix ClamAV email spam
 * Wireguard VPN
 * Turtl or equivalent bookmarking service with iOS app
 * Bitwarden password manager
@@ -46,6 +46,7 @@ restic -r b2:whizz-onedrive:/ init
 * Document scanning service (https://github.com/the-paperless-project/paperless)
 * Web games e.g. Chess :)
 * Version control service (e.g. Gitlab)
+* Backup restore playbook with test process (chore!)
 
 See https://github.com/awesome-selfhosted/awesome-selfhosted for inspiration
 
