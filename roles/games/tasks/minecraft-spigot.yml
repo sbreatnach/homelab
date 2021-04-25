@@ -1,0 +1,68 @@
+- name: create game directories
+  file:
+    path: "{{ item.name }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    state: directory
+  with_items:
+    - name: "{{ games.minecraft.spigot.directory }}"
+      owner: games
+      group: games
+    - name: "{{ games.minecraft.spigot.directory }}/build"
+      owner: games
+      group: games
+
+- name: Download required files
+  get_url:
+    url: "{{ item.url }}"
+    dest: "{{ games.minecraft.spigot.directory }}/build/{{ item.filename }}"
+    owner: games
+    group: games
+  with_items: "{{ games.minecraft.spigot.downloads }}"
+
+- name: Extract archive files
+  unarchive:
+    remote_src: true
+    creates: "{{ games.minecraft.spigot.directory }}/build/{{ item.output }}"
+    src: "{{ games.minecraft.spigot.directory }}/build/{{ item.src }}"
+    dest: "{{ games.minecraft.spigot.directory }}/build"
+  with_items: "{{ games.minecraft.spigot.archives }}"
+
+- name: configure global git settings for build tools
+  become_user: games
+  shell: git config --global --unset core.autocrlf
+  register: git_config
+  failed_when: git_config.rc != 5
+
+- name: build spigot using build tools
+  become_user: games
+  shell: java -jar BuildTools.jar --rev {{ games.minecraft.spigot.version }}
+  args:
+    chdir: "{{ games.minecraft.spigot.directory }}/build"
+    creates: "{{ games.minecraft.spigot.directory }}/build/spigot-{{ games.minecraft.spigot.version }}.jar"
+
+- name: copy final files to spigot directory
+  copy:
+    remote_src: true
+    src: "{{ games.minecraft.spigot.directory }}/build/{{ item.src }}"
+    dest: "{{ games.minecraft.spigot.directory }}/{{ item.dest }}"
+    owner: games
+    group: games
+    mode: "{{ item.mode|default(omit) }}"
+  with_items: "{{ games.minecraft.spigot.copies }}"
+
+- name: create game configs
+  template:
+    src: "{{ item.name }}.j2"
+    dest: "{{ item.directory }}/{{ item.name }}"
+    owner: "{{ item.owner|default(omit) }}"
+    group: "{{ item.group|default(omit) }}"
+  with_items: "{{ games.minecraft.spigot.configs }}"
+
+- name: enable systemd services
+  systemd:
+    state: started
+    enabled: true
+    name: "{{ item }}"
+  with_items:
+    - minecraft-spigot

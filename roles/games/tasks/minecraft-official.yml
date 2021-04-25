@@ -1,0 +1,33 @@
+- name: create game directories
+  file:
+    path: "{{ item.name }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    state: directory
+  with_items:
+    - name: "{{ games.minecraft.official.directory }}"
+      owner: games
+      group: games
+
+- name: Download server
+  get_url:
+    url: "{{ games.minecraft.official.download_url }}"
+    dest: "{{ games.minecraft.official.directory }}/server.jar"
+    owner: games
+    group: games
+
+- name: create game configs
+  template:
+    src: "{{ item.name }}.j2"
+    dest: "{{ item.directory }}/{{ item.name }}"
+    owner: "{{ item.owner|default(omit) }}"
+    group: "{{ item.group|default(omit) }}"
+  with_items: "{{ games.minecraft.official.configs }}"
+
+- name: enable systemd services
+  systemd:
+    state: started
+    enabled: true
+    name: "{{ item }}"
+  with_items:
+    - minecraft-official

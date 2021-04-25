@@ -1,0 +1,21 @@
+[Unit]
+Description=Minecraft Spigot Server
+Documentation=
+
+Wants=network.target
+After=network.target
+
+[Service]
+User=games
+Group=games
+Nice=5
+KillMode=none
+SuccessExitStatus=0 1
+Restart=always
+
+WorkingDirectory={{ games.minecraft.spigot.directory }}
+ExecStart=/usr/bin/java -Xmx1024M -Xms1024M -jar spigot.jar nogui
+ExecStop={{ games.minecraft.spigot.directory }}/mcrcon -H localhost -P {{ games.minecraft.spigot.rcon.port }} -p {{ games.minecraft.spigot.rcon.password }} stop
+
+[Install]
+WantedBy=multi-user.target

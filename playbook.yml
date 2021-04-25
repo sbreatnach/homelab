@@ -36,6 +36,8 @@
       tags: [messaging]
     - role: torrents
       tags: [torrents]
+    - role: games
+      tags: [games]
     - role: hardening
       tags: [hardening]
   vars_files:

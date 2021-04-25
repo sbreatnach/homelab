@@ -1,0 +1,15 @@
+
+- name: create/update game users
+  user:
+    name: "{{ item.username }}"
+    shell: "{{ item.shell|default(omit) }}"
+    home: "{{ item.home_dir|default(omit) }}"
+    group: "{{ item.group|default(omit) }}"
+    uid: "{{ item.uid|default(omit) }}"
+    append: "{{ item.append|default(omit) }}"
+    groups: "{{ item.groups|default(omit) }}"
+    system: "{{ item.system|default(False) }}"
+  with_items: "{{ games.users }}"
+
+#- include: minecraft-official.yml
+- include: minecraft-spigot.yml

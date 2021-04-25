@@ -1,0 +1,61 @@
+games:
+  users:
+    - username: games
+      shell: /bin/bash
+      home_dir: /home/games
+  minecraft:
+    whitelist:
+      - uuid: "59495a2e-a030-47ea-871e-6da1825f74b1"
+        name: deesno
+    spigot:
+      version: "1.16.5"
+      directory: /home/games/minecraft/spigot
+      downloads:
+        - url: https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+          filename: BuildTools.jar
+        - url: https://github.com/Tiiffi/mcrcon/releases/download/v0.7.1/mcrcon-0.7.1-linux-x86-64.tar.gz
+          filename: mcrcon-0.7.1.tar.gz
+      archives:
+        - src: mcrcon-0.7.1.tar.gz
+          output: mcrcon-0.7.1-linux-x86-64
+      copies:
+        - src: spigot-1.16.5.jar
+          dest: spigot.jar
+        - src: mcrcon-0.7.1-linux-x86-64/mcrcon
+          dest: mcrcon
+          mode: "0755"
+      rcon:
+        port: 25575
+        password: rcon123
+      configs:
+        - name: minecraft-spigot.service
+          directory: /etc/systemd/system
+        - name: eula.txt
+          directory: /home/games/minecraft/spigot
+          owner: games
+          group: games
+        - name: server.properties
+          directory: /home/games/minecraft/spigot
+          owner: games
+          group: games
+        - name: whitelist.json
+          directory: /home/games/minecraft/spigot
+          owner: games
+          group: games
+        - name: spigot.yml
+          directory: /home/games/minecraft/spigot
+          owner: games
+          group: games
+      download_url:
+      port: 8987
+    official:
+      directory: /home/games/minecraft/official
+      configs:
+        - name: minecraft-official.service
+          directory: /etc/systemd/system
+        - name: eula.txt
+          directory: /home/games/minecraft/official
+          owner: games
+          group: games
+      download_url: https://launcher.mojang.com/v1/objects/1b557e7b033b583cd9f66746b7a9ab1ec1673ced/server.jar
+      port: 8987

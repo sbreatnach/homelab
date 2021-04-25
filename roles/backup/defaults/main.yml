@@ -45,6 +45,11 @@ cronjobs:
     minute: 0
     hour: 3
     day: "*"
+  - name: Games Server Backup
+    job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-games backup /home/games/minecraft/spigot/world /home/games/minecraft/spigot/world_nether /home/games/minecraft/spigot/world_the_end"
+    minute: 0
+    hour: 3
+    day: 3
   - name: Email Server Backup
     job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-mail backup /var/vmail /var/lib/rspamd/dkim"
     minute: 0
