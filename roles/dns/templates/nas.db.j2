@@ -13,9 +13,12 @@ $TTL 300
 dns1	A	{{ root_ip_address }}
 ;
 ;
-; This sample zone file illustrates sharing the same IP addresses for multiple services:
+; Fixed network addresses global to internal domain
 ;
 www	A	{{ root_ip_address }}
+{% for subdomain, ip_address in dns.fixed_network_addresses.items() %}
+{{ subdomain }}	A	{{ ip_address }}
+{% endfor %}
 
 media	CNAME	www.{{ domains.internal }}.
 player	CNAME	www.{{ domains.internal }}.
