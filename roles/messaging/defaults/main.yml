@@ -7,8 +7,9 @@ matrix:
         extraconf: /etc/matrix-synapse/conf.d
     libraries:
         - repo: https://github.com/tulir/mautrix-facebook.git
-          version: v0.1.1
+          version: v0.3.0
           name: mautrix-facebook
+          db_migrate: false
         - repo: https://github.com/tulir/mautrix-hangouts.git
           version: v0.1.4
           name: mautrix-hangouts

@@ -54,7 +54,7 @@
     version: "{{ item.version }}"
   with_items:
     - name: mautrix
-      version: "0.8.3"
+      version: "0.9.4"
 
 - name: register web client directory
   stat:
@@ -114,6 +114,7 @@
   shell:
     chdir: "{{ matrix.directory.main }}/{{ item.name }}"
     cmd: /bin/bash {{ matrix.directory.main }}/with_env.sh alembic -x config={{ matrix.directory.extraconf }}/{{ item.name }}-config.yaml upgrade head
+  when: "{{ item.db_migrate|default(True) }}"
   with_items: "{{ matrix.libraries }}"
 
 - name: configure systemd files

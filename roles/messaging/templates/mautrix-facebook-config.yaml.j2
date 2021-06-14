@@ -11,6 +11,12 @@ homeserver:
     # such as /_matrix/client/unstable/net.maunium.asmux/dms for atomically
     # updating m.direct.
     asmux: true
+    # Number of retries for all HTTP requests if the homeserver isn't reachable.
+    http_retry_count: 4
+    # The URL to push real-time bridge status to.
+    # If set, the bridge will make POST requests to this URL whenever a user's Facebook MQTT connection state changes.
+    # The bridge will use the appservice as_token to authorize requests.
+    status_endpoint: null
 
 # Application service host/registration related details
 # Changing these values requires regeneration of the registration.
@@ -22,17 +28,16 @@ appservice:
     hostname: localhost
     port: 29319
     # The maximum body size of appservice API requests (from the homeserver) in mebibytes
-    # Usually 1 is enough, but on high-traffic bridges you might need to increase this to avoid 413s
+    # Usually 1 is enough, but on high-tpostgres://username:password@hostname/dbraffic bridges you might need to increase this to avoid 413s
     max_body_size: 1
 
-    # The full URI to the database. SQLite and Postgres are fully supported.
-    # Other DBMSes supported by SQLAlchemy may or may not work.
-    # Format examples:
-    #   SQLite:   sqlite:///filename.db
-    #   Postgres: postgres://username:password@hostname/dbname
+    # The full URI to the database. Only Postgres is currently supported.
     database: postgres://mautrixfacebook:mautrixfacebook@localhost/mautrixfacebook
-    # Optional extra arguments for SQLAlchemy's create_engine
-    database_opts: {}
+    # Additional arguments for asyncpg.create_pool()
+    # https://magicstack.github.io/asyncpg/current/api/index.html#asyncpg.pool.create_pool
+    database_opts:
+        min_size: 5
+        max_size: 10
 
     # Public part of web server for out-of-Matrix interaction with the bridge.
     public:
@@ -45,8 +50,10 @@ appservice:
         external: https://example.com/public
         # Shared secret for integration managers such as mautrix-manager.
         # If set to "generate", a random string will be generated on the next startup.
-        # If null, integration manager access to the API will not be possible.
+        # Ifpostgres://username:password@hostname/db null, integration manager access to the API will not be possible.
         shared_secret: generate
+        # Allow logging in within Matrix. If false, users can only log in using the web interface.
+        allow_matrix_login: true
 
     # The unique ID of this appservice.
     id: facebook
@@ -55,7 +62,7 @@ appservice:
     # Display name and avatar for bot. Set to "remove" to remove display name/avatar, leave empty
     # to leave display name/avatar as-is.
     bot_displayname: Facebook bridge bot
-    bot_avatar: mxc://maunium.net/ddtNPZSKMNqaUzqrHuWvUADv
+    bot_avatar: mxc://maunium.net/ygtkteZsXnGJLJHRchUwYWak
 
     # Community ID for bridged users (changes registration file) and rooms.
     # Must be created manually. Example: "+facebook:example.com"
@@ -83,7 +90,8 @@ bridge:
     # Localpart template for per-user room grouping community IDs.
     # The bridge will create these communities and add all of the specific user's portals to the community.
     # {localpart} is the MXID localpart and {server} is the MXID server part of the user.
-    #
+    # (Note that, by default, non-admins might not have your homeserver's permission to create
+    # communities. You should set `enable_group_creation: true` in homeserver.yaml to fix this.)
     # `facebook_{localpart}={server}` is a good value.
     community_template: facebook_{localpart}={server}
     # Displayname template for Facebook users.
@@ -106,13 +114,13 @@ bridge:
 
     # Number of chats to sync (and create portals for) on startup/login.
     # Set 0 to disable automatic syncing.
-    initial_chat_sync: 10
+    initial_chat_sync: 20
     # Whether or not the Facebook users of logged in Matrix users should be
     # invited to private chats when the user sends a message from another client.
     invite_own_puppet_to_pm: false
     # Whether or not to use /sync to get presence, read receipts and typing notifications
     # when double puppeting is enabled
-    sync_with_custom_puppets: false
+    sync_with_custom_puppets: true
     # Whether or not to update the m.direct account data event when double puppeting is enabled.
     # Note that updating the m.direct event is not atomic (except with mautrix-asmux)
     # and is therefore prone to race conditions.
@@ -147,15 +155,6 @@ bridge:
         # Default to encryption, force-enable encryption in all portals the bridge creates
         # This will cause the bridge bot to be in private chats for the encryption to work properly.
         default: false
-        # Database for the encryption data. Currently only supports Postgres and an in-memory
-        # store that's persisted as a pickle.
-        # If set to `default`, will use the appservice postgres database
-        # or a pickle file if the appservice database is sqlite.
-        #
-        # Format examples:
-        #   Pickle:   pickle:///filename.pickle
-        #   Postgres: postgres://username:password@hostname/dbname
-        database: default
         # Options for automatic key sharing.
         key_sharing:
             # Enable key sharing? If enabled, key requests for rooms where users are in will be fulfilled.
@@ -206,6 +205,8 @@ bridge:
     # If this is false, disconnections will never send messages and connections will only send
     # messages if it was disconnected for more than resync_max_disconnected_time seconds.
     temporary_disconnect_notices: true
+    # Disable bridge notices entirely
+    disable_bridge_notices: false
     # Whether or not the bridge should try to "refresh" the connection if a normal reconnection
     # attempt fails.
     refresh_on_reconnection_fail: false
@@ -213,6 +214,10 @@ bridge:
     # This field will automatically be changed back to false after it,
     # except if the config file is not writable.
     resend_bridge_info: false
+    # When using double puppeting, should muted chats be muted in Matrix?
+    mute_bridging: false
+    # Whether or not mute status and tags should only be bridged when the portal room is created.
+    tag_only_on_create: true
 
     # Permissions for using the bridge.
     # Permitted values:
@@ -251,8 +256,6 @@ logging:
     loggers:
         mau:
             level: DEBUG
-        fbchat:
-            level: INFO
         paho:
             level: INFO
         aiohttp:
