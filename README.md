@@ -67,5 +67,4 @@ The following apps and functionality must function to use the PinePhone daily:
 * Weather
 * Calendar + backups
 * Bitwarden
-* AIB Mobile
 * Authy

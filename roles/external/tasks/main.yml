@@ -18,6 +18,9 @@
     - name: cloudflare.ini
       path: /root
       mode: "600"
+    - name: on_cert_renew.sh
+      path: /root
+      mode: "700"
     - name: dynamic_ip.sh
       path: /root
       mode: "700"
@@ -61,7 +64,7 @@
     minute: "0"
     hour: "0,12"
     name: renew certbot
-    job: /usr/local/bin/certbot renew -q --post-hook '/usr/bin/systemctl reload nginx'
+    job: /usr/local/bin/certbot renew -q --post-hook '/bin/bash /root/on_cert_renew.sh'
 
 - name: configure dynamic ip cron
   cron:
