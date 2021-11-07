@@ -66,15 +66,15 @@ domains:
   external: somethinginterestinghere.com
   external_name: somethinginterestinghere
   external_tld: com
-root_ip_address: 192.168.0.102
+root_ip_address: 192.168.1.102
 dns:
   fixed_network_addresses:
     # RPi3 in black case
-    rosie: 192.168.0.106
+    rosie: 192.168.1.106
     # ancient RPi model B
-    joyce: 192.168.0.120
+    joyce: 192.168.1.120
 nfs_exports:
-  - /mnt/Backup     192.168.0.0/24(rw,fsid=0,insecure,no_subtree_check,async)
-  - /mnt/Backup1    192.168.0.0/24(rw,fsid=1,insecure,no_subtree_check,async)
-  - /mnt/Backup2    192.168.0.0/24(rw,fsid=2,insecure,no_subtree_check,async)
-  - /mnt/Media      192.168.0.0/24(rw,fsid=3,insecure,no_subtree_check,async)
+  - /mnt/Backup     192.168.1.0/24(rw,fsid=0,insecure,no_subtree_check,async)
+  - /mnt/Backup1    192.168.1.0/24(rw,fsid=1,insecure,no_subtree_check,async)
+  - /mnt/Backup2    192.168.1.0/24(rw,fsid=2,insecure,no_subtree_check,async)
+  - /mnt/Media      192.168.1.0/24(rw,fsid=3,insecure,no_subtree_check,async)
