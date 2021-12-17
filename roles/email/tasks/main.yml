@@ -132,6 +132,10 @@
       path: /etc/rspamd/local.d
     - name: dkim_signing.conf
       path: /etc/rspamd/local.d
+    - name: multimap.conf
+      path: /etc/rspamd/local.d
+    - name: whitelist.sender.domain.map
+      path: /etc/rspamd/local.d
     - name: milter_headers.conf
       path: /etc/rspamd/override.d
     - name: classifier-bayes.conf
