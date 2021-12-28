@@ -9,10 +9,21 @@
        state=present
   with_items: "{{ external.pip_packages }}"
 
+- name: create required directories
+  file:
+    name: "{{ item.name }}"
+    mode: "{{ item.mode|default(omit) }}"
+    owner: "{{ item.owner|default(omit) }}"
+    group: "{{ item.group|default(omit) }}"
+    state: directory
+  with_items:
+    - name: /var/www/launchpad
+      owner: www-data
+
 - name: create configuration files
   template:
     src: "{{ item.name }}.j2"
-    dest: "{{ item.path }}/{{ item.name }}"
+    dest: "{{ item.path }}/{{ item.destination|default(item.name) }}"
     mode: "{{ item.mode }}"
   with_items:
     - name: cloudflare.ini
@@ -30,25 +41,43 @@
     - name: nextcloud-common.conf
       path: /etc/nginx/sites-available
       mode: "644"
+    - name: launchpad.html
+      path: /var/www/launchpad
+      destination: index.html
+      mode: "644"
 
 - name: remove default site
   file:
     path: /etc/nginx/sites-enabled/default
     state: absent
 
-- name: create site configs
+- name: create external site configs
   template:
     src: "{{ item.name }}.conf.j2"
     dest: "/etc/nginx/sites-available/{{ item.name }}.conf"
     mode: 0600
   with_items: "{{ external.sites }}"
 
-- name: enable site configs
+- name: enable external site configs
   file:
     state: link
     src: "/etc/nginx/sites-available/{{ item.name }}.conf"
     path: "/etc/nginx/sites-enabled/{{ item.name }}.conf"
   with_items: "{{ external.sites }}"
+
+- name: create internal site configs
+  template:
+    src: "{{ item.name }}.conf.j2"
+    dest: "/etc/nginx/sites-available/{{ item.name }}.conf"
+    mode: 0600
+  with_items: "{{ internal.sites }}"
+
+- name: enable internal site configs
+  file:
+    state: link
+    src: "/etc/nginx/sites-available/{{ item.name }}.conf"
+    path: "/etc/nginx/sites-enabled/{{ item.name }}.conf"
+  with_items: "{{ internal.sites }}"
 
 - name: install certbot certificate
   shell: certbot certonly --dns-cloudflare -n

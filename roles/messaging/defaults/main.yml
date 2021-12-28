@@ -1,23 +1,25 @@
 matrix:
-    web_version: v1.7.14
+    web_version: v1.9.8
     directory:
         venv: /opt/venvs/matrix-synapse
         main: /var/lib/matrix-synapse   
         conf: /etc/matrix-synapse
         extraconf: /etc/matrix-synapse/conf.d
     libraries:
-        - repo: https://github.com/tulir/mautrix-facebook.git
-          version: v0.3.0
+        - binary: https://github.com/mautrix/whatsapp/releases/download/v0.2.2/mautrix-whatsapp-amd64
+          name: mautrix-whatsapp
+          directory: mautrix-whatsapp
+        - repo: https://github.com/mautrix/facebook.git
+          version: v0.3.2
           name: mautrix-facebook
-          db_migrate: false
-        - repo: https://github.com/tulir/mautrix-hangouts.git
-          version: v0.1.4
-          name: mautrix-hangouts
+        - repo: https://github.com/mautrix/googlechat.git
+          version: v0.3.0
+          name: mautrix-googlechat
     oidc:
         client_secret: dummy
     macaroon_secret_key: dummy
     form_secret: dummy
-    hangouts:
+    googlechat:
         as_token: dummy
         hs_token: dummy
         sender_localpart: dummy

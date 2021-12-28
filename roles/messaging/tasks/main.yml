@@ -1,4 +1,4 @@
-# Matrix server + bridges to Google Hangouts, Facebook Messenger, et al
+# Matrix server + bridges to Googlechat, Facebook Messenger, et al
 - name: setup repository keys
   apt_key:
     url: https://packages.matrix.org/debian/matrix-org-archive-keyring.gpg
@@ -36,9 +36,9 @@
       path: "{{ matrix.directory.extraconf }}"
     - name: mautrix-facebook-registration.yaml
       path: "{{ matrix.directory.extraconf }}"
-    - name: mautrix-hangouts-config.yaml
+    - name: mautrix-googlechat-config.yaml
       path: "{{ matrix.directory.extraconf }}"
-    - name: mautrix-hangouts-registration.yaml
+    - name: mautrix-googlechat-registration.yaml
       path: "{{ matrix.directory.extraconf }}"
     - name: mautrix-whatsapp-config.yaml
       path: "{{ matrix.directory.extraconf }}"
@@ -54,7 +54,7 @@
     version: "{{ item.version }}"
   with_items:
     - name: mautrix
-      version: "0.9.4"
+      version: "0.14.0"
 
 - name: register web client directory
   stat:
@@ -62,18 +62,18 @@
   register: client_result
 
 - name: Install web client
-  when: not client_result.stat.exists
+  when: not client_result.stat.exists or force_install is defined
   block:
     - name: download web client
       unarchive:
-        src: https://github.com/vector-im/element-web/releases/download/{{ matrix.web_version }}/riot-{{ matrix.web_version }}.tar.gz
+        src: https://github.com/vector-im/element-web/releases/download/{{ matrix.web_version }}/element-{{ matrix.web_version }}.tar.gz
         dest: /tmp
         remote_src: true
 
     - name: move client files to www location
       command:
-        cmd: mv /tmp/riot-{{ matrix.web_version }} /var/www/matrixweb
-        removes: /tmp/riot-{{ matrix.web_version }}
+        cmd: mv /tmp/element-{{ matrix.web_version }} /var/www/matrixweb
+        removes: /tmp/element-{{ matrix.web_version }}
 
     - name: override web client files
       template:
@@ -87,14 +87,18 @@
 
 - name: create pre-built directories
   file:
-    path: "{{ matrix.directory.main }}/mautrix-whatsapp"
+    path: "{{ matrix.directory.main }}/{{ item.directory }}"
     state: directory
+  when: item.directory is defined
+  with_items: "{{ matrix.libraries }}"
 
-- name: install pre-built library archive
-  unarchive:
-    src: https://mau.dev/tulir/mautrix-whatsapp/-/jobs/8542/artifacts/download?file_type=archive
-    dest: "{{ matrix.directory.main }}/mautrix-whatsapp"
-    remote_src: true
+- name: install pre-built library binary
+  get_url:
+    url: "{{ item.binary }}"
+    dest: "{{ matrix.directory.main }}/mautrix-whatsapp/{{ item.name }}"
+    mode: '0755'
+  when: item.binary is defined
+  with_items: "{{ matrix.libraries }}"
 
 - name: checkout additional libraries
   git:
@@ -102,19 +106,14 @@
     dest: "{{ matrix.directory.main }}/{{ item.name }}"
     version: "{{ item.version }}"
     force: true
+  when: item.repo is defined
   with_items: "{{ matrix.libraries }}"
 
 - name: install additional libraries
   shell:
     chdir: "{{ matrix.directory.main }}/{{ item.name }}"
     cmd: /bin/bash {{ matrix.directory.main }}/with_env.sh python setup.py install
-  with_items: "{{ matrix.libraries }}"
-
-- name: update databases for mautrix packages
-  shell:
-    chdir: "{{ matrix.directory.main }}/{{ item.name }}"
-    cmd: /bin/bash {{ matrix.directory.main }}/with_env.sh alembic -x config={{ matrix.directory.extraconf }}/{{ item.name }}-config.yaml upgrade head
-  when: "{{ item.db_migrate|default(True) }}"
+  when: item.repo is defined
   with_items: "{{ matrix.libraries }}"
 
 - name: configure systemd files
@@ -123,7 +122,7 @@
     dest: "/etc/systemd/system/{{ item }}"
   with_items:
     - matrix-synapse.service
-    - mautrix-hangouts.service
+    - mautrix-googlechat.service
     - mautrix-facebook.service
     - mautrix-whatsapp.service
     - matrix-synapse.target
@@ -135,7 +134,7 @@
     name: "{{ item }}"
   with_items:
     - matrix-synapse
-    - mautrix-hangouts
+    - mautrix-googlechat
     - mautrix-facebook
     - mautrix-whatsapp
     - matrix-synapse.target

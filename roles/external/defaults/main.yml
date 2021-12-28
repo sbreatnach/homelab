@@ -62,16 +62,45 @@ external:
         - certbot-dns-cloudflare
         - certbot-nginx
     sites:
-        - name: adguard
-        - name: emby
         - name: matrix
         - name: matrixweb
-        - name: hangoutsbridge
+          title: Element Web
+          link: https://matrixweb.somethinginterestinghere.com
+          description: Matrix web access
         - name: keycloak
-        - name: transmission
-        - name: ampd
-        - name: calibreweb
+          link: https://auth.somethinginterestinghere.com
+          description: Centralised authentication
         - name: nextcloud
+          link: https://nextcloud.somethinginterestinghere.com
+          description: Personal cloud web interface
+internal:
+    sites:
         - name: wallabag
+          link: http://wallabag.nas.home
+          description: Bookmarking and archiving for the web
         - name: rspamd
+          link: http://rspamd.nas.home
+          description: View spam management
         - name: userli
+          link: http://mail-users.nas.home
+          description: View and manage email server users
+        - name: calibreweb
+          title: Calibre Web
+          link: http://books.nas.home
+          description: Browse, download and view ebook collection 
+        - name: transmission
+          link: http://torrents.nas.home
+          description: Torrenting web UI
+        - name: ampd
+          title: Ampd
+          link: http://music.nas.home
+          description: View and play MPD music collection
+        - name: hangoutsbridge
+        - name: launchpad
+        - name: adguard
+          title: AdGuard Home
+          link: http://adblock.nas.home
+          description: Ad blocking management panel
+        - name: emby
+          link: http://media.nas.home
+          description: View and play music, photos and videos
