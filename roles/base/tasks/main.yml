@@ -9,6 +9,11 @@
         password={{ item.password|default(defaults.password) }} shell={{ item.shell }}
   with_items: "{{ users }}"
 
+- name: create system users
+  user: name={{ item.username }} shell={{ item.shell }}
+        home={{ item.home_directory }} system=yes
+  with_items: "{{ system_users }}"
+
 - name: create default tmux config for users
   copy: src=tmux.conf dest=/home/{{ item.username }}/.tmux.conf
   with_items: "{{ users }}"
@@ -24,3 +29,14 @@
 
 - name: configure sysctl settings
   copy: src=sysctl.conf dest=/etc/sysctl.conf
+
+- name: install pyenv for user {{ system_user.username }}
+  include_tasks:
+    file: pyenv.yml
+    apply:
+      become: true
+      become_user: "{{ system_user.username }}"
+  when: system_user.enable_pyenv|default(false) == true
+  loop: "{{ system_users }}"
+  loop_control:
+    index_var: system_user

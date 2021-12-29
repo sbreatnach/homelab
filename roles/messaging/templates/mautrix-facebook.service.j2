@@ -5,7 +5,7 @@ After=matrix-synapse.service
 
 [Service]
 WorkingDirectory={{ matrix.directory.main }}
-ExecStart={{ matrix.directory.venv }}/bin/python -m mautrix_facebook -c {{ matrix.directory.extraconf }}/mautrix-facebook-config.yaml -r {{ matrix.directory.extraconf }}/mautrix-facebook-registration.yaml
+ExecStart={{ mautrix_venv }}/bin/python -m mautrix_facebook -c {{ matrix.directory.extraconf }}/mautrix-facebook-config.yaml -r {{ matrix.directory.extraconf }}/mautrix-facebook-registration.yaml
 User=matrix-synapse
 Restart=always
 
