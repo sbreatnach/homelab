@@ -17,3 +17,25 @@ base:
     - name: cron
     - name: tmux
     - name: unattended-upgrades
+    - name: build-essential
+    - name: curl
+    - name: llvm
+    - name: libbz2-dev
+    - name: libffi-dev
+    - name: liblzma-dev
+    - name: libncurses5-dev
+    - name: libncursesw5-dev
+    - name: libreadline-dev
+    - name: libsqlite3-dev
+    - name: libssl-dev
+    - name: python3-openssl
+    - name: tk-dev
+    - name: wget
+    - name: xz-utils
+    - name: zlib1g-dev
+users: []
+system_users:
+  - username: matrix-synapse
+    home_directory: /var/lib/matrix-synapse
+    shell: /bin/bash
+    enable_pyenv: true

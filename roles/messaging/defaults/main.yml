@@ -2,7 +2,8 @@ matrix:
     web_version: v1.9.8
     directory:
         venv: /opt/venvs/matrix-synapse
-        main: /var/lib/matrix-synapse   
+        mautrix_venv: /var/lib/matrix-synapse/venv/mautrix
+        main: /var/lib/matrix-synapse
         conf: /etc/matrix-synapse
         extraconf: /etc/matrix-synapse/conf.d
     libraries:
