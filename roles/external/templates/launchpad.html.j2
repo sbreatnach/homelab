@@ -1,0 +1,38 @@
+<html>
+  <body>
+    <table>
+      <tr>
+    <th>
+      Site
+    </th>
+    <th>
+      Description
+    </th>
+      </tr>
+      {% for site in external.sites %}
+      {% if site.link is defined %}
+      <tr>
+    <td>
+      <a target="_blank" href="{{ site.link }}">{{ site.title|default(site.name|capitalize) }}</a>
+    </td>
+    <td>
+      {{ site.description|default('') }}
+    </td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+      {% for site in internal.sites %}
+      {% if site.link is defined %}
+      <tr>
+    <td>
+      <a target="_blank" href="{{ site.link }}">{{ site.title|default(site.name|capitalize) }}</a>
+    </td>
+    <td>
+      {{ site.description|default('') }}
+    </td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </table>
+  </body>
+</html>

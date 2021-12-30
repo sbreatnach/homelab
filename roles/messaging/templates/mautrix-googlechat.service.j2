@@ -1,0 +1,13 @@
+[Unit]
+Description=Matrix-googlechat bridge
+PartOf=matrix-synapse.target
+After=matrix-synapse.service
+
+[Service]
+WorkingDirectory={{ matrix.directory.main }}
+ExecStart={{ matrix.directory.venv }}/bin/python -m mautrix_googlechat -c {{ matrix.directory.extraconf }}/mautrix-googlechat-config.yaml -r {{ matrix.directory.extraconf }}/mautrix-googlechat-registration.yaml
+User=matrix-synapse
+Restart=always
+
+[Install]
+WantedBy=matrix-synapse.target

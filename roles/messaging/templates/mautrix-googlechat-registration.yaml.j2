@@ -1,0 +1,16 @@
+id: googlechat
+as_token: {{ matrix.googlechat.as_token }}
+hs_token: {{ matrix.googlechat.hs_token }}
+namespaces:
+    users:
+    - exclusive: true
+      regex: '@googlechat_.*:matrix\.{{ domains.external_name }}\.{{ domains.external_tld }}'
+      group_id: +googlechat:matrix.{{ domains.external }}
+    - exclusive: true
+      regex: '@googlechatbot:matrix\.{{ domains.external_name }}\.{{ domains.external_tld }}'
+    aliases: []
+url: http://localhost:29320
+sender_localpart: {{ matrix.googlechat.sender_localpart }}
+rate_limited: false
+de.sorunome.msc2409.push_ephemeral: true
+push_ephemeral: true
