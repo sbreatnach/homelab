@@ -44,17 +44,6 @@
       path: "{{ matrix.directory.extraconf }}"
     - name: mautrix-whatsapp-registration.yaml
       path: "{{ matrix.directory.extraconf }}"
-    - name: with_env.sh
-      path: "{{ matrix.directory.main }}"
-
-- name: install messaging extras
-  pip:
-    virtualenv: "{{ matrix.directory.mautrix_venv }}"
-    name: "{{ item.name }}"
-    version: "{{ item.version }}"
-  with_items:
-    - name: mautrix
-      version: "0.14.0"
 
 - name: register web client directory
   stat:
@@ -109,11 +98,11 @@
   when: item.repo is defined
   with_items: "{{ matrix.libraries }}"
 
-- name: install additional libraries
-  shell:
-    chdir: "{{ matrix.directory.main }}/{{ item.name }}"
-    cmd: /bin/bash {{ matrix.directory.main }}/with_env.sh python setup.py install
-  when: item.repo is defined
+- name: install library python requirements
+  pip:
+    virtualenv: "{{ matrix.directory.venv_base }}/{{ item.name }}"
+    requirements: "{{ matrix.directory.main }}/{{ item.name }}/{{ item.requirements }}"
+  when: item.requirements is defined
   with_items: "{{ matrix.libraries }}"
 
 - name: configure systemd files

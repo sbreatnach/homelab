@@ -5,7 +5,7 @@
     comment: "Auth user"
     home: /home/auth
 
-- include: ldap.yml
+- import_tasks: ldap.yml
   tags: [ldap]
-- include: keycloak.yml
+- import_tasks: keycloak.yml
   tags: [keycloak]

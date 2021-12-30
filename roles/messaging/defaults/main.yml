@@ -2,7 +2,7 @@ matrix:
     web_version: v1.9.8
     directory:
         venv: /opt/venvs/matrix-synapse
-        mautrix_venv: /var/lib/matrix-synapse/venv/mautrix
+        venv_base: /var/lib/matrix-synapse/venv
         main: /var/lib/matrix-synapse
         conf: /etc/matrix-synapse
         extraconf: /etc/matrix-synapse/conf.d
@@ -13,9 +13,11 @@ matrix:
         - repo: https://github.com/mautrix/facebook.git
           version: v0.3.2
           name: mautrix-facebook
+          requirements: requirements.txt
         - repo: https://github.com/mautrix/googlechat.git
           version: v0.3.0
           name: mautrix-googlechat
+          requirements: requirements.txt
     oidc:
         client_secret: dummy
     macaroon_secret_key: dummy

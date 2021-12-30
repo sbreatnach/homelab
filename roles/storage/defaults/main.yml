@@ -30,8 +30,8 @@ storage:
         owner: keycloak
       - name: mautrixfacebook
         owner: mautrixfacebook
-      - name: mautrixhangouts
-        owner: mautrixhangouts
+      - name: mautrixgooglechat
+        owner: mautrixgooglechat
       - name: mautrixwhatsapp
         owner: mautrixwhatsapp
       - name: nextcloud
@@ -48,8 +48,8 @@ storage:
         password: keycloak
       - name: mautrixfacebook
         password: mautrixfacebook
-      - name: mautrixhangouts
-        password: mautrixhangouts
+      - name: mautrixgooglechat
+        password: mautrixgooglechat
       - name: mautrixwhatsapp
         password: mautrixwhatsapp
       - name: nextcloud
@@ -74,8 +74,8 @@ storage:
         source: ::1/128
         method: md5
       - connection_type: host
-        databases: mautrixhangouts
-        users: mautrixhangouts
+        databases: mautrixgooglechat
+        users: mautrixgooglechat
         source: ::1/128
         method: md5
       - connection_type: host

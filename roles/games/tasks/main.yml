@@ -12,4 +12,4 @@
   with_items: "{{ games.users }}"
 
 #- include: minecraft-official.yml
-- include: minecraft-spigot.yml
+- import_tasks: minecraft-spigot.yml

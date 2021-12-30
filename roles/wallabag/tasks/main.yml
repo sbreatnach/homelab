@@ -39,3 +39,5 @@
 - name: run install command
   become_user: "{{ wallabag.user }}"
   shell: php bin/console wallabag:install --env=prod --reset --no-interaction
+  args:
+    chdir: "{{ wallabag.directories.web }}"

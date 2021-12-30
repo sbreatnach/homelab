@@ -4,8 +4,8 @@ PartOf=matrix-synapse.target
 After=matrix-synapse.service
 
 [Service]
-WorkingDirectory={{ matrix.directory.main }}
-ExecStart={{ matrix.directory.venv }}/bin/python -m mautrix_googlechat -c {{ matrix.directory.extraconf }}/mautrix-googlechat-config.yaml -r {{ matrix.directory.extraconf }}/mautrix-googlechat-registration.yaml
+WorkingDirectory={{ matrix.directory.main }}/mautrix-googlechat
+ExecStart={{ matrix.directory.venv_base }}/mautrix-googlechat/bin/python -m mautrix_googlechat -c {{ matrix.directory.extraconf }}/mautrix-googlechat-config.yaml -r {{ matrix.directory.extraconf }}/mautrix-googlechat-registration.yaml
 User=matrix-synapse
 Restart=always
 

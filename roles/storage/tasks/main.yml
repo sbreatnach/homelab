@@ -32,9 +32,9 @@
   when: item.device is defined
   with_items: "{{ partitions }}"
 
-- include: nfs.yml
-- include: samba.yml
-- include: postgresql.yml
+- import_tasks: nfs.yml
+- import_tasks: samba.yml
+- import_tasks: postgresql.yml
 
 - name: configure onedrive systemd for users
   become_user: "{{ item.username }}"
