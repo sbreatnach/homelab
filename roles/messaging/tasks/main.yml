@@ -19,13 +19,14 @@
   with_items:
     - matrix-synapse-py3
 
-- name: create additional config directories
+- name: create additional directories
   file:
     path: "{{ item }}"
     owner: "{{ matrix.user }}"
     state: directory
   with_items:
     - "{{ matrix.directory.mautrix_conf }}"
+    - /var/www/matrixweb
 
 - name: configure messaging files
   template:
@@ -67,10 +68,11 @@
         dest: /tmp
         remote_src: true
 
-    - name: move client files to www location
-      command:
-        cmd: mv /tmp/element-{{ matrix.web_version }} /var/www/matrixweb
-        removes: /tmp/element-{{ matrix.web_version }}
+    - name: copy client files to www location
+      copy:
+        src: /tmp/element-{{ matrix.web_version }}/
+        dest: /var/www/matrixweb
+        remote_src: true
 
     - name: override web client files
       template:
