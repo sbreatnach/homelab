@@ -1,4 +1,5 @@
 matrix:
+    user: matrix-synapse
     web_version: v1.9.8
     directory:
         venv: /opt/venvs/matrix-synapse
@@ -6,6 +7,7 @@ matrix:
         main: /var/lib/matrix-synapse
         conf: /etc/matrix-synapse
         extraconf: /etc/matrix-synapse/conf.d
+        mautrix_conf: /etc/mautrix
     libraries:
         - binary: https://github.com/mautrix/whatsapp/releases/download/v0.2.2/mautrix-whatsapp-amd64
           name: mautrix-whatsapp

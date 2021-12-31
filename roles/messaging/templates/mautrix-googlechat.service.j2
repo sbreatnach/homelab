@@ -5,8 +5,8 @@ After=matrix-synapse.service
 
 [Service]
 WorkingDirectory={{ matrix.directory.main }}/mautrix-googlechat
-ExecStart={{ matrix.directory.venv_base }}/mautrix-googlechat/bin/python -m mautrix_googlechat -c {{ matrix.directory.extraconf }}/mautrix-googlechat-config.yaml -r {{ matrix.directory.extraconf }}/mautrix-googlechat-registration.yaml
-User=matrix-synapse
+ExecStart={{ matrix.directory.venv_base }}/mautrix-googlechat/bin/python -m mautrix_googlechat -c {{ matrix.directory.mautrix_conf }}/mautrix-googlechat-config.yaml -r {{ matrix.directory.extraconf }}/mautrix-googlechat-registration.yaml
+User={{ matrix.user }}
 Restart=always
 
 [Install]

@@ -19,11 +19,19 @@
   with_items:
     - matrix-synapse-py3
 
+- name: create additional config directories
+  file:
+    path: "{{ item }}"
+    owner: "{{ matrix.user }}"
+    state: directory
+  with_items:
+    - "{{ matrix.directory.mautrix_conf }}"
+
 - name: configure messaging files
   template:
     src: "{{ item.name }}.j2"
     dest: "{{ item.path }}/{{ item.name }}"
-    owner: matrix-synapse
+    owner: "{{ matrix.user }}"
     mode: "{{ item.mode|default('644') }}"
   with_items:
     - name: homeserver.yaml
@@ -33,15 +41,15 @@
     - name: server_name.yaml
       path: "{{ matrix.directory.extraconf }}"
     - name: mautrix-facebook-config.yaml
-      path: "{{ matrix.directory.extraconf }}"
+      path: "{{ matrix.directory.mautrix_conf }}"
     - name: mautrix-facebook-registration.yaml
       path: "{{ matrix.directory.extraconf }}"
     - name: mautrix-googlechat-config.yaml
-      path: "{{ matrix.directory.extraconf }}"
+      path: "{{ matrix.directory.mautrix_conf }}"
     - name: mautrix-googlechat-registration.yaml
       path: "{{ matrix.directory.extraconf }}"
     - name: mautrix-whatsapp-config.yaml
-      path: "{{ matrix.directory.extraconf }}"
+      path: "{{ matrix.directory.mautrix_conf }}"
     - name: mautrix-whatsapp-registration.yaml
       path: "{{ matrix.directory.extraconf }}"
 
