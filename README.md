@@ -31,17 +31,58 @@ sudo su -s /bin/bash backup
 restic -r b2:whizz-onedrive:/ init
 ```
 
+# VPN Client Configuration
+
+```shell
+# generate Wireguard private and public keys
+(umask 077 && wg genkey > wg-private-client.key)
+wg pubkey < wg-private-client.key > wg-public-client.key
+# create client config file
+export PRIVATE_CLIENT_KEY=$(cat wg-private-client.key)
+export PUBLIC_CLIENT_KEY=$(cat wg-public-client.key)
+cat >> wg-client.conf << EOF
+# define the local WireGuard interface (client)
+[Interface]
+
+# contents of wg-private-client.key
+PrivateKey = ${PRIVATE_CLIENT_KEY}
+
+# the IP address of this client on the WireGuard network
+Address=10.99.0.2/32
+
+# define the remote WireGuard interface (server)
+[Peer]
+
+# from `sudo wg show wg0`
+PublicKey = <public_key>
+
+# the IP address of the server on the WireGuard network 
+AllowedIPs = 10.99.0.1/32
+
+# public IP address and port of the WireGuard server
+Endpoint = vpn.somethinginterestinghere.com:51820
+EOF
+# update server config to include new peer
+sudo tee -a /etc/wireguard/wg0.conf > /dev/null << EOF
+
+[Peer]
+PublicKey = ${PUBLIC_CLIENT_KEY}
+AllowedIPs = 10.99.0.2/32
+EOF
+# image that can be scanned by mobile app for configuration of client
+qrencode -r wg-client.conf -l M -o /mnt/Backup/tmp/qrdata.png
+```
+
 # Wishlist (in order of preference)
 
 * 2FA Authorisation server
-* Fix ClamAV email spam
 * Wireguard VPN
+* Searx search
 * Turtl or equivalent bookmarking service with iOS app
 * Bitwarden password manager
 * Monitoring: metrics aggregator and email alerts
 * Rearrange all hard drives to use ZFS/BTRFS/GlusterFS for one large, redundant pool
 * Monitoring: logging aggregator
-* Home Assistant
 * Youtube downloader service (e.g. Alltube)
 * Document scanning service (https://github.com/the-paperless-project/paperless)
 * Web games e.g. Chess :)
@@ -68,3 +109,14 @@ The following apps and functionality must function to use the PinePhone daily:
 * Calendar + backups
 * Bitwarden
 * Authy
+
+# Development Environment
+
+* pyenv
+* leiningen
+
+License
+-------
+
+Because of some code reuse, this repository is licenced under
+[GNU General Public License v3.0 or later](https://spdx.org/licenses/GPL-3.0-or-later.html)

@@ -24,19 +24,22 @@
 - name: update environment with extra paths
   template: src=environment.j2 dest=/etc/environment
 
+- name: enable backports
+  template: src=backports.list.j2 dest=/etc/apt/sources.list.d/backports.list
+
 - name: disable system beep
   copy: src=nobeep.conf dest=/etc/modprobe.d/nobeep.conf
 
 - name: configure sysctl settings
   copy: src=sysctl.conf dest=/etc/sysctl.conf
 
-- name: install pyenv for user {{ system_user.username }}
-  include_tasks:
-    file: pyenv.yml
-    apply:
-      become: true
-      become_user: "{{ system_user.username }}"
-  when: system_user.enable_pyenv
-  loop: "{{ system_users }}"
-  loop_control:
-    loop_var: system_user
+# - name: install pyenv for user {{ system_user.username }}
+#   include_tasks:
+#     file: pyenv.yml
+#     apply:
+#       become: true
+#       become_user: "{{ system_user.username }}"
+#   when: system_user.enable_pyenv
+#   loop: "{{ system_users }}"
+#   loop_control:
+#     loop_var: system_user

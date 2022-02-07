@@ -7,7 +7,7 @@
 
 - name: setup repositories
   apt_repository:
-    repo: deb [signed-by=/usr/share/keyrings/matrix-org-archive-keyring.gpg] https://packages.matrix.org/debian/ buster main
+    repo: deb [signed-by=/usr/share/keyrings/matrix-org-archive-keyring.gpg] https://packages.matrix.org/debian/ {{ distro_name }} main
     state: present
     filename: matrix-org
 

@@ -1,0 +1,58 @@
+# Derived from https://github.com/githubixx/ansible-role-wireguard
+# Licence: GPL v3
+---
+- name: Install packages
+  ansible.builtin.apt:
+    name: "{{ vpn.packages }}"
+    update_cache: yes
+
+- name: Enable kernel module
+  community.general.modprobe:
+    name: wireguard
+    state: present
+
+- name: Register if config/private key already exists on target host
+  ansible.builtin.stat:
+    path: "{{ vpn.config_directory }}/{{ vpn.interface }}.conf"
+  register: vpn_register_config_file
+
+- name: Regenerate configuration if required or forced
+  when: vpn_regenerate_config or not vpn_register_config_file.stat.exists
+  block:
+  - name: Generate private key
+    ansible.builtin.command: "wg genkey"
+    register: vpn_register_private_key
+
+  - name: Set private key fact
+    ansible.builtin.set_fact:
+      vpn_private_key: "{{ vpn_register_private_key.stdout }}"
+
+  - name: Derive public key
+    ansible.builtin.command: "wg pubkey"
+    args:
+      stdin: "{{ vpn_private_key }}"
+    register: vpn_register_public_key
+
+  - name: Set public key fact
+    ansible.builtin.set_fact:
+      vpn_public_key: "{{ vpn_register_public_key.stdout }}"
+
+  - name: Create configuration directory
+    ansible.builtin.file:
+      dest: "{{ vpn.config_directory }}"
+      state: directory
+      mode: 0700
+
+  - name: Generate configuration file
+    ansible.builtin.template:
+      src: wireguard.conf.j2
+      dest: "{{ vpn.config_directory }}/{{ vpn.interface }}.conf"
+      owner: "{{ vpn.owner }}"
+      group: "{{ vpn.group }}"
+      mode: "0600"
+
+- name: Start and enable WireGuard service
+  ansible.builtin.service:
+    name: "wg-quick@{{ vpn.interface }}"
+    state: "started"
+    enabled: true

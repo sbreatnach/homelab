@@ -20,6 +20,9 @@ external:
       - record: minecraft
         type: CNAME
         value: home.{{ domains.external }}
+      - record: vpn
+        type: CNAME
+        value: home.{{ domains.external }}
     php:
         upload_max_filesize: 512M
         request_timeout: 60
