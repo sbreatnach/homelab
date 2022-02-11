@@ -22,6 +22,8 @@
       path: /home/dns/Corefile
     - template: nas.db.j2
       path: /home/dns/nas.db
+    - template: vpn.db.j2
+      path: /home/dns/vpn.db
 
 - name: set filesystem permissions
   shell: chown -R dns:dns /home/dns

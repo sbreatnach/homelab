@@ -2,7 +2,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name rspamd.{{ domains.internal }};
+    server_name rspamd.{{ domains.internal }} rspamd.{{ domains.vpn }};
 
     location / {
         proxy_pass http://localhost:11334;

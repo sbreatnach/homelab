@@ -1,0 +1,37 @@
+$ORIGIN {{ domains.vpn }}.
+$TTL 300
+@	SOA	dns1.{{ domains.vpn }}.	hostmaster.{{ domains.vpn }}. (
+		2019092215 ; serial
+		21600      ; refresh after 6 hours
+		3600       ; retry after 1 hour
+		604800     ; expire after 1 week
+		86400 )    ; minimum TTL of 1 day
+;
+;
+	NS	dns1.{{ domains.vpn }}.
+	A	{{ vpn_ip_address }}
+dns1	A	{{ vpn_ip_address }}
+;
+;
+; Fixed network addresses global to vpn domain
+;
+www	A	{{ vpn_ip_address }}
+
+media	CNAME	www.{{ domains.vpn }}.
+launchpad	CNAME	www.{{ domains.vpn }}.
+player	CNAME	www.{{ domains.vpn }}.
+auth	CNAME	www.{{ domains.vpn }}.
+music	CNAME	www.{{ domains.vpn }}.
+adblock	CNAME	www.{{ domains.vpn }}.
+torrents	CNAME	www.{{ domains.vpn }}.
+wallabag	CNAME	www.{{ domains.vpn }}.
+matrix	CNAME	www.{{ domains.vpn }}.
+hangoutsbridge.matrix	CNAME	www.{{ domains.vpn }}.
+bitwarden	CNAME	www.{{ domains.vpn }}.
+books	CNAME	www.{{ domains.vpn }}.
+nextcloud	CNAME	www.{{ domains.vpn }}.
+rspamd	CNAME	www.{{ domains.vpn }}.
+mail-users	CNAME	www.{{ domains.vpn }}.
+minecraft	CNAME	www.{{ domains.vpn }}.
+;
+;

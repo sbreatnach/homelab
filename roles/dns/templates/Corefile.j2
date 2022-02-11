@@ -1,5 +1,6 @@
 .:53 {
-  file /home/dns/nas.db nas.home
+  file /home/dns/nas.db {{ domains.internal }}
+  file /home/dns/vpn.db {{ domains.vpn }}
   forward . 127.0.0.1:1053
   cache
   log

@@ -2,7 +2,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name books.{{ domains.internal }};
+    server_name books.{{ domains.internal }} books.{{ domains.vpn }};
 
     location / {
         proxy_pass http://localhost:8083;

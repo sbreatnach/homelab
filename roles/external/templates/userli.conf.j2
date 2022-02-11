@@ -2,7 +2,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name mail-users.{{ domains.internal }};
+    server_name mail-users.{{ domains.internal }} mail-users.{{ domains.vpn }};
     root /var/www/userli/public;
 
     location / {

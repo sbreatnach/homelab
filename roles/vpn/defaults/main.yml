@@ -1,8 +1,8 @@
+vpn_ip_address: "10.99.0.1"
 vpn:
   owner: root
   group: root
   listen_port: 51820
-  ip_address: "10.99.0.1"
   config_directory: /etc/wireguard
   interface: wg0
   packages:
@@ -14,5 +14,6 @@ vpn:
   peers:
     iphone_se:
       public_key: ZcjrdNjPmy5fNKZkJKxyCmiP5ZDrndY3EVxICEuxlwc=
+      ip_address: "10.99.0.2"
 # enable to force regeneration of VPN configuration with public/private keys
 vpn_regenerate_config: false

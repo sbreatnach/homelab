@@ -5,7 +5,7 @@ upstream php-handler {
 server {
     listen 80;
     listen [::]:80;
-    server_name nextcloud.{{ domains.internal }};
+    server_name nextcloud.{{ domains.internal }} nextcloud.{{ domains.vpn }};
 
     include /etc/nginx/sites-available/nextcloud-common.conf;
 }

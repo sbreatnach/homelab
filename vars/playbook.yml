@@ -67,9 +67,11 @@ ufw_rules:
     rule: allow
 domains:
   internal: nas.home
+  vpn: nas.vpn
   external: somethinginterestinghere.com
   external_name: somethinginterestinghere
   external_tld: com
+vpn_ip_address: "10.99.0.1"
 root_ip_address: 192.168.1.102
 dns:
   fixed_network_addresses:

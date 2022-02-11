@@ -2,7 +2,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name launchpad.{{ domains.internal }};
+    server_name launchpad.{{ domains.internal }} launchpad.{{ domains.vpn }};
     root /var/www/launchpad;
 
     error_page 404 /404.html;

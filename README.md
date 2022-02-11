@@ -38,9 +38,11 @@ restic -r b2:whizz-onedrive:/ init
 (umask 077 && wg genkey > wg-private-client.key)
 wg pubkey < wg-private-client.key > wg-public-client.key
 # create client config file
+export PUBLIC_SERVER_KEY=
 export PRIVATE_CLIENT_KEY=$(cat wg-private-client.key)
 export PUBLIC_CLIENT_KEY=$(cat wg-public-client.key)
-cat >> wg-client.conf << EOF
+export NEW_CLIENT_IP=10.99.0.2
+cat > wg-client.conf << EOF
 # define the local WireGuard interface (client)
 [Interface]
 
@@ -48,13 +50,13 @@ cat >> wg-client.conf << EOF
 PrivateKey = ${PRIVATE_CLIENT_KEY}
 
 # the IP address of this client on the WireGuard network
-Address=10.99.0.2/32
+Address=${NEW_CLIENT_IP}/32
 
 # define the remote WireGuard interface (server)
 [Peer]
 
-# from `sudo wg show wg0`
-PublicKey = <public_key>
+# from "sudo wg show wg0"
+PublicKey = ${PUBLIC_SERVER_KEY}
 
 # the IP address of the server on the WireGuard network 
 AllowedIPs = 10.99.0.1/32
@@ -67,7 +69,7 @@ sudo tee -a /etc/wireguard/wg0.conf > /dev/null << EOF
 
 [Peer]
 PublicKey = ${PUBLIC_CLIENT_KEY}
-AllowedIPs = 10.99.0.2/32
+AllowedIPs = ${NEW_CLIENT_IP}/32
 EOF
 # image that can be scanned by mobile app for configuration of client
 qrencode -r wg-client.conf -l M -o /mnt/Backup/tmp/qrdata.png

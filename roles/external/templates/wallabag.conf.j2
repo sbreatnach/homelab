@@ -2,7 +2,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name wallabag.{{ domains.internal }};
+    server_name wallabag.{{ domains.internal }} wallabag.{{ domains.vpn }};
     root /var/www/wallabag/web;
 
     location / {

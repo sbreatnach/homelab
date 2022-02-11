@@ -20,7 +20,7 @@ server {
     listen 80;
     listen [::]:80;
 
-    server_name auth.{{ domains.internal }};
+    server_name auth.{{ domains.internal }} auth.{{ domains.vpn }};
 
     location / {
         proxy_pass http://localhost:8080;
