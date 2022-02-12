@@ -1,35 +1,51 @@
+<!doctype html>
 <html>
+  <head>
+    <meta charset="utf-8">
+    <title>Launchpad</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
   <body>
     <table>
       <tr>
-    <th>
-      Site
-    </th>
-    <th>
-      Description
-    </th>
+        <th colspan="2">
+          Internet Sites
+        </th>
       </tr>
       {% for site in external.sites %}
       {% if site.link is defined %}
       <tr>
-    <td>
-      <a target="_blank" href="{{ site.link }}">{{ site.title|default(site.name|capitalize) }}</a>
-    </td>
-    <td>
-      {{ site.description|default('') }}
-    </td>
+        <td>
+          <a target="_blank" href="{{ site.link }}.{{ domains.external }}">{{ site.title|default(site.name|capitalize) }}</a>
+        </td>
+        <td>
+          {{ site.description|default('') }}
+        </td>
       </tr>
       {% endif %}
       {% endfor %}
+    </table>
+    <table>
+      <tr>
+        <th colspan="4">
+          Local Intranet Sites
+        </th>
+      </tr>
       {% for site in internal.sites %}
       {% if site.link is defined %}
       <tr>
-    <td>
-      <a target="_blank" href="{{ site.link }}">{{ site.title|default(site.name|capitalize) }}</a>
-    </td>
-    <td>
-      {{ site.description|default('') }}
-    </td>
+        <td>
+          {{ site.title|default(site.name|capitalize) }}
+        </td>
+        <td>
+          {{ site.description|default('') }}
+        </td>
+        <td>
+          <a target="_blank" href="{{ site.link }}.{{ domains.internal }}">Home</a>
+        </td>
+        <td>
+          <a target="_blank" href="{{ site.link }}.{{ domains.vpn }}">VPN</a>
+        </td>
       </tr>
       {% endif %}
       {% endfor %}

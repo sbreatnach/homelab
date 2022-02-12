@@ -67,43 +67,50 @@ external:
     sites:
         - name: matrix
         - name: matrixweb
-          title: Element Web
-          link: https://matrixweb.somethinginterestinghere.com
+          title: 🗣 Element Web
+          link: https://matrixweb
           description: Matrix web access
         - name: keycloak
-          link: https://auth.somethinginterestinghere.com
+          title: 🔐 Keycloak
+          link: https://auth
           description: Centralised authentication
         - name: nextcloud
-          link: https://nextcloud.somethinginterestinghere.com
+          title: ⛅ Nextcloud
+          link: https://nextcloud
           description: Personal cloud web interface
 internal:
     sites:
         - name: wallabag
-          link: http://wallabag.nas.home
+          title: 🎒 Wallabag
+          link: http://wallabag
           description: Bookmarking and archiving for the web
         - name: rspamd
-          link: http://rspamd.nas.home
+          title: 🥫 Rspamd
+          link: http://rspamd
           description: View spam management
         - name: userli
-          link: http://mail-users.nas.home
+          title: 📫 Userli
+          link: http://mail-users
           description: View and manage email server users
         - name: calibreweb
-          title: Calibre Web
-          link: http://books.nas.home
+          title: 📖 Calibre Web
+          link: http://books
           description: Browse, download and view ebook collection 
         - name: transmission
-          link: http://torrents.nas.home
+          title: 🗃 transmission
+          link: http://torrents
           description: Torrenting web UI
         - name: ampd
-          title: Ampd
-          link: http://music.nas.home
+          title: 🎙 Ampd
+          link: http://music
           description: View and play MPD music collection
         - name: hangoutsbridge
         - name: launchpad
         - name: adguard
-          title: AdGuard Home
-          link: http://adblock.nas.home
+          title: 🔕 AdGuard Home
+          link: http://adblock
           description: Ad blocking management panel
         - name: emby
-          link: http://media.nas.home
+          title: 📺 Emby
+          link: http://media
           description: View and play music, photos and videos
