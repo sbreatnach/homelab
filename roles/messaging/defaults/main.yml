@@ -9,7 +9,7 @@ matrix:
         extraconf: /etc/matrix-synapse/conf.d
         mautrix_conf: /etc/mautrix
     libraries:
-        - binary: https://github.com/mautrix/whatsapp/releases/download/v0.2.2/mautrix-whatsapp-amd64
+        - binary: https://github.com/mautrix/whatsapp/releases/download/v0.2.4/mautrix-whatsapp-amd64
           name: mautrix-whatsapp
           directory: mautrix-whatsapp
         - repo: https://github.com/mautrix/facebook.git

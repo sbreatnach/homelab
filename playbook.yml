@@ -34,6 +34,8 @@
       tags: [media]
     - role: messaging
       tags: [messaging]
+    - role: search
+      tags: [search]
     - role: torrents
       tags: [torrents]
     - role: vpn

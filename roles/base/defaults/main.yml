@@ -38,4 +38,6 @@ system_users:
   - username: matrix-synapse
     home_directory: /var/lib/matrix-synapse
     shell: /bin/bash
-    enable_pyenv: true
+  - username: searx
+    home_directory: /var/lib/searx
+    shell: /bin/bash

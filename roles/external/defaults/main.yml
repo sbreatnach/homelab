@@ -80,6 +80,10 @@ external:
           description: Personal cloud web interface
 internal:
     sites:
+        - name: searx
+          title: 🔎 Search
+          link: http://search
+          description: Personal search engine
         - name: wallabag
           title: 🎒 Wallabag
           link: http://wallabag

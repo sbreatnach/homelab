@@ -77,9 +77,6 @@ qrencode -r wg-client.conf -l M -o /mnt/Backup/tmp/qrdata.png
 
 # Wishlist (in order of preference)
 
-* 2FA Authorisation server
-* Wireguard VPN
-* Searx search
 * Turtl or equivalent bookmarking service with iOS app
 * Bitwarden password manager
 * Monitoring: metrics aggregator and email alerts
@@ -110,7 +107,7 @@ The following apps and functionality must function to use the PinePhone daily:
 * Weather
 * Calendar + backups
 * Bitwarden
-* Authy
+* 2FA app with auto-backup to Nextcloud/OneDrive/etc.
 
 # Development Environment
 
