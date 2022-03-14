@@ -74,9 +74,9 @@
     - name: mpd.conf
       path: /etc/mpd.conf
     - name: ampd.service
-      path: /etc/systemd/system/ampd.service
+      path: /lib/systemd/system/ampd.service
     - name: calibreweb.service
-      path: /etc/systemd/system/calibreweb.service
+      path: /lib/systemd/system/calibreweb.service
 
 - name: enable systemd services
   systemd:

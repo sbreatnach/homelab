@@ -1,0 +1,21 @@
+- name: install packages
+  ansible.builtin.apt:
+    name: "{{ search.packages }}"
+    update_cache: yes
+
+- import_tasks: searx.yml
+  become_user: searx
+
+- name: create service files
+  ansible.builtin.template:
+    src: "{{ item.name }}.j2"
+    dest: "{{ item.dest }}/{{ item.name }}"
+  loop:
+    - name: searx.service
+      dest: /lib/systemd/system
+
+- name: Enable and start service
+  ansible.builtin.systemd:
+    state: started
+    enabled: yes
+    name: searx

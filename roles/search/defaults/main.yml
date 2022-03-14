@@ -1,0 +1,13 @@
+search:
+  username: searx
+  directories:
+    home: /var/lib/searx
+  secret_key: dummy
+  packages:
+    - python3-dev
+  pip_packages:
+    - pip
+    - setuptools
+    - wheel
+    - pyyaml
+    - gunicorn

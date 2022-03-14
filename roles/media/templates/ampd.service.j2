@@ -7,3 +7,6 @@ WorkingDirectory={{ media.directories.ampd }}
 ExecStart=java -jar -Dmpd.server={{ domains.internal }} -Dmpd.port=6600 -Dserver.port=6660 -Dmpd.music.directory={{ media.directories.music }} {{ media.directories.ampd }}/ampd.jar
 User=mpd
 Restart=always
+
+[Install]
+WantedBy=multi-user.target

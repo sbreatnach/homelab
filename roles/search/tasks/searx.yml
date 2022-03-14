@@ -1,0 +1,22 @@
+- name: clone searx repository
+  ansible.builtin.git:
+    repo: https://github.com/searx/searx.git
+    dest: "{{ search.directories.home }}/searx-src"
+
+- name: install base python dependencies
+  ansible.builtin.pip:
+    name: "{{ search.pip_packages }}"
+    virtualenv: "{{ search.directories.home }}/venv"
+
+- name: install searx requirements
+  ansible.builtin.pip:
+    requirements: "{{ search.directories.home }}/searx-src/requirements.txt"
+    virtualenv: "{{ search.directories.home }}/venv"
+
+- name: create templates
+  ansible.builtin.template:
+    src: "{{ item.name }}.j2"
+    dest: "{{ item.dest }}/{{ item.name }}"
+  loop:
+    - name: settings.yml
+      dest: "{{ search.directories.home }}"
