@@ -16,6 +16,11 @@ dns1	A	{{ vpn_ip_address }}
 ; Fixed network addresses global to vpn domain
 ;
 www	A	{{ vpn_ip_address }}
+{% for subdomain, address in dns.fixed_network_addresses.items() %}
+{% if address.vpn is defined %}
+{{ subdomain }}	A	{{ address.vpn }}
+{% endif %}
+{% endfor %}
 
 media	CNAME	www.{{ domains.vpn }}.
 launchpad	CNAME	www.{{ domains.vpn }}.

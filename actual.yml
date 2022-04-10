@@ -1,7 +1,7 @@
 ---
 media:
   directories:
-    music: /mnt/Backup1/Music
+    music: /mnt/Media/data/Music
 users:
   - username: sbreatnach
     shell: /bin/bash

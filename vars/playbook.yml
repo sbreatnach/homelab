@@ -76,11 +76,12 @@ root_ip_address: 192.168.1.102
 dns:
   fixed_network_addresses:
     # RPi3 in black case
-    rosie: 192.168.1.106
-    # alternate RPi3 in black case
-    joyce: 192.168.1.183
-    # Home Assistant
-    hass: 192.168.1.183
+    rosie:
+      internal: 192.168.1.106
+      vpn: 10.99.0.4
+    # Home Assistant RPi3
+    hass:
+      internal: 192.168.1.183
 nfs_exports:
   - /mnt/Backup     192.168.1.0/24(rw,fsid=0,insecure,no_subtree_check,async)
   - /mnt/Backup1    192.168.1.0/24(rw,fsid=1,insecure,no_subtree_check,async)

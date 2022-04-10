@@ -15,5 +15,14 @@ vpn:
     iphone_se:
       public_key: ZcjrdNjPmy5fNKZkJKxyCmiP5ZDrndY3EVxICEuxlwc=
       ip_address: "10.99.0.2"
+    personal_laptop:
+      public_key: cS2libl32f1U9FmWxDa+wkeRg3OZHpyaT8UuTeFY3h0=
+      ip_address: "10.99.0.3"
+    rpi_rosie:
+      public_key: JuGlk6iVLemnIQTd4OafkUmh5woOAbsJxtHvQigsu3c=
+      ip_address: "10.99.0.4"
+    windows_desktop:
+      public_key: tKfu+KXHO5DUmPC9Mq/Jok5Z7ILB4gygp+redBB1rVk=
+      ip_address: "10.99.0.5"
 # enable to force regeneration of VPN configuration with public/private keys
 vpn_regenerate_config: false

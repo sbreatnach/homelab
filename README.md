@@ -52,14 +52,17 @@ PrivateKey = ${PRIVATE_CLIENT_KEY}
 # the IP address of this client on the WireGuard network
 Address=${NEW_CLIENT_IP}/32
 
+# use DNS on VPN server while active
+DNS = 10.99.0.1, 1.1.1.1
+
 # define the remote WireGuard interface (server)
 [Peer]
 
 # from "sudo wg show wg0"
 PublicKey = ${PUBLIC_SERVER_KEY}
 
-# the IP address of the server on the WireGuard network 
-AllowedIPs = 10.99.0.1/32
+# range of IPs allowed to access this VPN node
+AllowedIPs = 10.99.0.1/24
 
 # public IP address and port of the WireGuard server
 Endpoint = vpn.somethinginterestinghere.com:51820
@@ -73,6 +76,8 @@ AllowedIPs = ${NEW_CLIENT_IP}/32
 EOF
 # image that can be scanned by mobile app for configuration of client
 qrencode -r wg-client.conf -l M -o /mnt/Backup/tmp/qrdata.png
+# restart wireguard on server to pick up configuration
+sudo systemctl restart wg-quick@wg0.service
 ```
 
 # Wishlist (in order of preference)

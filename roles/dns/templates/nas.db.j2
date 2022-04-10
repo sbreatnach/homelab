@@ -16,8 +16,10 @@ dns1	A	{{ root_ip_address }}
 ; Fixed network addresses global to internal domain
 ;
 www	A	{{ root_ip_address }}
-{% for subdomain, ip_address in dns.fixed_network_addresses.items() %}
-{{ subdomain }}	A	{{ ip_address }}
+{% for subdomain, address in dns.fixed_network_addresses.items() %}
+{% if address.internal is defined %}
+{{ subdomain }}	A	{{ address.internal }}
+{% endif %}
 {% endfor %}
 
 media	CNAME	www.{{ domains.internal }}.
