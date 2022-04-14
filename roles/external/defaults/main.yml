@@ -104,10 +104,14 @@ internal:
           title: 🗃 transmission
           link: http://torrents
           description: Torrenting web UI
-        - name: ampd
-          title: 🎙 Ampd
+        - name: navidrome
+          title: 🎙 Navidrome
           link: http://music
-          description: View and play MPD music collection
+          description: View and play music collection
+        - name: ampd
+          title: 📻 Ampd
+          link: http://mpd
+          description: View and play MPD collection
         - name: hangoutsbridge
         - name: launchpad
         - name: adguard

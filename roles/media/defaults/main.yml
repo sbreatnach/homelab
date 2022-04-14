@@ -1,3 +1,6 @@
+lastfm:
+  api_key: dummy
+  secret: dummy
 media:
     users:
         calibre:
@@ -5,6 +8,7 @@ media:
     directories:
         music: /var/lib/mpd/music
         ampd: /opt/ampd
+        navidrome: /opt/navidrome
         calibre: /opt/calibre
     python_libraries:
         - repo: https://github.com/janeczku/calibre-web.git
@@ -14,8 +18,12 @@ media:
           owner: calibre
           extra_dependencies:
             - python-ldap
+    binary_archives:
+        - url: https://github.com/navidrome/navidrome/releases/download/v0.47.5/navidrome_0.47.5_Linux_x86_64.tar.gz
+          dest: /opt/navidrome
     apt_packages:
         - name: mpd
+        - name: ffmpeg
         - name: calibre
           install_recommends: false
     java_packages:

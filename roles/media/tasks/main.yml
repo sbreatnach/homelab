@@ -14,6 +14,8 @@
   with_items:
     - path: "{{ media.directories.ampd }}"
       user: mpd
+    - path: "{{ media.directories.navidrome }}"
+      user: mpd
     - path: "{{ media.directories.calibre }}"
       user: calibre
 
@@ -32,6 +34,13 @@
     url: "{{ item.url }}"
     dest: "{{ item.path }}"
   with_items: "{{ media.java_packages }}"
+
+- name: Download archived binaries
+  ansible.builtin.unarchive:
+    src: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+    remote_src: yes
+  with_items: "{{ media.binary_archives }}"
 
 - name: checkout Git libraries
   git:
@@ -77,6 +86,10 @@
       path: /lib/systemd/system/ampd.service
     - name: calibreweb.service
       path: /lib/systemd/system/calibreweb.service
+    - name: navidrome.service
+      path: /lib/systemd/system/navidrome.service
+    - name: navidrome.toml
+      path: /opt/navidrome/navidrome.toml
 
 - name: enable systemd services
   systemd:
@@ -87,3 +100,4 @@
     - snapserver
     - ampd
     - calibreweb
+    - navidrome

@@ -54,6 +54,10 @@ Address=${NEW_CLIENT_IP}/32
 
 # use DNS on VPN server while active
 DNS = 10.99.0.1, 1.1.1.1
+# Enable the following on Linux only - 
+# enables use of DNS with whatever is managing it
+#PostUp = resolvectl dns %i 10.99.0.1; resolvectl domain %i "~."
+#PreDown = resolvectl revert %i
 
 # define the remote WireGuard interface (server)
 [Peer]
