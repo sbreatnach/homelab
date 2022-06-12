@@ -3,6 +3,13 @@ games:
     - username: games
       shell: /bin/bash
       home_dir: /home/games
+  factorio:
+    url: https://factorio.com/get-download/stable/headless/linux64
+    directory: /home/games/factorio
+    save_name: nas
+    configs:
+      - name: factorio.service
+        directory: /lib/systemd/system
   minecraft:
     whitelist:
       - uuid: "59495a2e-a030-47ea-871e-6da1825f74b1"

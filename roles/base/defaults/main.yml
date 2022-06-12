@@ -1,5 +1,7 @@
 ---
 base:
+  services:
+    - powertop
   extra_paths: []
   packages:
     - name: git
@@ -28,6 +30,7 @@ base:
     - name: libreadline-dev
     - name: libsqlite3-dev
     - name: libssl-dev
+    - name: powertop
     - name: python3-openssl
     - name: tk-dev
     - name: wget

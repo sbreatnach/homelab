@@ -65,6 +65,9 @@ ufw_rules:
   # VPN access
   - port: 51820
     rule: allow
+  # Factorio dedicated server
+  - port: 34197
+    rule: allow
 domains:
   internal: nas.home
   vpn: nas.vpn

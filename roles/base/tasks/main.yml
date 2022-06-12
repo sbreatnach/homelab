@@ -32,3 +32,16 @@
 
 - name: configure sysctl settings
   copy: src=sysctl.conf dest=/etc/sysctl.conf
+
+- name: create base service files
+  template:
+    src: "{{ item }}.service.j2"
+    dest: "/lib/systemd/system/{{ item }}.service"
+  with_items: "{{ base.services }}"
+
+- name: enable base services
+  systemd:
+    state: started
+    enabled: true
+    name: "{{ item }}"
+  with_items: "{{ base.services }}"

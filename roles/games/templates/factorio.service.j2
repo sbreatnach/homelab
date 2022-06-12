@@ -1,0 +1,17 @@
+[Unit]
+Description=Factorio Dedicated Server
+Documentation=
+
+Wants=network.target
+After=network.target
+
+[Service]
+User=games
+Group=games
+Nice=5
+Restart=always
+WorkingDirectory={{ games.factorio.directory }}
+ExecStart={{ games.factorio.directory }}/bin/x64/factorio --start-server {{ games.factorio.directory }}/saves/{{ games.factorio.save_name }}.zip
+
+[Install]
+WantedBy=multi-user.target

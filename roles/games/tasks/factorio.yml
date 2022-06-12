@@ -1,0 +1,41 @@
+- name: Extract server archive
+  unarchive:
+    src: "{{ games.factorio.url }}"
+    dest: "/home/games"
+    remote_src: yes
+
+- name: set directory permissions
+  shell:
+    cmd: chown -R games:games {{ games.factorio.directory }}
+
+- name: create game directories
+  file:
+    path: "{{ item }}"
+    owner: games
+    group: games
+    state: directory
+  with_items:
+    - "{{ games.factorio.directory }}/saves"
+
+- name: create save, if it doesn't exist
+  become_user: games
+  shell:
+    chdir: "{{ games.factorio.directory }}"
+    creates: "{{ games.factorio.directory }}/saves/{{ games.factorio.save_name }}.zip"
+    cmd: "{{ games.factorio.directory }}/bin/x64/factorio --create {{ games.factorio.directory }}/saves/{{ games.factorio.save_name }}.zip"
+
+- name: create game configs
+  template:
+    src: "{{ item.name }}.j2"
+    dest: "{{ item.directory }}/{{ item.name }}"
+    owner: "{{ item.owner|default(omit) }}"
+    group: "{{ item.group|default(omit) }}"
+  with_items: "{{ games.factorio.configs }}"
+
+- name: enable systemd services
+  systemd:
+    state: started
+    enabled: true
+    name: "{{ item }}"
+  with_items:
+    - factorio
