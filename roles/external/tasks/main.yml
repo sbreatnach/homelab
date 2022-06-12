@@ -36,7 +36,7 @@
       path: /root
       mode: "700"
     - name: php.ini
-      path: /etc/php/7.3/fpm
+      path: /etc/php/{{ external.php_version }}/fpm
       mode: "644"
     - name: nextcloud-common.conf
       path: /etc/nginx/sites-available

@@ -1,6 +1,7 @@
 cloudflare:
     token: dummy
 external:
+    php_version: "7.4"
     dns_records:
       - record: auth
         type: CNAME
@@ -57,9 +58,9 @@ external:
         - mail
     apt_packages:
         - nginx
-        - php7.3
+        - php7.4
         - composer
-        - php7.3-fpm
+        - php7.4-fpm
     pip_packages:
         - certbot
         - certbot-dns-cloudflare

@@ -6,24 +6,6 @@
 - name: generate TLS certs
   shell: update-ca-certificates
 
-- name: create required directories
-  file:
-    name: "{{ item.name }}"
-    mode: "{{ item.mode|default(omit) }}"
-    owner: "{{ item.owner|default(omit) }}"
-    group: "{{ item.group|default(omit) }}"
-    state: directory
-  with_items:
-    - name: /etc/dovecot/sieve-after
-      owner: vmail
-      group: vmail
-    - name: /etc/dovecot/sieve
-      owner: vmail
-      group: vmail
-    - name: /var/lib/rspamd/dkim
-      owner: _rspamd
-      group: _rspamd
-
 - name: create system groups
   group:
     name: "{{ item.name }}"
@@ -54,6 +36,24 @@
     - username: dovecot
       append: true
       groups: userli
+
+- name: create required directories
+  file:
+    name: "{{ item.name }}"
+    mode: "{{ item.mode|default(omit) }}"
+    owner: "{{ item.owner|default(omit) }}"
+    group: "{{ item.group|default(omit) }}"
+    state: directory
+  with_items:
+    - name: /etc/dovecot/sieve-after
+      owner: vmail
+      group: vmail
+    - name: /etc/dovecot/sieve
+      owner: vmail
+      group: vmail
+    - name: /var/lib/rspamd/dkim
+      owner: _rspamd
+      group: _rspamd
 
 - import_tasks: userli.yml
 

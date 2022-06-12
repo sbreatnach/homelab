@@ -1,4 +1,10 @@
 # Media players install + config
+- name: install apt packages
+  apt:
+    name: "{{ item.name }}"
+    install_recommends: "{{ item.install_recommends|default(True) }}"
+  with_items: "{{ media.apt_packages }}"
+
 - name: create users
   user:
     name: "{{ item.key }}"
@@ -18,12 +24,6 @@
       user: mpd
     - path: "{{ media.directories.calibre }}"
       user: calibre
-
-- name: install apt packages
-  apt:
-    name: "{{ item.name }}"
-    install_recommends: "{{ item.install_recommends|default(True) }}"
-  with_items: "{{ media.apt_packages }}"
 
 - name: install deb packages
   apt: deb={{ item.path }} state=present

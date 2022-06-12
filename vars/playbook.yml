@@ -1,5 +1,5 @@
 ---
-distro_name: buster
+distro_name: bullseye
 ufw_rules:
   # HTTP/HTTPS
   - port: 80

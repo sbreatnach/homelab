@@ -3,6 +3,7 @@
   community.general.postgresql_user:
     name: "{{ item.name }}"
     password: "{{ item.password|default('') }}"
+    role_attr_flags: "{{ item.roles|default(omit) }}"
   with_items: "{{ storage.postgresql.users }}"
 
 - name: create databases
@@ -19,7 +20,7 @@
 - name: set hba access
   become_user: postgres
   community.general.postgresql_pg_hba:
-    dest: /etc/postgresql/11/main/pg_hba.conf
+    dest: /etc/postgresql/{{ storage.postgresql.version }}/main/pg_hba.conf
     contype: "{{ item.connection_type }}"
     users: "{{ item.users }}"
     source: "{{ item.source }}"
