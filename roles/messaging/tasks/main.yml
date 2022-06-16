@@ -19,6 +19,11 @@
   with_items:
     - matrix-synapse-py3
 
+- name: register web client directory
+  stat:
+    path: /var/www/matrixweb
+  register: client_result
+
 - name: create additional directories
   file:
     path: "{{ item }}"
@@ -53,11 +58,6 @@
       path: "{{ matrix.directory.mautrix_conf }}"
     - name: mautrix-whatsapp-registration.yaml
       path: "{{ matrix.directory.extraconf }}"
-
-- name: register web client directory
-  stat:
-    path: /var/www/matrixweb
-  register: client_result
 
 - name: Install web client
   when: not client_result.stat.exists or force_install is defined

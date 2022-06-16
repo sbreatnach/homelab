@@ -1,0 +1,2 @@
+[nas]
+nas ansible_ssh_host=192.168.1.103 ansible_ssh_port=22 ansible_ssh_user=sbreatnach ansible_python_interpreter=python3
