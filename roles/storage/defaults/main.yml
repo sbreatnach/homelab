@@ -39,6 +39,8 @@ storage:
         owner: nextcloud
       - name: wallabag
         owner: wallabag
+        collate: en_IE.UTF-8
+        ctype: en_IE.UTF-8
       - name: mailserver
         owner: mailserver
       - name: userli

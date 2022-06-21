@@ -25,5 +25,3 @@ partitions:
     device: /dev/sdd4
     filesystem: ntfs
     flags: defaults
-network_devices:
-  - eth0

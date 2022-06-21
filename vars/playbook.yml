@@ -85,8 +85,4 @@ dns:
     # Home Assistant RPi3
     hass:
       internal: 192.168.1.183
-nfs_exports:
-  - /mnt/Backup     192.168.1.0/24(rw,fsid=0,insecure,no_subtree_check,async)
-  - /mnt/Backup1    192.168.1.0/24(rw,fsid=1,insecure,no_subtree_check,async)
-  - /mnt/Backup2    192.168.1.0/24(rw,fsid=2,insecure,no_subtree_check,async)
-  - /mnt/Media      192.168.1.0/24(rw,fsid=3,insecure,no_subtree_check,async)
+nfs_exports: []

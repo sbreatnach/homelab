@@ -123,3 +123,7 @@ internal:
           title: 📺 Emby
           link: http://media
           description: View and play music, photos and videos
+        - name: homeassistant
+          title: 🎩 Home Assistant
+          link: http://hass
+          description: View and control all IoT devices

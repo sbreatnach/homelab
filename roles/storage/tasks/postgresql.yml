@@ -10,10 +10,10 @@
   become_user: postgres
   community.general.postgresql_db:
     name: "{{ item.name }}"
-    encoding: UTF-8
-    lc_collate: C
-    lc_ctype: C
-    template: template0
+    encoding: "{{ item.encoding|default('UTF-8') }}"
+    lc_collate: "{{ item.collate|default('C') }}"
+    lc_ctype: "{{ item.ctype|default('C') }}"
+    template: "{{ item.template|default('template0') }}"
     owner: "{{ item.owner }}"
   with_items: "{{ storage.postgresql.databases }}"
 

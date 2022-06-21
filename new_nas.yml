@@ -12,28 +12,31 @@ torrents:
   root_path: /mnt/Backup1/data/Torrents
 partitions:
   - path: /
-  # - path: /mnt/Backup1
-  #   name: Backup1
-  #   device: /dev/sda1
-  #   filesystem: ntfs
-  #   flags: defaults
-  # - path: /mnt/Backup2
-  #   name: Backup2
-  #   device: /dev/sdb1
-  #   filesystem: ntfs
-  #   flags: defaults
-  # - path: /mnt/Backup
-  #   name: Backup
-  #   device: /dev/sdc1
-  #   filesystem: ntfs
-  #   flags: defaults
   - path: /mnt/Backup1
     name: Backup1
     device: UUID=55490f6f-0af7-454c-8b54-878ab03b9ab5
     filesystem: ext4
     flags: defaults,nofail
-network_devices:
-  - eno1
+  - path: /mnt/Backup2
+    name: Backup2
+    device: UUID=AA6E40366E3FFA21
+    filesystem: ntfs
+    flags: defaults,nofail
+  - path: /mnt/Backup3
+    name: Backup3
+    device: UUID=1FF839686B22CA72
+    filesystem: ntfs
+    flags: defaults,nofail
+  - path: /mnt/Backup4
+    name: Backup4
+    device: UUID=2E29C6372E4CB835
+    filesystem: ntfs
+    flags: defaults,nofail
+  - path: /mnt/Backup5
+    name: Backup5
+    device: UUID=f7e92564-08ce-49a1-aed3-691a6b580db8
+    filesystem: ext4
+    flags: defaults,nofail
 nextcloud:
   directories:
     data: /mnt/Backup1/nextcloud
@@ -43,5 +46,10 @@ email:
       password: dummy
       aliases:
         - deesno
-nfs_exports: []
+nfs_exports:
+  - /mnt/Backup1    192.168.1.0/24(rw,fsid=0,insecure,no_subtree_check,async)
+  - /mnt/Backup2    192.168.1.0/24(rw,fsid=1,insecure,no_subtree_check,async)
+  - /mnt/Backup3    192.168.1.0/24(rw,fsid=2,insecure,no_subtree_check,async)
+  - /mnt/Backup4    192.168.1.0/24(rw,fsid=3,insecure,no_subtree_check,async)
+  - /mnt/Backup5    192.168.1.0/24(rw,fsid=4,insecure,no_subtree_check,async)
 root_ip_address: 192.168.1.103
