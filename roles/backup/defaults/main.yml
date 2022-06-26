@@ -28,7 +28,7 @@ cronjobs:
     minute: 0
     hour: 1
     day: "*"
-    user: www-data
+    user: root
   - name: sbreatnach OneDrive Backup
     job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-onedrive backup /home/sbreatnach/OneDrive/"
     minute: 0

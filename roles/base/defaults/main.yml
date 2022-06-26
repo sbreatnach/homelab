@@ -1,5 +1,11 @@
 ---
 base:
+  cronjobs:
+  - name: Sleep for the night
+    job: "/usr/sbin/rtcwake -u -s 120 -m mem"
+    minute: 30
+    hour: 0
+    day: "*"
   services:
     - powertop
   extra_paths: []

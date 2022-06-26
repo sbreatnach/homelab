@@ -45,3 +45,13 @@
     enabled: true
     name: "{{ item }}"
   with_items: "{{ base.services }}"
+
+- name: install cron jobs
+  cron:
+    user: root
+    job: "{{ item.job }}"
+    name: "{{ item.name }}"
+    minute: "{{ item.minute }}"
+    hour: "{{ item.hour }}"
+    day: "{{ item.day }}"
+  with_items: "{{ base.cronjobs }}"

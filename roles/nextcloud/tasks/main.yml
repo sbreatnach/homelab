@@ -54,6 +54,7 @@
     - localhost
     - "nextcloud.{{ domains.external }}"
     - "nextcloud.{{ domains.internal }}"
+    - "nextcloud.{{ domains.vpn }}"
 
 - name: set standard config
   become_user: "{{ nextcloud.user }}"
