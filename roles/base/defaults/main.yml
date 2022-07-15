@@ -2,9 +2,14 @@
 base:
   cronjobs:
   - name: Sleep for the night
-    job: "/usr/sbin/rtcwake -u -s 120 -m mem"
+    job: "/usr/sbin/rtcwake -u -s 18000 -m mem"
     minute: 30
     hour: 0
+    day: "*"
+  - name: Reboot daily
+    job: "/usr/sbin/reboot"
+    minute: 30
+    hour: 6
     day: "*"
   services:
     - powertop
