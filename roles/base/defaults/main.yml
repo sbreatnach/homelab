@@ -9,7 +9,7 @@ base:
   - name: Reboot daily
     job: "/usr/sbin/reboot"
     minute: 30
-    hour: 6
+    hour: 5
     day: "*"
   services:
     - powertop
