@@ -87,9 +87,13 @@
     - name: calibreweb.service
       path: /lib/systemd/system/calibreweb.service
     - name: navidrome.service
+      path: /lib/systemd/system/photoview.service
+    - name: photoview.service
       path: /lib/systemd/system/navidrome.service
     - name: navidrome.toml
       path: /opt/navidrome/navidrome.toml
+    - name: photoview.env
+      path: /opt/photoview/photoview.env
 
 - name: enable systemd services
   systemd:
@@ -101,3 +105,4 @@
     - ampd
     - calibreweb
     - navidrome
+    - photoview

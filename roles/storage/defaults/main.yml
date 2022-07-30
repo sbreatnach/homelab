@@ -45,6 +45,8 @@ storage:
         owner: mailserver
       - name: userli
         owner: userli
+      - name: photoview
+        owner: photoview
     users:
       - name: synapse
       - name: keycloak
@@ -66,6 +68,8 @@ storage:
         password: mailadmin
       - name: userli
         password: userli
+      - name: photoview
+        password: photoview
     hba:
       - connection_type: host
         databases: synapse

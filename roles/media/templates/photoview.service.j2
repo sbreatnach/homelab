@@ -1,0 +1,44 @@
+[Unit]
+Description=Photoview Image Gallery
+After=remote-fs.target network.target
+AssertPathExists={{ media.directories.photoview }}
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+User=photoview
+Type=simple
+ExecStart={{ media.directories.photoview }}/app/photoview
+WorkingDirectory={{ media.directories.photoview }}/app
+EnvironmentFile={{ media.directories.photoview }}/photoview.env
+TimeoutStopSec=20
+KillMode=process
+Restart=on-failure
+
+# See https://www.freedesktop.org/software/systemd/man/systemd.exec.html
+DevicePolicy=closed
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateUsers=yes
+ProtectControlGroups=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=yes
+RestrictRealtime=yes
+SystemCallFilter=~@clock @debug @module @mount @obsolete @reboot @setuid @swap
+ReadWritePaths={{ media.directories.photoview }}
+
+# You can uncomment the following line if you're not using the jukebox This
+# will prevent the app from accessing any real (physical) devices
+PrivateDevices=yes
+
+# You can change the following line to `strict` instead of `full` if you don't
+# want the app to be able to write anything on your filesystem outside of
+# the app directory.
+ProtectSystem=full
+
+# You can uncomment the following line if you don't have any media in /home/*.
+# This will prevent the app from ever reading/writing anything there.
+ProtectHome=true

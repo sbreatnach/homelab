@@ -105,6 +105,10 @@ internal:
           title: 🗃 transmission
           link: http://torrents
           description: Torrenting web UI
+        - name: photoview
+          title: 📸 Photoview
+          link: http://photos
+          description: View photo collection
         - name: navidrome
           title: 🎙 Navidrome
           link: http://music
