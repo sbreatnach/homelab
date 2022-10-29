@@ -76,6 +76,9 @@ domains:
   external_tld: com
 vpn_ip_address: "10.99.0.1"
 root_ip_address: 192.168.1.102
+root_network_interface: eno1
+vpn_network_interface: wg0
+force_install: false
 dns:
   fixed_network_addresses:
     # RPi3 in black case

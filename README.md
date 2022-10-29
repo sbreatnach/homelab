@@ -85,6 +85,17 @@ qrencode -r wg-client.conf -l M -o /mnt/Backup/tmp/qrdata.png
 sudo systemctl restart wg-quick@wg0.service
 ```
 
+# Bugs TODO
+
+* Samba starts too early on boot and cannot bind to network interfaces. It works
+  on local loop interface and thus does not fail.
+* sambauser does not have write access to mounts - add named groups for directories
+  and include sambauser into groups
+  groupadd music
+  usermod -a -G music sambauser
+  chgrp -R music /mnt/Backup1/data/Music
+  chmod -R g+w /mnt/Backup1/data/Music
+
 # Wishlist (in order of preference)
 
 * Turtl or equivalent bookmarking service with iOS app
