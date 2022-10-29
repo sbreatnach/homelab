@@ -1,4 +1,4 @@
-# Matrix server + bridges to Googlechat, Facebook Messenger, et al
+# Matrix server + bridges to Facebook Messenger, et al
 - name: setup repository keys
   apt_key:
     url: https://packages.matrix.org/debian/matrix-org-archive-keyring.gpg
@@ -14,10 +14,11 @@
 - name: install messaging packages
   apt:
     name: "{{ item }}"
-    state: present
+    state: "{% if force_install %}latest{% else %}present{% endif %}"
     update_cache: true
   with_items:
     - matrix-synapse-py3
+    - libolm-dev
 
 - name: register web client directory
   stat:
@@ -49,10 +50,6 @@
     - name: mautrix-facebook-config.yaml
       path: "{{ matrix.directory.mautrix_conf }}"
     - name: mautrix-facebook-registration.yaml
-      path: "{{ matrix.directory.extraconf }}"
-    - name: mautrix-googlechat-config.yaml
-      path: "{{ matrix.directory.mautrix_conf }}"
-    - name: mautrix-googlechat-registration.yaml
       path: "{{ matrix.directory.extraconf }}"
     - name: mautrix-whatsapp-config.yaml
       path: "{{ matrix.directory.mautrix_conf }}"
@@ -121,7 +118,6 @@
     dest: "/etc/systemd/system/{{ item }}"
   with_items:
     - matrix-synapse.service
-    - mautrix-googlechat.service
     - mautrix-facebook.service
     - mautrix-whatsapp.service
     - matrix-synapse.target
@@ -133,7 +129,6 @@
     name: "{{ item }}"
   with_items:
     - matrix-synapse
-    - mautrix-googlechat
     - mautrix-facebook
     - mautrix-whatsapp
     - matrix-synapse.target
