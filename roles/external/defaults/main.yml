@@ -131,3 +131,4 @@ internal:
           title: 🎩 Home Assistant
           link: http://hass
           description: View and control all IoT devices
+          has_config: false

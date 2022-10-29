@@ -71,6 +71,7 @@
     dest: "/etc/nginx/sites-available/{{ item.name }}.conf"
     mode: 0600
   with_items: "{{ internal.sites }}"
+  when: item.has_config|default(True)
 
 - name: enable internal site configs
   file:
@@ -78,6 +79,7 @@
     src: "/etc/nginx/sites-available/{{ item.name }}.conf"
     path: "/etc/nginx/sites-enabled/{{ item.name }}.conf"
   with_items: "{{ internal.sites }}"
+  when: item.has_config|default(True)
 
 - name: install certbot certificate
   shell: certbot certonly --dns-cloudflare -n
