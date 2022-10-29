@@ -21,6 +21,11 @@ media:
           owner: calibre
           extra_dependencies:
             - python-ldap
+    package_directories:
+        - directory_key: calibre
+          owner: calibre
+        - directory_key: photoview
+          owner: photoview
     binary_archives:
         - url: https://github.com/navidrome/navidrome/releases/download/v0.47.5/navidrome_0.47.5_Linux_x86_64.tar.gz
           dest: /opt/navidrome
