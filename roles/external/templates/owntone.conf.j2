@@ -1,0 +1,11 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name owntone.{{ domains.internal }} owntone.{{ domains.vpn }};
+
+    location / {
+        proxy_pass http://localhost:3689;
+        proxy_set_header X-Forwarded-For $remote_addr;
+    }
+}

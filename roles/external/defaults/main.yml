@@ -113,6 +113,10 @@ internal:
           title: 🎙 Navidrome
           link: http://music
           description: View and play music collection
+        - name: owntone
+          title: 🎹 Owntone
+          link: http://owntone
+          description: View and play music collection
         - name: ampd
           title: 📻 Ampd
           link: http://mpd

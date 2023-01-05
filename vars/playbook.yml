@@ -43,6 +43,13 @@ ufw_rules:
   # samba
   - port: 445
     rule: allow
+  # DAAP music server
+  - port: 3689
+    rule: allow
+  # mDNS via Avahi
+  - port: 5353
+    rule: allow
+    proto: udp
   # matrix federation
   - port: 8448
     rule: allow
@@ -87,5 +94,5 @@ dns:
       vpn: 10.99.0.4
     # Home Assistant RPi3
     hass:
-      internal: 192.168.1.183
+      internal: 192.168.1.69
 nfs_exports: []
