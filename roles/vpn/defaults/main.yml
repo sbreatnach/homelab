@@ -33,5 +33,8 @@ vpn:
     unknown2:
       public_key: tW/PKO8Jx0OruZLI2fVbmI0xT0rlPTd7Uhzq1xclbh8=
       ip_address: "10.99.0.8"
+    ipad_10th_gen:
+      public_key: iwm7TGYYRI5AjRreTqbIH30TPzaeXaA7QW3g9obp/mg=
+      ip_address: "10.99.0.9"
 # enable to force regeneration of VPN configuration with public/private keys
 vpn_regenerate_config: false
