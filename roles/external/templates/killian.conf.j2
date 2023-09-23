@@ -1,0 +1,14 @@
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    ssl_certificate {{ external.certificates.killian.full_chain }};
+    ssl_certificate_key {{ external.certificates.killian.key }};
+
+    server_name killian.{{ domains.external }};
+
+    location / {
+        root /var/www/killian_site;
+        index index.html;
+    }
+}
