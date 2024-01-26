@@ -112,7 +112,11 @@ internal:
         - name: calibreweb
           title: 📖 Calibre Web
           link: http://books
-          description: Browse, download and view ebook collection 
+          description: Browse, download and view ebook collection
+        - name: audiobookshelf
+          title: 🎧 Audiobookshelf
+          link: http://audiobooks
+          description: Browse, download and view audiobook collection
         - name: transmission
           title: 🗃 transmission
           link: http://torrents

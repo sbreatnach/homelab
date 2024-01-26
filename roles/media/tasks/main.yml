@@ -1,4 +1,18 @@
 # Media players install + config
+- name: setup repository keys
+  apt_key:
+    url: "{{ item.url }}"
+    keyring: "{{ item.keyring }}"
+    state: present
+  with_items: "{{ media.apt_keys }}"
+
+- name: setup repositories
+  apt_repository:
+    repo: "{{ item.repo }}"
+    filename: "{{ item.name }}"
+    state: present
+  with_items: "{{ media.apt_repositories }}"
+
 - name: install apt packages
   apt:
     name: "{{ item.name }}"
@@ -96,6 +110,8 @@
       path: /opt/navidrome/navidrome.toml
     - name: photoview.env
       path: /opt/photoview/photoview.env
+    - name: audiobookshelf.env
+      path: /etc/default/audiobookshelf
 
 - name: enable systemd services
   systemd:
@@ -108,3 +124,4 @@
     - calibreweb
     - navidrome
     - photoview
+    - audiobookshelf

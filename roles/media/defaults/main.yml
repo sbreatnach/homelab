@@ -31,14 +31,21 @@ media:
           dest: /opt/navidrome
         - url: https://github.com/sbreatnach/photoview/releases/download/v2.3.12/photoview_v2.3.12_linux_amd64.tar.gz
           dest: /opt/photoview
+    apt_keys:
+        - url: https://advplyr.github.io/audiobookshelf-ppa/KEY.gpg
+          keyring: /etc/apt/trusted.gpg.d/adb-archive-keyring.gpg
+    apt_repositories:
+        - repo: deb https://advplyr.github.io/audiobookshelf-ppa ./
+          name: audiobookshelf
     apt_packages:
         - name: mpd
         - name: ffmpeg
+        - name: audiobookshelf
         - name: calibre
           install_recommends: false
     java_packages:
         - url: https://github.com/rain0r/ampd/releases/download/ampd-1.3.7/ampd-1.3.7.jar
           path: /opt/ampd/ampd.jar
     deb_packages:
-        - path: https://github.com/MediaBrowser/Emby.Releases/releases/download/4.6.7.0/emby-server-deb_4.6.7.0_amd64.deb
-        - path: https://github.com/badaix/snapcast/releases/download/v0.26.0/snapserver_0.26.0-1_amd64.deb
+        - path: https://github.com/MediaBrowser/Emby.Releases/releases/download/4.7.11.0/emby-server-deb_4.7.11.0_amd64.deb
+        - path: https://github.com/badaix/snapcast/releases/download/v0.27.0/snapserver_0.27.0-1_amd64.deb
