@@ -13,10 +13,10 @@
         </th>
       </tr>
       {% for site in external.sites %}
-      {% if site.link is defined %}
+      {% if site.subdomain is defined %}
       <tr>
         <td>
-          <a target="_blank" href="{{ site.link }}.{{ domains.external }}">{{ site.title|default(site.name|capitalize) }}</a>
+          <a target="_blank" href="https://{{ site.subdomain }}.{{ domains.external }}">{{ site.title|default(site.name|capitalize) }}</a>
         </td>
         <td>
           {{ site.description|default('') }}
@@ -32,7 +32,7 @@
         </th>
       </tr>
       {% for site in internal.sites %}
-      {% if site.link is defined %}
+      {% if site.subdomain is defined %}
       <tr>
         <td>
           {{ site.title|default(site.name|capitalize) }}
@@ -41,14 +41,21 @@
           {{ site.description|default('') }}
         </td>
         <td>
-          <a target="_blank" href="{{ site.link }}.{{ domains.internal }}">Home</a>
+          <a target="_blank" href="http://{{ site.subdomain }}.{{ domains.internal }}">Home</a>
         </td>
         <td>
-          <a target="_blank" href="{{ site.link }}.{{ domains.vpn }}">VPN</a>
+          <a target="_blank" href="http://{{ site.subdomain }}.{{ domains.vpn }}">VPN</a>
         </td>
       </tr>
       {% endif %}
       {% endfor %}
     </table>
+    <p>
+      Put the following into your etc/hosts file to manually configure all sites:
+      </br>
+      <pre>
+{{ root_ip_address }}	{{ domains.internal }}	{% for site in internal.sites %}{% if site.subdomain is defined and site.has_config|default(true) %}{{ site.subdomain }}.{{ domains.internal }}	{% endif %}{% endfor %}
+      </pre>
+    </p>
   </body>
 </html>

@@ -91,11 +91,10 @@ bridge:
       m.video: <b>{{ .Sender.Displayname }}</b> sent a video
 {% endraw %}
 logging:
-  directory: {{ matrix.directory.main }}
-{% raw %}
-  file_name_format: 'mautrix-whatsapp-{{.Date}}-{{.Index}}.log'
-{% endraw %}
-  file_date_format: "2006-01-02"
-  file_mode: 384
-  timestamp_format: Jan _2, 2006 15:04:05
-  print_level: debug
+  min_level: debug
+  writers:
+    - type: file
+      filename: {{ matrix.directory.logs }}/mautrix-whatsapp.log
+      max_size: 100
+      max_backups: 10
+      compress: true

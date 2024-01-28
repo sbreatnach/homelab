@@ -10,9 +10,9 @@ LimitNPROC=512
 CapabilityBoundingSet=CAP_NET_BIND_SERVICE
 AmbientCapabilities=CAP_NET_BIND_SERVICE
 NoNewPrivileges=true
-User=dns
-WorkingDirectory=~
-ExecStart=/home/dns/coredns -conf=/home/dns/Corefile
+User={{ dns.user }}
+WorkingDirectory=/home/{{ dns.user }}
+ExecStart=/home/{{ dns.user }}/coredns -conf=/home/{{ dns.user }}/Corefile
 ExecReload=/bin/kill -SIGUSR1 $MAINPID
 Restart=on-failure
 

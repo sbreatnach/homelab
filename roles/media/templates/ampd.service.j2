@@ -4,7 +4,7 @@ After=mpd.service
 
 [Service]
 WorkingDirectory={{ media.directories.ampd }}
-ExecStart=java -jar -Dserver.port=6660 -Dmpd.music.directory={{ media.directories.music }} {{ media.directories.ampd }}/ampd.jar
+ExecStart={{ media.java_home }}/bin/java -jar -Dserver.port=6660 -Dmpd.music.directory={{ media.directories.music }} {{ media.directories.ampd }}/ampd.jar
 User=mpd
 Restart=always
 

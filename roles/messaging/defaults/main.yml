@@ -1,19 +1,20 @@
 matrix:
     user: matrix-synapse
-    web_version: v1.11.8
+    web_version: v1.11.55
     directory:
         venv: /opt/venvs/matrix-synapse
         venv_base: /var/lib/matrix-synapse/venv
         main: /var/lib/matrix-synapse
+        logs: /var/log/matrix-synapse
         conf: /etc/matrix-synapse
         extraconf: /etc/matrix-synapse/conf.d
         mautrix_conf: /etc/mautrix
     libraries:
-        - binary: https://github.com/mautrix/whatsapp/releases/download/v0.2.4/mautrix-whatsapp-amd64
+        - binary: https://github.com/mautrix/whatsapp/releases/download/v0.10.5/mautrix-whatsapp-amd64
           name: mautrix-whatsapp
           directory: mautrix-whatsapp
         - repo: https://github.com/mautrix/facebook.git
-          version: v0.4.0
+          version: v0.5.1
           name: mautrix-facebook
           requirements: requirements.txt
     oidc:

@@ -59,6 +59,7 @@
   with_items: "{{ media.binary_archives }}"
 
 - name: checkout Git libraries
+  become_user: "{{ item.owner }}"
   git:
     repo: "{{ item.repo }}"
     dest: "{{ media.directories[item.directory_key] }}/{{ item.name }}"

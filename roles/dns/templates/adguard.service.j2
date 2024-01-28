@@ -4,9 +4,9 @@ Documentation=https://adguard.io
 After=network.target
 
 [Service]
-User=dns
-WorkingDirectory=~
-ExecStart=/home/dns/AdGuardHome/AdGuardHome -c /home/dns/adguard.yaml -l syslog
+User={{ dns.user }}
+WorkingDirectory=/home/{{ dns.user }}
+ExecStart=/home/{{ dns.user }}/AdGuardHome/AdGuardHome -c /home/{{ dns.user }}/adguard.yaml
 ExecReload=/bin/kill -SIGUSR1 $MAINPID
 Restart=on-failure
 

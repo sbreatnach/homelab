@@ -1,15 +1,24 @@
 - name: create DNS serving user
   user:
-    name: dns
+    name: "{{ dns.user }}"
     comment: "DNS serving user"
-    home: /home/dns
+    home: /home/{{ dns.user }}
 
 - name: download and extract DNS binaries
   unarchive:
     src: "{{ item }}"
-    dest: /home/dns
+    dest: /home/{{ dns.user }}
     remote_src: yes
   with_items: "{{ dns.archives }}"
+
+- name: create directories
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ item.user }}"
+    state: directory
+  with_items:
+    - path: "{{ dns.directories.logs }}"
+      user: "{{ dns.user }}"
 
 - name: create DNS configurations
   template:
@@ -17,13 +26,13 @@
     dest: "{{ item.path }}"
   with_items:
     - template: adguard.yaml.j2
-      path: /home/dns/adguard.yaml
+      path: /home/{{ dns.user }}/adguard.yaml
     - template: Corefile.j2
-      path: /home/dns/Corefile
+      path: /home/{{ dns.user }}/Corefile
     - template: nas.db.j2
-      path: /home/dns/nas.db
+      path: /home/{{ dns.user }}/nas.db
     - template: vpn.db.j2
-      path: /home/dns/vpn.db
+      path: /home/{{ dns.user }}/vpn.db
 
 - name: set filesystem permissions
   shell: chown -R dns:dns /home/dns

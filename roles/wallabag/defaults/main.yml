@@ -1,5 +1,11 @@
 wallabag:
-  user: www-data
+  os_user: www-data
+  users:
+    shane:
+      password: dummy
+      email: shane@somethinginterestinghere.com
+      super_admin: true
+  clean_install: false
   secret: dummy
   apt_packages:
     - php7.4-mbstring
@@ -15,5 +21,5 @@ wallabag:
   directories:
     web: /var/www/wallabag
   repo:
-    tag: 2.4.2
+    tag: 2.6.8
     url: https://github.com/wallabag/wallabag.git

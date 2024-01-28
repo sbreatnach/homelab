@@ -1,13 +1,13 @@
 - name: create all directories
   file:
     path: "{{ item.value }}"
-    owner: "{{ wallabag.user }}"
+    owner: "{{ wallabag.os_user }}"
     mode: "0750"
     state: directory
   with_dict: "{{ wallabag.directories }}"
 
 - name: checkout project
-  become_user: "{{ wallabag.user }}"
+  become_user: "{{ wallabag.os_user }}"
   git:
     repo: "{{ wallabag.repo.url }}"
     dest: "{{ wallabag.directories.web }}"
@@ -24,20 +24,35 @@
     src: "{{ item.name }}.j2"
     dest: "{{ item.path }}/{{ item.name }}"
     mode: "{{ item.mode }}"
-    owner: "{{ wallabag.user }}"
+    owner: "{{ wallabag.os_user }}"
   with_items:
     - name: parameters.yml
       path: "{{ wallabag.directories.web }}/app/config"
       mode: "640"
 
 - name: install dependencies
-  become_user: "{{ wallabag.user }}"
+  become_user: "{{ wallabag.os_user }}"
   shell: SYMFONY_ENV=prod composer install --no-dev -o --prefer-dist
   args:
     chdir: "{{ wallabag.directories.web }}"
 
 - name: run install command
-  become_user: "{{ wallabag.user }}"
+  become_user: "{{ wallabag.os_user }}"
   shell: php bin/console wallabag:install --env=prod --reset --no-interaction
+  args:
+    chdir: "{{ wallabag.directories.web }}"
+  when: wallabag.clean_install
+
+- name: create/edit users
+  become_user: "{{ wallabag.os_user }}"
+  shell: "php bin/console fos:user:create --env=prod {{ item.key }} {{ item.value.email }} {{ item.value.password }}
+         {% if item.value.super_admin|default(false) %}--super-admin{% endif %}"
+  args:
+    chdir: "{{ wallabag.directories.web }}"
+  with_dict: "{{ wallabag.users }}"
+
+- name: disable default user
+  become_user: "{{ wallabag.os_user }}"
+  shell: "php bin/console fos:user:deactivate --env=prod wallabag"
   args:
     chdir: "{{ wallabag.directories.web }}"

@@ -32,6 +32,7 @@
     state: directory
   with_items:
     - "{{ matrix.directory.mautrix_conf }}"
+    - "{{ matrix.directory.logs }}"
     - /var/www/matrixweb
 
 - name: configure messaging files
@@ -97,6 +98,7 @@
   with_items: "{{ matrix.libraries }}"
 
 - name: checkout additional libraries
+  become_user: "{{ matrix.user }}"
   git:
     repo: "{{ item.repo }}"
     dest: "{{ matrix.directory.main }}/{{ item.name }}"
@@ -106,6 +108,7 @@
   with_items: "{{ matrix.libraries }}"
 
 - name: install library python requirements
+  become_user: "{{ matrix.user }}"
   pip:
     virtualenv: "{{ matrix.directory.venv_base }}/{{ item.name }}"
     requirements: "{{ matrix.directory.main }}/{{ item.name }}/{{ item.requirements }}"

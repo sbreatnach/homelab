@@ -19,9 +19,9 @@ handlers:
     file:
         class : logging.handlers.RotatingFileHandler
         formatter: precise
-        filename: /var/log/matrix-synapse/homeserver.log
+        filename: {{ matrix.directory.logs }}/homeserver.log
         maxBytes: 1024000
-        backupCount: 3
+        backupCount: 10
         encoding: utf8
 
 loggers:

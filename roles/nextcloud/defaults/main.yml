@@ -1,5 +1,5 @@
 nextcloud:
-  version: 21.0.0
+  version: 28.0.1
   user: www-data
   repo_url: https://download.nextcloud.com/server/releases
   apt_packages:

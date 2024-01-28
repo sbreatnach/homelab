@@ -1,6 +1,6 @@
 - name: download Keycloak archive
   unarchive:
-    src: https://downloads.jboss.org/keycloak/{{ keycloak.version }}/keycloak-{{ keycloak.version }}.zip
+    src: https://github.com/keycloak/keycloak/releases/download/{{ keycloak.version }}/keycloak-{{ keycloak.version }}.zip
     dest: /home/auth
     remote_src: true
     owner: auth
@@ -15,7 +15,7 @@
 
 - name: download Postgresql JDBC driver
   get_url:
-    url: https://jdbc.postgresql.org/download/postgresql-42.2.18.jar
+    url: https://jdbc.postgresql.org/download/postgresql-42.7.1.jar
     dest: /home/auth/keycloak-{{ keycloak.version }}/modules/system/layers/keycloak/org/postgresql/main/postgresql.jar
     owner: auth
 
