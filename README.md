@@ -55,7 +55,7 @@ Address=${NEW_CLIENT_IP}/32
 
 # use DNS on VPN server while active
 DNS = 10.99.0.1, 1.1.1.1
-# Enable the following on Linux only - 
+# Enable the following on Linux w/ systemd-resolved only -
 # enables use of DNS with whatever is managing it
 #PostUp = resolvectl dns %i 10.99.0.1; resolvectl domain %i "~."
 #PreDown = resolvectl revert %i
@@ -67,7 +67,13 @@ DNS = 10.99.0.1, 1.1.1.1
 PublicKey = ${PUBLIC_SERVER_KEY}
 
 # range of IPs allowed to access this VPN node
+# if explicitly setting the IP address of the wireguard server,
+# this results in a split VPN
 AllowedIPs = 10.99.0.1/24
+# iOS does not work with the split VPN config, only with full
+# tunneling. Thus, we set the allowed IPs to all
+# TODO: fix the full tunnel to route internet traffic correctly
+#AllowedIPs = 0.0.0.0/0
 
 # public IP address and port of the WireGuard server
 Endpoint = vpn.somethinginterestinghere.com:51820
