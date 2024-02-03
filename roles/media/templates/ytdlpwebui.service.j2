@@ -1,0 +1,16 @@
+[Unit]
+Description=Youtube Dowloader Web UI
+After=remote-fs.target network.target
+AssertPathExists={{ media.directories.ytdlpwebui }}
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+User=ytdlpwebui
+Type=simple
+ExecStart={{ media.directories.ytdlpwebui }}/ytdlpwebui -out {{ media.directories.video }}/YouTube
+WorkingDirectory={{ media.directories.ytdlpwebui }}
+TimeoutStopSec=20
+KillMode=process
+Restart=on-failure

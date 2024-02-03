@@ -23,7 +23,7 @@
   user:
     name: "{{ item.key }}"
     shell: "{{ item.value.shell }}"
-    home: "/home/{{ item.key }}"
+    create_home: "{{ item.create_home|default(false) }}"
   with_dict: "{{ media.users }}"
 
 - name: create directories
@@ -40,6 +40,8 @@
       user: calibre
     - path: "{{ media.directories.photoview }}"
       user: photoview
+    - path: "{{ media.directories.ytdlpwebui }}"
+      user: ytdlpwebui
 
 - name: install deb packages
   apt: deb={{ item.path }} state=present
@@ -50,6 +52,14 @@
     url: "{{ item.url }}"
     dest: "{{ item.path }}"
   with_items: "{{ media.java_packages }}"
+
+- name: Download pre-built binaries
+  ansible.builtin.get_url:
+    url: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+    mode: '755'
+    checksum: "{{ item.checksum }}"
+  with_items: "{{ media.prebuilt_binaries }}"
 
 - name: Download archived binaries
   ansible.builtin.unarchive:
@@ -105,6 +115,8 @@
       path: /lib/systemd/system/calibreweb.service
     - name: navidrome.service
       path: /lib/systemd/system/navidrome.service
+    - name: ytdlpwebui.service
+      path: /lib/systemd/system/ytdlpwebui.service
     - name: photoview.service
       path: /lib/systemd/system/photoview.service
     - name: navidrome.toml
@@ -124,5 +136,6 @@
     - ampd
     - calibreweb
     - navidrome
+    - ytdlpwebui
     - photoview
     - audiobookshelf

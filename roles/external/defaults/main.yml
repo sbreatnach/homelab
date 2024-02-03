@@ -125,6 +125,10 @@ internal:
           title: 📸 Photoview
           subdomain: photos
           description: View photo collection
+        - name: ytdlpwebui
+          title: 📹 yt-dlp Web UI
+          subdomain: youtube
+          description: View, play and download Youtube videos
         - name: navidrome
           title: 🎙 Navidrome
           subdomain: music

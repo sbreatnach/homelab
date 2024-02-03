@@ -7,12 +7,16 @@ media:
             shell: /bin/bash
         photoview:
             shell: /bin/bash
+        ytdlpwebui:
+            shell: /bin/bash
     directories:
         music: /var/lib/mpd/music
+        video: /var/lib/video
         ampd: /opt/ampd
         navidrome: /opt/navidrome
         calibre: /opt/calibre
         photoview: /opt/photoview
+        ytdlpwebui: /opt/ytdlpwebui
     python_libraries:
         - repo: https://github.com/janeczku/calibre-web.git
           version: "0.6.21"
@@ -26,6 +30,13 @@ media:
           owner: calibre
         - directory_key: photoview
           owner: photoview
+    prebuilt_binaries:
+        - url: https://github.com/yt-dlp/yt-dlp/releases/download/2023.12.30/yt-dlp_linux
+          dest: /usr/local/bin/yt-dlp
+          checksum: "sha256:0f606eab88c629884e673ae69355fbd5d0caf035f299a3f32e104bbf4ff90063"
+        - url: https://github.com/marcopeocchi/yt-dlp-web-ui/releases/download/v.3.0.4/yt-dlp-webui_linux-amd64
+          dest: /opt/ytdlpwebui/ytdlpwebui
+          checksum: "sha256:5ff5bd020b208ad362973f9f8060222898db12713d20fc27d2817e7decdf5655"
     binary_archives:
         - url: https://github.com/navidrome/navidrome/releases/download/v0.51.0/navidrome_0.51.0_Linux_amd64.tar.gz
           dest: /opt/navidrome
