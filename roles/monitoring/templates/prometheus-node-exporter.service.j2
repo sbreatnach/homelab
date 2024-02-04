@@ -1,0 +1,12 @@
+[Unit]
+Description=Prometheus Node Exporter
+After=network-online.target
+
+[Service]
+WorkingDirectory={{ monitoring.directories.node_exporter.path }}
+ExecStart={{ monitoring.directories.node_exporter.path }}/node_exporter
+User={{ monitoring.users.monitoring.username }}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,24 @@
+monitoring:
+  users:
+    monitoring:
+      username: monitoring
+  directories:
+    main:
+      path: /opt/monitoring
+      owner: monitoring
+    prometheus:
+      path: /opt/monitoring/prometheus-2.49.1.linux-amd64
+      owner: monitoring
+    node_exporter:
+      path: /opt/monitoring/node_exporter-1.7.0.linux-amd64
+      owner: monitoring
+    grafana:
+      path: /opt/monitoring/grafana-v10.3.1
+      owner: monitoring
+  binary_archives:
+    - url: https://github.com/prometheus/prometheus/releases/download/v2.49.1/prometheus-2.49.1.linux-amd64.tar.gz
+      dest: /opt/monitoring
+    - url: https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-amd64.tar.gz
+      dest: /opt/monitoring
+    - url: https://dl.grafana.com/oss/release/grafana-10.3.1.linux-amd64.tar.gz
+      dest: /opt/monitoring

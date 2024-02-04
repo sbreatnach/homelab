@@ -50,6 +50,8 @@ storage:
         owner: userli
       - name: photoview
         owner: photoview
+      - name: grafana
+        owner: grafana
     users:
       - name: synapse
       - name: keycloak
@@ -73,6 +75,8 @@ storage:
         password: userli
       - name: photoview
         password: photoview
+      - name: grafana
+        password: grafana
     hba:
       - connection_type: host
         databases: synapse
@@ -107,6 +111,11 @@ storage:
       - connection_type: host
         databases: wallabag
         users: wallabag
+        source: ::1/128
+        method: md5
+      - connection_type: host
+        databases: grafana
+        users: grafana
         source: ::1/128
         method: md5
       - connection_type: host

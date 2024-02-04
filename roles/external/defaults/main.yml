@@ -8,7 +8,7 @@ external:
         value: home.{{ domains.external }}
       - record: killian
         type: CNAME
-        value: killian.{{ domains.external }}
+        value: home.{{ domains.external }}
       - record: matrix
         type: CNAME
         value: home.{{ domains.external }}
@@ -105,6 +105,10 @@ internal:
           title: 🥫 Rspamd
           subdomain: rspamd
           description: View spam management
+        - name: grafana
+          title: 🧿 Monitoring
+          subdomain: monitoring
+          description: View monitoring graphs and alerts
         - name: userli
           title: 📫 Userli
           subdomain: mail-users

@@ -24,6 +24,8 @@
       tags: [auth]
     - role: nextcloud
       tags: [nextcloud]
+    - role: monitoring
+      tags: [monitoring]
     - role: wallabag
       tags: [wallabag]
     - role: email

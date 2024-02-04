@@ -1,0 +1,12 @@
+[Unit]
+Description=Grafana
+After=network-online.target
+
+[Service]
+WorkingDirectory={{ monitoring.directories.grafana.path }}
+ExecStart={{ monitoring.directories.grafana.path }}/bin/grafana server --config {{ monitoring.directories.grafana.path }}/grafana.ini
+User={{ monitoring.users.monitoring.username }}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name monitoring.{{ domains.internal }} monitoring.{{ domains.vpn }};
+
+    location / {
+        proxy_pass http://localhost:9123;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Host              $host;
+    }
+}

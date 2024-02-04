@@ -1,0 +1,12 @@
+[Unit]
+Description=Prometheus
+After=network-online.target
+
+[Service]
+WorkingDirectory={{ monitoring.directories.prometheus.path }}
+ExecStart={{ monitoring.directories.prometheus.path }}/prometheus --config.file {{ monitoring.directories.prometheus.path }}/prometheus.conf.yml
+User={{ monitoring.users.monitoring.username }}
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

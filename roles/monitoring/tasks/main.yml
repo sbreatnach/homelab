@@ -1,0 +1,50 @@
+
+- name: create users
+  user:
+    name: "{{ item.value.username }}"
+    shell: "{{ item.value.shell|default('/bin/bash') }}"
+    create_home: "{{ item.value.create_home|default(false) }}"
+  with_dict: "{{ monitoring.users }}"
+
+- name: create directories
+  file:
+    path: "{{ item.value.path }}"
+    owner: "{{ item.value.owner }}"
+    group: "{{ item.value.owner }}"
+    state: directory
+  with_dict: "{{ monitoring.directories }}"
+
+- name: Download archived binaries
+  ansible.builtin.unarchive:
+    src: "{{ item.url }}"
+    dest: "{{ item.dest }}"
+    remote_src: yes
+    owner: "{{ monitoring.users.monitoring.username }}"
+    group: "{{ monitoring.users.monitoring.username }}"
+  with_items: "{{ monitoring.binary_archives }}"
+
+- name: generate service files
+  template:
+    src: "{{ item.name }}.j2"
+    dest: "{{ item.path }}"
+  with_items:
+    - name: prometheus.conf.yml
+      path: "{{ monitoring.directories.prometheus.path }}/prometheus.conf.yml"
+    - name: prometheus.service
+      path: /lib/systemd/system/prometheus.service
+    - name: prometheus-node-exporter.service
+      path: /lib/systemd/system/prometheus-node-exporter.service
+    - name: grafana.service
+      path: /lib/systemd/system/grafana.service
+    - name: grafana.ini
+      path: "{{ monitoring.directories.grafana.path }}/grafana.ini"
+
+- name: enable systemd services
+  systemd:
+    state: started
+    enabled: true
+    name: "{{ item }}"
+  with_items:
+    - prometheus
+    - prometheus-node-exporter
+    - grafana
