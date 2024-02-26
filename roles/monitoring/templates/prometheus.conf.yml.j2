@@ -15,6 +15,15 @@ scrape_configs:
     static_configs:
       - targets: ["localhost:9090", "localhost:9191"]
 
+  - job_name: hass
+    scrape_interval: 60s
+    metrics_path: /api/prometheus
+    authorization:
+      credentials: "your.longlived.token"
+    scheme: http
+    static_configs:
+      - targets: ['hass.nas.home:8123']
+
   - job_name: node-exporter
     metrics_path: /metrics
     static_configs:

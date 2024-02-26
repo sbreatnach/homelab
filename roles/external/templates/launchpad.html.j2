@@ -41,10 +41,10 @@
           {{ site.description|default('') }}
         </td>
         <td>
-          <a target="_blank" href="http://{{ site.subdomain }}.{{ domains.internal }}">Home</a>
+          <a target="_blank" href="http://{{ site.subdomain }}.{{ domains.internal }}{% if site.port is defined %}:{{ site.port }}{% endif %}">Home</a>
         </td>
         <td>
-          <a target="_blank" href="http://{{ site.subdomain }}.{{ domains.vpn }}">VPN</a>
+          <a target="_blank" href="http://{{ site.subdomain }}.{{ domains.vpn }}{% if site.port is defined %}:{{ site.port }}{% endif %}">VPN</a>
         </td>
       </tr>
       {% endif %}

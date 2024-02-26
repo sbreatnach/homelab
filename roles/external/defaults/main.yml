@@ -160,3 +160,4 @@ internal:
           subdomain: hass
           description: View and control all IoT devices
           has_config: false
+          port: 8123

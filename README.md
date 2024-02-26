@@ -659,10 +659,8 @@ EOF
 
 * Turtl or equivalent bookmarking service with iOS app
 * Bitwarden password manager
-* Monitoring: metrics aggregator and email alerts
 * Rearrange all hard drives to use ZFS/BTRFS/GlusterFS for one large, redundant pool
 * Monitoring: logging aggregator
-* Youtube downloader service (e.g. Alltube)
 * Document scanning service (https://github.com/the-paperless-project/paperless)
 * Web games e.g. Chess :)
 * Version control service (e.g. Gitlab)
