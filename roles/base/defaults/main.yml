@@ -12,7 +12,11 @@ base:
     hour: 5
     day: "*"
   services:
-    - powertop
+    - name: powertop
+      has_template: true
+    - name: wpa_supplicant
+      has_template: true
+    - name: dhcpcd
   extra_paths: []
   packages:
     - name: git
@@ -32,6 +36,7 @@ base:
     - name: unattended-upgrades
     - name: build-essential
     - name: curl
+    - name: dhcpcd5
     - name: llvm
     - name: libbz2-dev
     - name: libffi-dev
@@ -43,8 +48,10 @@ base:
     - name: libssl-dev
     - name: powertop
     - name: python3-openssl
+    - name: resolvconf
     - name: tk-dev
     - name: wget
+    - name: wpa_supplicant
     - name: xz-utils
     - name: zlib1g-dev
 users: []

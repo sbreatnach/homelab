@@ -33,17 +33,24 @@
 - name: configure sysctl settings
   copy: src=sysctl.conf dest=/etc/sysctl.conf
 
+- name: configure wifi connection
+  template:
+    src: wpa_supplicant.conf.j2
+    dest: /etc/wpa_supplicant/wpa_supplicant.conf
+    mode: "0600"
+
 - name: create base service files
   template:
-    src: "{{ item }}.service.j2"
-    dest: "/lib/systemd/system/{{ item }}.service"
+    src: "{{ item.name }}.service.j2"
+    dest: "/lib/systemd/system/{{ item.name }}.service"
   with_items: "{{ base.services }}"
+  when: "{{ item.has_template }}"
 
 - name: enable base services
   systemd:
     state: started
     enabled: true
-    name: "{{ item }}"
+    name: "{{ item.name }}"
   with_items: "{{ base.services }}"
 
 - name: install cron jobs

@@ -9,7 +9,6 @@ vpn:
     - gnupg
     - linux-headers-generic
     - wireguard
-    - resolvconf
     - qrencode
   peers:
     iphone_se:
@@ -27,7 +26,7 @@ vpn:
     linux_desktop:
       public_key: WHY20vPW4rpp1aAUHWnYNMx9DByCe4vY5TyrXPU0aQY=
       ip_address: "10.99.0.6"
-    unknown1:
+    mac_mini:
       public:key: zwvIPGitz3oIvdqd+aKB3mHDoxzjhKv96jAcF0AyjFo=
       ip_address: "10.99.0.7"
     unknown2:

@@ -1,0 +1,7 @@
+ctrl_interface=DIR=/run/wpa_supplicant GROUP=root
+country=PT
+network={
+   ssid="{{ wifi.ssid }}"
+   key_mgmt=WPA-PSK
+   psk="{{ wifi.password }}"
+}
