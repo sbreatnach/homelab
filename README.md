@@ -1,15 +1,39 @@
-# Running
+# Installation
+
+## Linux
 
 ```
-sudo apt install sshpass
+sudo apt install sshpass pipx exiftool
+pipx install uv
+uv sync
+source .venv/bin/activate
+```
+
+## Windows
+
+```
+scoop install main/file main/uv main/exiftool
+uv sync
+.\.venv\Scripts\activate.ps1
+```
+
+## Ansible pre-requisites
+
+```
 ansible-galaxy install -r requirements.yml
 ansible-galaxy collection install community.general
+```
+
+# Usage
+
+```shell
 ansible-playbook --ask-vault-pass -b -e @vm_vars.yml -e @vars/secure.yml -i vm_inventory -k -K playbook.yml
 ```
 
 # Photo Preparation
 
 Copy all photos to a directory named Unsorted and run the following:
+
 ```
 exiftool -ee -d "sorted/%Y/%Y%m%d-%H%M%S.%%e" "-filename<CreateDate" .
 ```
@@ -18,6 +42,7 @@ Photos stored from iOS usually have the CreateDate metadata set but, randomly, s
 Strangely though, the photos are marked with a date in iCloud.com.
 `exiftool` can be used to fix this manually. For example, this sets the create date for
 a single image:
+
 ```
 exiftool -createdate="2019:07:10 12:01:55" IMG_3369.JPG
 ```
@@ -25,6 +50,7 @@ exiftool -createdate="2019:07:10 12:01:55" IMG_3369.JPG
 # Backblaze + Restic Preparation
 
 Any new Restic repository must be initialised first before use:
+
 ```
 sudo su -s /bin/bash backup
 . ~/.env
@@ -93,9 +119,9 @@ sudo systemctl restart wg-quick@wg0.service
 
 # Bugs TODO
 
-* Samba starts too early on boot and cannot bind to network interfaces. It works
+- Samba starts too early on boot and cannot bind to network interfaces. It works
   on local loop interface and thus does not fail.
-* sambauser does not have write access to mounts - add named groups for directories
+- sambauser does not have write access to mounts - add named groups for directories
   and include sambauser into groups
   groupadd music
   usermod -a -G music sambauser
@@ -528,7 +554,7 @@ spotify {
 	# list
 #	exclude = false
 
-	# A Roku/SoundBridge can power up in 2 modes: (default) reconnect to the 
+	# A Roku/SoundBridge can power up in 2 modes: (default) reconnect to the
 	# previously used library (ie OwnTone) or in a 'cleared library' mode.
 	# The Roku power up behaviour is affected by how OwnTone disconnects
 	# from the Roku device.
@@ -600,6 +626,7 @@ EOF
 Avahi-daemon has [a long-standing bug](https://github.com/lathiat/avahi/issues/117)
 with randomly changing reported mDNS entries.
 Attempted fix to config:
+
 ```shell
 tee /etc/avahi/avahi-daemon.conf << EOF
 [server]
@@ -657,14 +684,14 @@ EOF
 
 # Wishlist (in order of preference)
 
-* Turtl or equivalent bookmarking service with iOS app
-* Bitwarden password manager
-* Rearrange all hard drives to use ZFS/BTRFS/GlusterFS for one large, redundant pool
-* Monitoring: logging aggregator
-* Document scanning service (https://github.com/the-paperless-project/paperless)
-* Web games e.g. Chess :)
-* Version control service (e.g. Gitlab)
-* Backup restore playbook with test process (chore!)
+- Turtl or equivalent bookmarking service with iOS app
+- Bitwarden password manager
+- Rearrange all hard drives to use ZFS/BTRFS/GlusterFS for one large, redundant pool
+- Monitoring: logging aggregator
+- Document scanning service (https://github.com/the-paperless-project/paperless)
+- Web games e.g. Chess :)
+- Version control service (e.g. Gitlab)
+- Backup restore playbook with test process (chore!)
 
 See https://github.com/awesome-selfhosted/awesome-selfhosted for inspiration
 
@@ -672,28 +699,27 @@ See https://github.com/awesome-selfhosted/awesome-selfhosted for inspiration
 
 The following apps and functionality must function to use the PinePhone daily:
 
-* Web Browsing
-* Whatsapp, Facebook Messenger, Skype messaging
-* Gmail, Hotmail, Yahoo Mail and Protonmail receiving
-* Photo taking (front + back cameras)
-* Automatic photo backups
-* Contacts listing
-* Contacts backups
-* Alarms and timers
-* Podcasts
-* Music
-* Weather
-* Calendar + backups
-* Bitwarden
-* 2FA app with auto-backup to Nextcloud/OneDrive/etc.
+- Web Browsing
+- Whatsapp, Facebook Messenger, Skype messaging
+- Gmail, Hotmail, Yahoo Mail and Protonmail receiving
+- Photo taking (front + back cameras)
+- Automatic photo backups
+- Contacts listing
+- Contacts backups
+- Alarms and timers
+- Podcasts
+- Music
+- Weather
+- Calendar + backups
+- Bitwarden
+- 2FA app with auto-backup to Nextcloud/OneDrive/etc.
 
 # Development Environment
 
-* pyenv
-* leiningen
+- pyenv
+- leiningen
 
-License
--------
+## License
 
 Because of some code reuse, this repository is licenced under
 [GNU General Public License v3.0 or later](https://spdx.org/licenses/GPL-3.0-or-later.html)
