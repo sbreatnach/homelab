@@ -1,4 +1,6 @@
 storage:
+  syncthing:
+    api_key: dummy
   samba_users:
     sambauser:
       password: dummy
@@ -8,9 +10,13 @@ storage:
   apt_keys:
     - url: https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/Debian_11/Release.key
       keyring: /usr/share/keyrings/obs-onedrive.gpg
+    - url: https://syncthing.net/release-key.gpg
+      keyring: /usr/share/keyrings/syncthing-archive-keyring.gpg
   apt_repositories:
     - repo: deb [arch=amd64 signed-by=/usr/share/keyrings/obs-onedrive.gpg] https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/Debian_11/ ./
       name: onedrive
+    - repo: deb [signed-by=/usr/share/keyrings/syncthing-archive-keyring.gpg] https://apt.syncthing.net/ syncthing stable
+      name: syncthing
   apt_packages:
     - name: nfs-common
     - name: nfs-kernel-server
@@ -23,6 +29,7 @@ storage:
     - name: libsqlite3-dev
     - name: redis-server
     - name: onedrive
+    - name: syncthing
   deb_packages:
     - path: https://launchpad.net/veracrypt/trunk/1.26.7/+download/veracrypt-console-1.26.7-Debian-10-amd64.deb
   postgresql:

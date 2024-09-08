@@ -75,6 +75,14 @@ ufw_rules:
   # Factorio dedicated server
   - port: 34197
     rule: allow
+  # syncthing access
+  - port: 8384
+    rule: allow
+  - port: 21027
+    rule: allow
+    proto: udp
+  - port: 22000
+    rule: allow
 domains:
   internal: nas.home
   vpn: nas.vpn

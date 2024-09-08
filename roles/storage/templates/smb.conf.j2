@@ -1,12 +1,13 @@
 [global]
    server string = NAS
    server role = standalone server
-   interfaces = lo {{ vpn_network_interface }} {{ root_network_interface }}
+   interfaces = lo {{ vpn_network_interface }} {{ root_network_interface }} {{ wifi.network_interface }}
    bind interfaces only = yes
    disable netbios = yes
    smb ports = 445
    log file = /var/log/samba/smb.log
    max log size = 10000
+   map to guest = never
 
 {% for partition in partitions %}
 {% if partition.device is defined %}

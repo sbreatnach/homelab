@@ -49,6 +49,7 @@
 - import_tasks: nfs.yml
 - import_tasks: samba.yml
 - import_tasks: postgresql.yml
+- import_tasks: syncthing.yml
 
 - name: configure onedrive systemd for users
   become_user: "{{ item.username }}"

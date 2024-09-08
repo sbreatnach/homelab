@@ -1,0 +1,10 @@
+- name: enable syncthing service as primary user
+  systemd:
+    state: started
+    enabled: true
+    name: syncthing@{{ users.0.username }}
+
+- name: configure syncthing for primary user
+  template:
+    src: syncthing.xml.j2
+    dest: /home/{{ users.0.username }}/.local/state/syncthing/config.xml
