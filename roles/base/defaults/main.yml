@@ -1,16 +1,18 @@
 ---
 base:
-  cronjobs:
-  - name: Sleep for the night
-    job: "/usr/sbin/rtcwake -u -s 18000 -m mem"
-    minute: 30
-    hour: 0
-    day: "*"
-  - name: Reboot daily
-    job: "/usr/sbin/reboot"
-    minute: 30
-    hour: 5
-    day: "*"
+  cronjobs: []
+  # Leaving these out since they can cause instability and aren't necessary
+  # for power savings because modern computers are very low on power draw
+  # - name: Sleep for the night
+  #   job: "/usr/sbin/rtcwake -u -s 18000 -m mem"
+  #   minute: 30
+  #   hour: 0
+  #   day: "*"
+  # - name: Reboot daily
+  #   job: "/usr/sbin/reboot"
+  #   minute: 30
+  #   hour: 5
+  #   day: "*"
   services:
     - name: powertop
       has_template: true

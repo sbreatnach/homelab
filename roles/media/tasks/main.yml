@@ -133,7 +133,8 @@
     name: "{{ item }}"
   with_items:
     - snapserver
-    - ampd
+    # FIXME: ampd requires a newer Java version than that supported by Keycloak
+    #- ampd
     - calibreweb
     - navidrome
     - ytdlpwebui

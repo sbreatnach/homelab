@@ -9,22 +9,22 @@ backup:
         - name: exiftool
 cronjobs:
   - name: Books Backup
-    job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-books backup /mnt/Backup1/Books/"
+    job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-books backup /mnt/Backup1/data/Books/"
     minute: 0
     hour: 3
     day: 1
   - name: Music Backup
-    job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-music backup /mnt/Backup1/Music/"
+    job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-music backup /mnt/Backup1/data/Music/"
     minute: 0
     hour: 4
     day: 1
   - name: Photo Backup
-    job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-photos backup /mnt/Backup1/PersonalMedia/"
+    job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-photos backup /mnt/Backup1/data/Photos/"
     minute: 0
     hour: 4
     day: 2
   - name: General Documents Backup
-    job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-documents backup /mnt/Backup/Documents /mnt/Media/nextcloud /mnt/Backup/Work /mnt/Backup/Development /mnt/Backup/Stuff"
+    job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-documents backup /mnt/Backup1/data/Documents /mnt/Backup1/nextcloud /mnt/Backup1/Work /mnt/Backup1/Development /mnt/Backup1/data/Stuff"
     minute: 0
     hour: 1
     day: "*"

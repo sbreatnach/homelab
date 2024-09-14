@@ -3,31 +3,24 @@ requires-python = ">=3.10"
 
 [[package]]
 name = "ansible"
-version = "10.3.0"
+version = "2.10.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "ansible-core" },
+    { name = "ansible-base" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/94/e2/b34a077f05f97982dfddf6ec17ab5e2e476412b3ff542e30d21d22cf2e2d/ansible-10.3.0.tar.gz", hash = "sha256:6144fb4bc785f917f86b1b0b6eadc9b894e9751ff9e9a7875afcfa2f74581ffd", size = 39689397 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/05/f6/3f0f055b1bda33adb64b0af0686b0360b1144835fbc7cfde915430cc41d1/ansible-10.3.0-py3-none-any.whl", hash = "sha256:a8ef380d6e5eed2078059bb3a8b2470c66e748c4e8644ec7b77f66ced94d202b", size = 48338447 },
-]
+sdist = { url = "https://files.pythonhosted.org/packages/ba/22/7b58a8ba8e43159dc5cb32d97dd50e2b70b016585dbb188e9f2b61dac1e2/ansible-2.10.7.tar.gz", hash = "sha256:9ff024500116d53c460cb09ea92e3c9404119f100d1d1ff0de69a9dafca561d5", size = 29862966 }
 
 [[package]]
-name = "ansible-core"
-version = "2.17.3"
+name = "ansible-base"
+version = "2.10.17"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cryptography" },
     { name = "jinja2" },
     { name = "packaging" },
     { name = "pyyaml" },
-    { name = "resolvelib" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/3c/f2/6b407947f6e2c91d4fb8a3b61958f941a077c68d0ef0a37c3c0df3d96026/ansible_core-2.17.3.tar.gz", hash = "sha256:917557065339fe36e7078e9bea47eefab6d6877f3bd435fa5f0d766d04c58485", size = 3089778 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/e1/2e/016851c006004e1be6e3d77b15244b147b7432166fc2fbe343d44a9eec76/ansible_core-2.17.3-py3-none-any.whl", hash = "sha256:71e5c93729cc5bf09ecdf0cac675685fd345d1571312409029bf842420850f23", size = 2192734 },
-]
+sdist = { url = "https://files.pythonhosted.org/packages/fe/56/b18bf0167aa6e2ab195d0c2736992a3a9aeca1ddbefebee554226d211267/ansible-base-2.10.17.tar.gz", hash = "sha256:ef925882ca8d4c3c2ccd091cde199e0c869024ccad0d07a337dcf207bff32f34", size = 6135744 }
 
 [[package]]
 name = "cffi"
@@ -137,7 +130,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "ansible", specifier = ">=10.3.0" },
+    { name = "ansible", specifier = "==2.10.7" },
     { name = "pyexiftool", specifier = ">=0.5.6" },
     { name = "python-dateutil", specifier = ">=2.9.0.post0" },
 ]
@@ -288,15 +281,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/fe/0f/25911a9f080464c59fab9027482f822b86bf0608957a5fcc6eaac85aa515/PyYAML-6.0.2-cp313-cp313-musllinux_1_1_x86_64.whl", hash = "sha256:68ccc6023a3400877818152ad9a1033e3db8625d899c72eacb5a668902e4d652", size = 751597 },
     { url = "https://files.pythonhosted.org/packages/14/0d/e2c3b43bbce3cf6bd97c840b46088a3031085179e596d4929729d8d68270/PyYAML-6.0.2-cp313-cp313-win32.whl", hash = "sha256:bc2fa7c6b47d6bc618dd7fb02ef6fdedb1090ec036abab80d4681424b84c1183", size = 140527 },
     { url = "https://files.pythonhosted.org/packages/fa/de/02b54f42487e3d3c6efb3f89428677074ca7bf43aae402517bc7cca949f3/PyYAML-6.0.2-cp313-cp313-win_amd64.whl", hash = "sha256:8388ee1976c416731879ac16da0aff3f63b286ffdd57cdeb95f3f2e085687563", size = 156446 },
-]
-
-[[package]]
-name = "resolvelib"
-version = "1.0.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ce/10/f699366ce577423cbc3df3280063099054c23df70856465080798c6ebad6/resolvelib-1.0.1.tar.gz", hash = "sha256:04ce76cbd63fded2078ce224785da6ecd42b9564b1390793f64ddecbe997b309", size = 21065 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/d2/fc/e9ccf0521607bcd244aa0b3fbd574f71b65e9ce6a112c83af988bbbe2e23/resolvelib-1.0.1-py2.py3-none-any.whl", hash = "sha256:d2da45d1a8dfee81bdd591647783e340ef3bcb104b54c383f70d422ef5cc7dbf", size = 17194 },
 ]
 
 [[package]]

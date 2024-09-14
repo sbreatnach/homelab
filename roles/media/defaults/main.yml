@@ -19,7 +19,7 @@ media:
         ytdlpwebui: /opt/ytdlpwebui
     python_libraries:
         - repo: https://github.com/janeczku/calibre-web.git
-          version: "0.6.21"
+          version: "0.6.23"
           name: calibre-web
           directory_key: calibre
           owner: calibre
@@ -31,16 +31,16 @@ media:
         - directory_key: photoview
           owner: photoview
     prebuilt_binaries:
-        - url: https://github.com/yt-dlp/yt-dlp/releases/download/2023.12.30/yt-dlp_linux
+        - url: https://github.com/yt-dlp/yt-dlp/releases/download/2024.08.06/yt-dlp_linux
           dest: /usr/local/bin/yt-dlp
-          checksum: "sha256:0f606eab88c629884e673ae69355fbd5d0caf035f299a3f32e104bbf4ff90063"
-        - url: https://github.com/marcopeocchi/yt-dlp-web-ui/releases/download/v.3.0.4/yt-dlp-webui_linux-amd64
+          checksum: "sha256:49812f0c4943416457cacb9d59c69aec5b41ee9cc3a1d61b8653e285d5bff355"
+        - url: https://github.com/marcopeocchi/yt-dlp-web-ui/releases/download/v.3.2.0-fix/yt-dlp-webui_linux-amd64
           dest: /opt/ytdlpwebui/ytdlpwebui
           checksum: "sha256:5ff5bd020b208ad362973f9f8060222898db12713d20fc27d2817e7decdf5655"
     binary_archives:
-        - url: https://github.com/navidrome/navidrome/releases/download/v0.51.0/navidrome_0.51.0_Linux_amd64.tar.gz
+        - url: https://github.com/navidrome/navidrome/releases/download/v0.52.5/navidrome_0.52.5_Linux_amd64.tar.gz
           dest: /opt/navidrome
-        - url: https://github.com/sbreatnach/photoview/releases/download/v2.3.12/photoview_v2.3.12_linux_amd64.tar.gz
+        - url: https://github.com/sbreatnach/photoview/releases/download/v2.4.0/photoview_v2.4.0_linux_amd64.tar.gz
           dest: /opt/photoview
     apt_keys:
         - url: https://advplyr.github.io/audiobookshelf-ppa/KEY.gpg
@@ -55,9 +55,9 @@ media:
         - name: calibre
           install_recommends: false
     java_packages:
-        - url: https://github.com/rain0r/ampd/releases/download/ampd-1.6.7/ampd-1.6.7.jar
+        - url: https://github.com/rain0r/ampd/releases/download/ampd-2.0.1/ampd-2.0.1.jar
           path: /opt/ampd/ampd.jar
     java_home: /usr/lib/jvm/java-11-openjdk-amd64
     deb_packages:
-        - path: https://github.com/MediaBrowser/Emby.Releases/releases/download/4.7.14.0/emby-server-deb_4.7.14.0_amd64.deb
-        - path: https://github.com/badaix/snapcast/releases/download/v0.27.0/snapserver_0.27.0-1_amd64.deb
+        - path: https://github.com/MediaBrowser/Emby.Releases/releases/download/4.8.8.0/emby-server-deb_4.8.8.0_amd64.deb
+        - path: https://github.com/badaix/snapcast/releases/download/v0.29.0/snapserver_0.29.0-1_amd64_bullseye.deb
