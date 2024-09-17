@@ -104,6 +104,7 @@ AllowedIPs = 10.99.0.1/24
 # public IP address and port of the WireGuard server
 Endpoint = vpn.somethinginterestinghere.com:51820
 EOF
+
 # update server config to include new peer
 sudo tee -a /etc/wireguard/wg0.conf > /dev/null << EOF
 

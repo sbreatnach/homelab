@@ -12,47 +12,47 @@ cronjobs:
     job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-books backup /mnt/Backup1/data/Books/"
     minute: 0
     hour: 3
-    day: 1
+    weekday: 1
   - name: Music Backup
     job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-music backup /mnt/Backup1/data/Music/"
     minute: 0
     hour: 4
-    day: 1
+    weekday: 1
   - name: Photo Backup
     job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-photos backup /mnt/Backup1/data/Photos/"
     minute: 0
     hour: 4
-    day: 2
+    weekday: 2
   - name: General Documents Backup
     job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-documents backup /mnt/Backup1/data/Documents /mnt/Backup1/nextcloud /mnt/Backup1/Work /mnt/Backup1/Development /mnt/Backup1/data/Stuff"
     minute: 0
     hour: 1
-    day: "*"
+    weekday: "*"
     user: root
   - name: sbreatnach OneDrive Backup
     job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-onedrive backup /home/sbreatnach/OneDrive/"
     minute: 0
     hour: 4
-    day: 3
+    weekday: 3
   - name: Local DB Backup
     user: postgres
     job: "rm -rf /var/lib/postgresql/curbackup && pg_basebackup -D /var/lib/postgresql/curbackup && chmod -R 750 /var/lib/postgresql/curbackup"
     minute: 0
     hour: 2
-    day: "*"
+    weekday: "*"
   - name: Remote DB Backup
     job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-db backup /var/lib/postgresql/curbackup/"
     minute: 0
     hour: 3
-    day: "*"
+    weekday: "*"
   - name: Games Server Backup
     job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-games backup /home/games/factorio/data /home/games/minecraft/spigot/world /home/games/minecraft/spigot/world_nether /home/games/minecraft/spigot/world_the_end"
     minute: 0
     hour: 3
-    day: 3
+    weekday: 3
   - name: Email Server Backup
     job: ". /home/backup/.env && /usr/bin/restic -q -r b2:whizz-mail backup /var/vmail /var/lib/rspamd/dkim"
     minute: 0
     hour: 3
-    day: "*"
+    weekday: "*"
     user: root

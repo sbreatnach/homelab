@@ -41,5 +41,5 @@
     name: "{{ item.name }}"
     minute: "{{ item.minute }}"
     hour: "{{ item.hour }}"
-    day: "{{ item.day }}"
+    weekday: "{{ item.weekday }}"
   with_items: "{{ cronjobs }}"
