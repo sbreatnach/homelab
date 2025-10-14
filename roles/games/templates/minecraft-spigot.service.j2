@@ -6,15 +6,15 @@ Wants=network.target
 After=network.target
 
 [Service]
-User=games
-Group=games
+User=server-games
+Group=server-games
 Nice=5
 KillMode=none
 SuccessExitStatus=0 1
 Restart=always
 
 WorkingDirectory={{ games.minecraft.spigot.directory }}
-ExecStart=/usr/bin/java -Xmx1024M -Xms1024M -jar spigot.jar nogui
+ExecStart=/usr/bin/java -Xmx2048M -Xms2048M -jar spigot.jar nogui
 ExecStop={{ games.minecraft.spigot.directory }}/mcrcon -H localhost -P {{ games.minecraft.spigot.rcon.port }} -p {{ games.minecraft.spigot.rcon.password }} stop
 
 [Install]

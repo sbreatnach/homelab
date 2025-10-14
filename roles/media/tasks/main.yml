@@ -32,8 +32,6 @@
     owner: "{{ item.user }}"
     state: directory
   with_items:
-    - path: "{{ media.directories.ampd }}"
-      user: mpd
     - path: "{{ media.directories.navidrome }}"
       user: mpd
     - path: "{{ media.directories.calibre }}"
@@ -109,8 +107,6 @@
       path: /var/lib/emby/config/system.xml
     - name: mpd.conf
       path: /etc/mpd.conf
-    - name: ampd.service
-      path: /lib/systemd/system/ampd.service
     - name: calibreweb.service
       path: /lib/systemd/system/calibreweb.service
     - name: navidrome.service
@@ -133,8 +129,6 @@
     name: "{{ item }}"
   with_items:
     - snapserver
-    # FIXME: ampd requires a newer Java version than that supported by Keycloak
-    #- ampd
     - calibreweb
     - navidrome
     - ytdlpwebui

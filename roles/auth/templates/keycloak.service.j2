@@ -6,7 +6,7 @@ After=network.target
 [Service]
 User=auth
 WorkingDirectory=/home/auth/keycloak-{{ keycloak.version }}
-ExecStart=/home/auth/keycloak-{{ keycloak.version }}/bin/standalone.sh
+ExecStart=/home/auth/keycloak-{{ keycloak.version }}/bin/kc.sh --config-file=/home/auth/keycloak-{{ keycloak.version }}/conf/keycloak.conf start
 Restart=on-failure
 
 [Install]

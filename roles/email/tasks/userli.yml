@@ -35,6 +35,9 @@
   with_items:
     # NB: forcing response to true to force a fake idempotency
     - bin/console doctrine:schema:create || true
+    # attempt automatic upgrade - see https://github.com/systemli/userli/blob/main/UPGRADE.md
+    # for manual steps
+    - bin/console doctrine:schema:update --force
     - bin/console app:reservednames:import
     - bin/console cache:clear
     - bin/console cache:warmup

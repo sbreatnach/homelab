@@ -6,15 +6,15 @@
     state: directory
   with_items:
     - name: "{{ games.minecraft.official.directory }}"
-      owner: games
-      group: games
+      owner: server-games
+      group: server-games
 
 - name: Download server
   get_url:
     url: "{{ games.minecraft.official.download_url }}"
     dest: "{{ games.minecraft.official.directory }}/server.jar"
-    owner: games
-    group: games
+    owner: server-games
+    group: server-games
 
 - name: create game configs
   template:

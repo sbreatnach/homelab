@@ -15,7 +15,7 @@
 
 - name: download Postgresql JDBC driver
   get_url:
-    url: https://jdbc.postgresql.org/download/postgresql-42.7.1.jar
+    url: https://jdbc.postgresql.org/download/postgresql-42.7.8.jar
     dest: /home/auth/keycloak-{{ keycloak.version }}/modules/system/layers/keycloak/org/postgresql/main/postgresql.jar
     owner: auth
 
@@ -27,11 +27,8 @@
   with_items:
     - template: keycloak.service
       path: /etc/systemd/system
-    - template: standalone.xml
-      path: /home/auth/keycloak-{{ keycloak.version }}/standalone/configuration
-      owner: auth
-    - template: module.xml
-      path: /home/auth/keycloak-{{ keycloak.version }}/modules/system/layers/keycloak/org/postgresql/main
+    - template: keycloak.conf
+      path: /home/auth/keycloak-{{ keycloak.version }}/conf
       owner: auth
 
 - name: create keycloak directory link

@@ -6,18 +6,18 @@
     state: directory
   with_items:
     - name: "{{ games.minecraft.spigot.directory }}"
-      owner: games
-      group: games
+      owner: server-games
+      group: server-games
     - name: "{{ games.minecraft.spigot.directory }}/build"
-      owner: games
-      group: games
+      owner: server-games
+      group: server-games
 
 - name: Download required files
   get_url:
     url: "{{ item.url }}"
     dest: "{{ games.minecraft.spigot.directory }}/build/{{ item.filename }}"
-    owner: games
-    group: games
+    owner: server-games
+    group: server-games
   with_items: "{{ games.minecraft.spigot.downloads }}"
 
 - name: Extract archive files
@@ -29,13 +29,13 @@
   with_items: "{{ games.minecraft.spigot.archives }}"
 
 - name: configure global git settings for build tools
-  become_user: games
+  become_user: server-games
   shell: git config --global --unset core.autocrlf
   register: git_config
   failed_when: git_config.rc != 5
 
 - name: build spigot using build tools
-  become_user: games
+  become_user: server-games
   shell: java -jar BuildTools.jar --rev {{ games.minecraft.spigot.version }}
   args:
     chdir: "{{ games.minecraft.spigot.directory }}/build"
@@ -46,8 +46,8 @@
     remote_src: true
     src: "{{ games.minecraft.spigot.directory }}/build/{{ item.src }}"
     dest: "{{ games.minecraft.spigot.directory }}/{{ item.dest }}"
-    owner: games
-    group: games
+    owner: server-games
+    group: server-games
     mode: "{{ item.mode|default(omit) }}"
   with_items: "{{ games.minecraft.spigot.copies }}"
 

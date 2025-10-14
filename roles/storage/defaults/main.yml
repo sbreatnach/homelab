@@ -8,12 +8,12 @@ storage:
     libraries: /root/lib
   libraries: []
   apt_keys:
-    - url: https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/Debian_11/Release.key
+    - url: https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/Debian_12/Release.key
       keyring: /usr/share/keyrings/obs-onedrive.gpg
     - url: https://syncthing.net/release-key.gpg
       keyring: /usr/share/keyrings/syncthing-archive-keyring.gpg
   apt_repositories:
-    - repo: deb [arch=amd64 signed-by=/usr/share/keyrings/obs-onedrive.gpg] https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/Debian_11/ ./
+    - repo: deb [arch=amd64 signed-by=/usr/share/keyrings/obs-onedrive.gpg] https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/Debian_12/ ./
       name: onedrive
     - repo: deb [signed-by=/usr/share/keyrings/syncthing-archive-keyring.gpg] https://apt.syncthing.net/ syncthing stable
       name: syncthing
@@ -33,18 +33,12 @@ storage:
   deb_packages:
     - path: https://launchpad.net/veracrypt/trunk/1.26.7/+download/veracrypt-console-1.26.7-Debian-10-amd64.deb
   postgresql:
-    version: "13"
+    version: "15"
     databases:
       - name: synapse
         owner: synapse
       - name: keycloak
         owner: keycloak
-      - name: mautrixfacebook
-        owner: mautrixfacebook
-      - name: mautrixgooglechat
-        owner: mautrixgooglechat
-      - name: mautrixwhatsapp
-        owner: mautrixwhatsapp
       - name: nextcloud
         owner: nextcloud
       - name: wallabag
@@ -63,12 +57,6 @@ storage:
       - name: synapse
       - name: keycloak
         password: keycloak
-      - name: mautrixfacebook
-        password: mautrixfacebook
-      - name: mautrixgooglechat
-        password: mautrixgooglechat
-      - name: mautrixwhatsapp
-        password: mautrixwhatsapp
       - name: nextcloud
         password: nextcloud
       - name: wallabag
@@ -90,21 +78,6 @@ storage:
         users: synapse
         source: ::1/128
         method: trust
-      - connection_type: host
-        databases: mautrixfacebook
-        users: mautrixfacebook
-        source: ::1/128
-        method: md5
-      - connection_type: host
-        databases: mautrixgooglechat
-        users: mautrixgooglechat
-        source: ::1/128
-        method: md5
-      - connection_type: host
-        databases: mautrixwhatsapp
-        users: mautrixwhatsapp
-        source: ::1/128
-        method: md5
       - connection_type: host
         databases: keycloak
         users: keycloak

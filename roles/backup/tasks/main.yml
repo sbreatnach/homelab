@@ -1,9 +1,10 @@
 # Install Restic + cronjobs for music and photo backups
 - name: create backup user
   user:
-    name: backup
-    comment: "Backup user"
-    home: /home/backup
+    # using a unique user, since the backup user is owned by Debian and may change
+    name: custom-backup
+    comment: "Custom backup user"
+    home: /home/custom-backup
     groups:
       - postgres
 
@@ -27,16 +28,16 @@
   template:
     src: "{{ item.src }}.j2"
     dest: "{{ item.dest }}"
-    owner: backup
+    owner: custom-backup
     mode: "{{ item.mode }}"
   with_items:
     - src: env
-      dest: /home/backup/.env
+      dest: /home/custom-backup/.env
       mode: "700"
 
 - name: install cron jobs
   cron:
-    user: "{{ item.user|default('backup') }}"
+    user: "{{ item.user|default('custom-backup') }}"
     job: "{{ item.job }}"
     name: "{{ item.name }}"
     minute: "{{ item.minute }}"

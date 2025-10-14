@@ -8,15 +8,7 @@ matrix:
         logs: /var/log/matrix-synapse
         conf: /etc/matrix-synapse
         extraconf: /etc/matrix-synapse/conf.d
-        mautrix_conf: /etc/mautrix
-    libraries:
-        - binary: https://github.com/mautrix/whatsapp/releases/download/v0.10.5/mautrix-whatsapp-amd64
-          name: mautrix-whatsapp
-          directory: mautrix-whatsapp
-        - repo: https://github.com/mautrix/facebook.git
-          version: v0.5.1
-          name: mautrix-facebook
-          requirements: requirements.txt
+    libraries: []
     oidc:
         client_secret: dummy
     macaroon_secret_key: dummy

@@ -1,7 +1,7 @@
 cloudflare:
     token: dummy
 external:
-    php_version: "7.4"
+    php_version: "8.2"
     dns_records:
       - record: auth
         type: CNAME
@@ -66,13 +66,13 @@ external:
         - mail
     apt_packages:
         - nginx
-        - php7.4
+        - php8.2
         - composer
-        - php7.4-fpm
-    pip_packages:
-        - certbot
-        - certbot-dns-cloudflare
-        - certbot-nginx
+        - php8.2-fpm
+        - python3-certbot
+        - python3-certbot-dns-cloudflare
+        - python3-certbot-nginx
+    pip_packages: []
     sites:
         - name: matrix
         - name: matrixweb
@@ -141,11 +141,6 @@ internal:
           title: 🎹 Owntone
           subdomain: owntone
           description: View and play music collection
-        - name: ampd
-          title: 📻 Ampd
-          subdomain: mpd
-          description: View and play MPD collection
-        - name: hangoutsbridge
         - name: launchpad
         - name: adguard
           title: 🔕 AdGuard Home

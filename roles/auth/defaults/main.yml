@@ -1,5 +1,5 @@
 keycloak:
-  version: 12.0.4
+  version: 26.4.0
 openldap:
   # passwords here can be generated using slappasswd
   admin_password: dummy

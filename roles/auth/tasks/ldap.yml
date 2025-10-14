@@ -8,14 +8,8 @@
     - libldap2-dev
     - libsasl2-dev
     - python-dev
+    - python3-ldap
     - libssl-dev
-
-- name: install pip packages
-  pip:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - python-ldap
 
 - name: create base data
   community.general.ldap_attrs:

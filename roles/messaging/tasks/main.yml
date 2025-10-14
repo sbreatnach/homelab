@@ -31,7 +31,6 @@
     owner: "{{ matrix.user }}"
     state: directory
   with_items:
-    - "{{ matrix.directory.mautrix_conf }}"
     - "{{ matrix.directory.logs }}"
     - /var/www/matrixweb
 
@@ -47,14 +46,6 @@
     - name: log.yaml
       path: "{{ matrix.directory.conf }}"
     - name: server_name.yaml
-      path: "{{ matrix.directory.extraconf }}"
-    - name: mautrix-facebook-config.yaml
-      path: "{{ matrix.directory.mautrix_conf }}"
-    - name: mautrix-facebook-registration.yaml
-      path: "{{ matrix.directory.extraconf }}"
-    - name: mautrix-whatsapp-config.yaml
-      path: "{{ matrix.directory.mautrix_conf }}"
-    - name: mautrix-whatsapp-registration.yaml
       path: "{{ matrix.directory.extraconf }}"
 
 - name: Install web client
@@ -89,14 +80,6 @@
   when: item.directory is defined
   with_items: "{{ matrix.libraries }}"
 
-- name: install pre-built library binary
-  get_url:
-    url: "{{ item.binary }}"
-    dest: "{{ matrix.directory.main }}/mautrix-whatsapp/{{ item.name }}"
-    mode: '0755'
-  when: item.binary is defined
-  with_items: "{{ matrix.libraries }}"
-
 - name: checkout additional libraries
   become_user: "{{ matrix.user }}"
   git:
@@ -121,8 +104,6 @@
     dest: "/etc/systemd/system/{{ item }}"
   with_items:
     - matrix-synapse.service
-    - mautrix-facebook.service
-    - mautrix-whatsapp.service
     - matrix-synapse.target
 
 - name: enable systemd services
@@ -132,6 +113,4 @@
     name: "{{ item }}"
   with_items:
     - matrix-synapse
-    - mautrix-facebook
-    - mautrix-whatsapp
     - matrix-synapse.target

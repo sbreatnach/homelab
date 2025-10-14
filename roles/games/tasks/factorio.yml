@@ -1,24 +1,24 @@
 - name: Extract server archive
   unarchive:
     src: "{{ games.factorio.url }}"
-    dest: "/home/games"
+    dest: "/home/server-games"
     remote_src: yes
 
 - name: set directory permissions
   shell:
-    cmd: chown -R games:games {{ games.factorio.directory }}
+    cmd: chown -R server-games:server-games {{ games.factorio.directory }}
 
 - name: create game directories
   file:
     path: "{{ item }}"
-    owner: games
-    group: games
+    owner: server-games
+    group: server-games
     state: directory
   with_items:
     - "{{ games.factorio.directory }}/saves"
 
 - name: create save, if it doesn't exist
-  become_user: games
+  become_user: server-games
   shell:
     chdir: "{{ games.factorio.directory }}"
     creates: "{{ games.factorio.directory }}/saves/{{ games.factorio.save_name }}.zip"

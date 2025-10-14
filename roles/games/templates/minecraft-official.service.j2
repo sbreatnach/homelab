@@ -6,12 +6,12 @@ Wants=network.target
 After=network.target
 
 [Service]
-User=games
-Group=games
+User=server-games
+Group=server-games
 Nice=5
 Restart=always
 WorkingDirectory={{ games.minecraft.official.directory }}
-ExecStart=/usr/bin/java -Xmx1024M -Xms1024M -jar server.jar --nogui --port {{ games.minecraft.official.port }}
+ExecStart=/usr/bin/java -Xmx2048M -Xms2048M -jar server.jar --nogui --port {{ games.minecraft.official.port }}
 
 [Install]
 WantedBy=multi-user.target

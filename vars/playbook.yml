@@ -1,5 +1,5 @@
 ---
-distro_name: bullseye
+distro_name: bookworm
 ufw_rules:
   # HTTP/HTTPS
   - port: 80
@@ -83,6 +83,10 @@ ufw_rules:
     proto: udp
   - port: 22000
     rule: allow
+  # mosh UDP port
+  - port: 60000
+    rule: allow
+    proto: udp
 domains:
   internal: nas.home
   vpn: nas.vpn

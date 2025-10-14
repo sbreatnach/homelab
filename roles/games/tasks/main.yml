@@ -11,6 +11,6 @@
     system: "{{ item.system|default(False) }}"
   with_items: "{{ games.users }}"
 
-#- include: minecraft-official.yml
+- include: minecraft-official.yml
 #- import_tasks: minecraft-spigot.yml
 - import_tasks: factorio.yml

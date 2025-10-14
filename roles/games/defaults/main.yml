@@ -1,11 +1,12 @@
 games:
   users:
-    - username: games
+    # games user reserved by Debian for other uses => use unique user
+    - username: server-games
       shell: /bin/bash
-      home_dir: /home/games
+      home_dir: /home/server-games
   factorio:
     url: https://factorio.com/get-download/stable/headless/linux64
-    directory: /home/games/factorio
+    directory: /home/server-games/factorio
     save_name: nas
     configs:
       - name: factorio.service
@@ -15,8 +16,8 @@ games:
       - uuid: "59495a2e-a030-47ea-871e-6da1825f74b1"
         name: deesno
     spigot:
-      version: "1.16.5"
-      directory: /home/games/minecraft/spigot
+      version: "1.21.10"
+      directory: /home/server-games/minecraft/spigot
       downloads:
         - url: https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
           filename: BuildTools.jar
@@ -26,7 +27,7 @@ games:
         - src: mcrcon-0.7.1.tar.gz
           output: mcrcon-0.7.1-linux-x86-64
       copies:
-        - src: spigot-1.16.5.jar
+        - src: spigot-1.21.10.jar
           dest: spigot.jar
         - src: mcrcon-0.7.1-linux-x86-64/mcrcon
           dest: mcrcon
@@ -38,31 +39,31 @@ games:
         - name: minecraft-spigot.service
           directory: /etc/systemd/system
         - name: eula.txt
-          directory: /home/games/minecraft/spigot
-          owner: games
-          group: games
+          directory: /home/server-games/minecraft/spigot
+          owner: server-games
+          group: server-games
         - name: server.properties
-          directory: /home/games/minecraft/spigot
-          owner: games
-          group: games
+          directory: /home/server-games/minecraft/spigot
+          owner: server-games
+          group: server-games
         - name: whitelist.json
-          directory: /home/games/minecraft/spigot
-          owner: games
-          group: games
+          directory: /home/server-games/minecraft/spigot
+          owner: server-games
+          group: server-games
         - name: spigot.yml
-          directory: /home/games/minecraft/spigot
-          owner: games
-          group: games
+          directory: /home/server-games/minecraft/spigot
+          owner: server-games
+          group: server-games
       download_url:
       port: 8987
     official:
-      directory: /home/games/minecraft/official
+      directory: /home/server-games/minecraft/official
       configs:
         - name: minecraft-official.service
           directory: /etc/systemd/system
         - name: eula.txt
-          directory: /home/games/minecraft/official
-          owner: games
-          group: games
-      download_url: https://launcher.mojang.com/v1/objects/1b557e7b033b583cd9f66746b7a9ab1ec1673ced/server.jar
+          directory: /home/server-games/minecraft/official
+          owner: server-games
+          group: server-games
+      download_url: https://piston-data.mojang.com/v1/objects/95495a7f485eedd84ce928cef5e223b757d2f764/server.jar
       port: 8987
