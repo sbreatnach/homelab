@@ -64,7 +64,19 @@
     chdir: "{{ nextcloud.directories.web }}"
   with_items:
     - setting: overwrite.cli.url
-      value: "nextcloud.{{ domains.internal }}"
+      value: "http://nextcloud.{{ domains.internal }}"
+
+- name: run mimetype migrations
+  become_user: "{{ nextcloud.user }}"
+  shell: php occ maintenance:repair --include-expensive
+  args:
+    chdir: "{{ nextcloud.directories.web }}"
+
+- name: run additional DB migrations
+  become_user: "{{ nextcloud.user }}"
+  shell: php occ db:add-missing-indices
+  args:
+    chdir: "{{ nextcloud.directories.web }}"
 
 - name: install cron jobs
   cron:

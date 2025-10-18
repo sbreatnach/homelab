@@ -137,10 +137,6 @@ internal:
           title: 🎙 Navidrome
           subdomain: music
           description: View and play music collection
-        - name: owntone
-          title: 🎹 Owntone
-          subdomain: owntone
-          description: View and play music collection
         - name: launchpad
         - name: adguard
           title: 🔕 AdGuard Home
