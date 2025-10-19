@@ -57,4 +57,4 @@ media:
     java_home: /usr/lib/jvm/java-11-openjdk-amd64
     deb_packages:
         - path: https://github.com/MediaBrowser/Emby.Releases/releases/download/4.9.1.80/emby-server-deb_4.9.1.80_amd64.deb
-        - path: https://github.com/badaix/snapcast/releases/download/v0.34.0/snapserver_0.34.0-1_amd64_bookworm.deb
+        - path: https://github.com/badaix/snapcast/releases/download/v0.34.0/snapserver_0.34.0-1_amd64_trixie.deb

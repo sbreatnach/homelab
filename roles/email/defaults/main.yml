@@ -37,11 +37,7 @@ email:
     - ca-certificates
   users: {}
 userli:
-  # Do not upgrade past this point unless you are willing to migrate
-  # to a new auth system for dovecot integration - see
-  # https://systemli.github.io/userli/installation/dovecot/
-  # As of 2025/10/12, the documented steps do not work.
-  version: 3.10.0
+  version: 4.2.1
   user: userli
   app_secret: dummy
   directories:

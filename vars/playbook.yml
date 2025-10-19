@@ -1,5 +1,5 @@
 ---
-distro_name: bookworm
+distro_name: trixie
 ufw_rules:
   # HTTP/HTTPS
   - port: 80
