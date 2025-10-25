@@ -1,0 +1,217 @@
+#############################################
+# Stalwart Configuration File
+#############################################
+
+# Main server configuration
+# domain name + TLS support
+[server]
+hostname = "mail.{{ domains.external }}"
+
+[server.tls]
+enable = true
+implicit = false
+timeout = "1m"
+
+[certificate."default"]
+cert = "%{file:{{ email.stalwart.directory }}/certs/fullchain.pem}%"
+private-key = "%{file:{{ email.stalwart.directory }}/certs/privkey.pem}%"
+default = true
+
+# rate limits
+[server.auto-ban.auth]
+rate = "100/1d"
+
+[server.auto-ban.abuse]
+rate = "35/1d"
+
+[server.auto-ban.loiter]
+rate = "150/1d"
+
+[server.auto-ban.scan]
+rate = "150/1d"
+paths = [ "*.php*",
+          "*.cgi*",
+          "*.asp*",
+          "*/wp-*",
+          "*/php*",
+          "*/cgi-bin*",
+          "*xmlrpc*",
+          "*../*",
+          "*/..*",
+          "*joomla*",
+          "*wordpress*",
+          "*drupal*" ]
+
+# protocol listeners - should match what's defined in firewall config
+[server.listener."smtp"]
+bind = ["[::]:25"]
+protocol = "smtp"
+
+[server.listener."submission"]
+bind = ["[::]:587"]
+protocol = "smtp"
+
+[server.listener."submissions"]
+bind = ["[::]:465"]
+protocol = "smtp"
+tls.implicit = true
+
+[server.listener."imaptls"]
+bind = ["[::]:993"]
+protocol = "imap"
+tls.implicit = true
+
+# JMAP + autodiscover support via HTTPS terminated in nginx reverse proxy
+[server.listener."public-http"]
+bind = ["127.0.0.1:10443"]
+protocol = "http"
+tls.enabled = false
+
+# internal domain access via HTTP
+[server.listener."private-http"]
+bind = ["127.0.0.1:10080"]
+protocol = "http"
+tls.enabled = false
+
+# public HTTP is limited to specific endpoints
+[http]
+use-x-forwarded = true
+allowed-endpoint = [ { if = "listener == 'private-http' || starts_with( url_path, '/jmap' ) || starts_with( url_path, '/dav' ) || starts_with( url_path, '/calendar' ) || starts_with( url_path, '/.well-known' ) || starts_with( url_path, '/robots' )",
+                       then = "200" },
+                     { else = "404" } ]
+
+[http.rate-limit]
+anonymous = "100/1m"
+account = "1000/1m"
+
+# Limit IMAP authentication attempts for added security
+[imap.auth]
+max-failures = 3
+allow-plain-text = false
+
+# ASN for geoip lookup and scanning
+[asn]
+type = "resource"
+expires = "1d"
+timeout = "5m"
+max-size = 104857600
+
+[asn.urls]
+asn = [ "https://cdn.jsdelivr.net/npm/@ip-location-db/asn/asn-ipv4.csv",
+        "https://cdn.jsdelivr.net/npm/@ip-location-db/asn/asn-ipv6.csv" ]
+geo = [ "https://cdn.jsdelivr.net/npm/@ip-location-db/geolite2-geo-whois-asn-country/geolite2-geo-whois-asn-country-ipv4.csv",
+        "https://cdn.jsdelivr.net/npm/@ip-location-db/geolite2-geo-whois-asn-country/geolite2-geo-whois-asn-country-ipv6.csv" ]
+
+# Use PostgreSQL for most storage, Redis for caching,
+# Stalwart auth system for authentication
+[storage]
+data = "postgresql"
+fts = "postgresql"
+blob = "postgresql"
+lookup = "redis"
+directory = "default"
+
+# Use Stalwart auth for now, perhaps migrate to LDAP
+[directory."default"]
+type = "internal"
+store = "postgresql"
+
+[authentication.fallback-admin]
+user = "admin"
+secret = "{{ email.stalwart.admin_password.fallback }}"
+
+[authentication.master]
+user = "master"
+secret = "{{ email.stalwart.admin_password.master }}"
+
+[storage.full-text]
+default-language = "en"
+
+# Simple redis setup for caching
+[store."redis"]
+type = "redis"
+redis-type = "single"
+urls = "redis://localhost/1"
+timeout = "10s"
+
+[store."redis".purge]
+frequency = "0 4 *"
+
+# Use postgresql DB with standard settings
+[store."postgresql"]
+type = "postgresql"
+host = "localhost"
+port = 5432
+database = "stalwart"
+user = "stalwart"
+password = "stalwart"
+timeout = "10s"
+compression = "lz4"
+
+[store."postgresql".purge]
+frequency = "0 3 *"
+
+[store."postgresql".tls]
+enable = false
+
+[tracer.journal]
+type = "journal"
+level = "info"
+enable = true
+
+[tracer.log]
+type = "log"
+path = "{{ email.stalwart.directory }}/logs"
+prefix = "stalwart.log"
+rotate = "daily"
+level = "debug"
+ansi = true
+enable = true
+
+[email]
+auto-expunge = "30d"
+
+[changes]
+max-history = 10000
+
+[account.purge]
+frequency = "45 5 2"
+
+# Use external relay host for sending email to non-local domains,
+# local routing for everything else
+[queue.strategy]
+route = [ { if = "is_local_domain('', rcpt_domain)", then = "'local'" },
+          { else = "'relay'" } ]
+
+[queue.route.local]
+type = "local"
+
+[queue.route."relay"]
+type = "relay"
+address = "{{ smtp2go.relay_host }}"
+port = {{ smtp2go.relay_port }}
+protocol = "smtp"
+
+[queue.route."relay".auth]
+username = "{{ smtp2go.username }}"
+secret = "{{ smtp2go.password }}"
+
+[queue.route."relay".tls]
+implicit = false
+allow-invalid-certs = false
+
+[session.milter."clamav"]
+enable = [ { if = "listener = 'smtp'", then = true },
+           { else = false } ]
+hostname = "127.0.0.1"
+port = 3310
+tls = false
+allow-invalid-certs = false
+
+[metrics.prometheus]
+enable = true
+
+[webadmin]
+auto-update = false
+path = "{{ email.stalwart.directory }}/webadmin"
+resource = "file://{{ email.stalwart.directory }}/webadmin-oss.zip"

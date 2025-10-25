@@ -1,4 +1,19 @@
 email:
+  stalwart:
+    username: stalwart
+    directory: /opt/stalwart
+    download:
+      version: "0.14.0"
+    webadmin:
+      version: "0.1.33"
+      checksum: sha256:731d78b4e17861be9b95a94053ca4f76b86ab34fb65a92480f85664accceac3f
+    admin_password:
+      # password format is hashed based on
+      # https://stalw.art/docs/auth/authentication/password
+      # Python one-liner to generate from homelab venv:
+      # python -c 'import os; from argon2 import PasswordHasher; hasher = PasswordHasher(); print(hasher.hash(os.environ["NEW_PASS"]))'
+      fallback: dummy
+      master: dummy
   dns_records:
     - type: MX
       value: home.{{ domains.external }}
@@ -19,36 +34,18 @@ email:
     - type: CNAME
       record: em663679
       value: return.smtp2go.net
-  dkim_private_keys:
-    2021040906: dummy
   apt_packages:
-    - postfix
-    - postfix-pgsql
-    - rspamd
-    - swaks
-    - dovecot-pgsql
-    - dovecot-pop3d
-    - dovecot-imapd
-    - dovecot-managesieved
-    - dovecot-lmtpd
     - clamav
     - clamav-daemon
     - clamav-unofficial-sigs
     - ca-certificates
   users: {}
-userli:
-  version: 4.2.1
-  user: userli
-  app_secret: dummy
-  directories:
-    web: /var/www/userli
-rspamd:
-  password: dummy
 gmail:
   relay_host: "[smtp.gmail.com]:587"
   username: dummy
   app_password: dummy
 smtp2go:
-  relay_host: "[mail.smtp2go.com]:587"
+  relay_host: "mail.smtp2go.com"
+  relay_port: 587
   username: smtp2go.somethinginterestinghere.com
   password: dummy

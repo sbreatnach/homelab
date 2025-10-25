@@ -1,0 +1,56 @@
+- name: create required directories
+  file:
+    name: "{{ item.name }}"
+    mode: "{{ item.mode|default(omit) }}"
+    owner: "{{ email.stalwart.username }}"
+    group: "{{ email.stalwart.username }}"
+    state: directory
+  with_items:
+    - name: "{{ email.stalwart.directory }}"
+    - name: "{{ email.stalwart.directory }}/bin"
+    - name: "{{ email.stalwart.directory }}/etc"
+    - name: "{{ email.stalwart.directory }}/logs"
+    - name: "{{ email.stalwart.directory }}/webadmin"
+    - name: "{{ email.stalwart.directory }}/certs"
+      mode: 0700
+
+- name: install specified version
+  unarchive:
+    src: "https://github.com/stalwartlabs/stalwart/releases/download/v{{ email.stalwart.download.version }}/stalwart-x86_64-unknown-linux-gnu.tar.gz"
+    dest: "{{ email.stalwart.directory }}/bin"
+    mode: 0755
+    remote_src: true
+    owner: "{{ email.stalwart.username }}"
+
+- name: download webadmin bundle
+  get_url:
+    url: https://github.com/stalwartlabs/webadmin/releases/download/v{{ email.stalwart.webadmin.version }}/webadmin-oss.zip
+    dest: "{{ email.stalwart.directory }}"
+    checksum: "{{ email.stalwart.webadmin.checksum }}"
+    mode: 0644
+    owner: "{{ email.stalwart.username }}"
+
+- name: add configuration
+  template:
+    src: "{{ item.name }}.j2"
+    dest: "{{ item.path }}/{{ item.destination|default(item.name) }}"
+    mode: "{{ item.mode }}"
+    owner: "{{ item.owner }}"
+  with_items:
+    - name: stalwart.toml
+      path: "{{ email.stalwart.directory }}/etc"
+      destination: config.toml
+      mode: 0600
+      owner: "{{ email.stalwart.username }}"
+    - name: stalwart.service
+      path: /etc/systemd/system
+      mode: 0644
+      owner: "{{ email.stalwart.username }}"
+
+- name: enable systemd services
+  systemd:
+    state: started
+    enabled: true
+    name: "{{ item }}"
+  with_items:
+    - stalwart

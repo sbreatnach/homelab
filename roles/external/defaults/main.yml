@@ -21,6 +21,12 @@ external:
       - record: mail
         type: CNAME
         value: home.{{ domains.external }}
+      - record: autodiscover
+        type: CNAME
+        value: home.{{ domains.external }}
+      - record: autoconfig
+        type: CNAME
+        value: home.{{ domains.external }}
       - record: minecraft
         type: CNAME
         value: home.{{ domains.external }}
@@ -49,6 +55,12 @@ external:
         mail:
             full_chain: /etc/letsencrypt/live/mail.somethinginterestinghere.com/fullchain.pem
             key: /etc/letsencrypt/live/mail.somethinginterestinghere.com/privkey.pem
+        autodiscover:
+          full_chain: /etc/letsencrypt/live/autodiscover.somethinginterestinghere.com/fullchain.pem
+          key: /etc/letsencrypt/live/autodiscover.somethinginterestinghere.com/privkey.pem
+        autoconfig:
+          full_chain: /etc/letsencrypt/live/autoconfig.somethinginterestinghere.com/fullchain.pem
+          key: /etc/letsencrypt/live/autoconfig.somethinginterestinghere.com/privkey.pem
     notification_email: sbreatnach@protonmail.com
     certificate_domains:
         - killian.somethinginterestinghere.com
@@ -57,6 +69,8 @@ external:
         - auth.somethinginterestinghere.com
         - nextcloud.somethinginterestinghere.com
         - mail.somethinginterestinghere.com
+        - autodiscover.somethinginterestinghere.com
+        - autoconfig.somethinginterestinghere.com
     subdomains:
         - killian
         - matrix
@@ -64,6 +78,8 @@ external:
         - auth
         - nextcloud
         - mail
+        - autodiscover
+        - autoconfig
     apt_packages:
         - nginx
         - php8.4
@@ -91,6 +107,7 @@ external:
           title: 🧒🏼 killian
           subdomain: killian
           description: Killian's first website
+        - name: stalwart
 internal:
     sites:
         - name: searx
@@ -101,18 +118,14 @@ internal:
           title: 🎒 Wallabag
           subdomain: wallabag
           description: Bookmarking and archiving for the web
-        - name: rspamd
-          title: 🥫 Rspamd
-          subdomain: rspamd
-          description: View spam management
         - name: grafana
           title: 🧿 Monitoring
           subdomain: monitoring
           description: View monitoring graphs and alerts
-        - name: userli
-          title: 📫 Userli
+        - name: stalwart
+          title: 📫 Stalwart
           subdomain: mail-users
-          description: View and manage email server users
+          description: Mail server management
         - name: calibreweb
           title: 📖 Calibre Web
           subdomain: books

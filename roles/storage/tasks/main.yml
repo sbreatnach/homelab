@@ -1,16 +1,13 @@
 # Veracrypt, NFS, Samba + fstab config
-- name: setup repository keys
-  apt_key:
-    url: "{{ item.url }}"
-    keyring: "{{ item.keyring }}"
-    state: present
-  with_items: "{{ storage.apt_keys }}"
-
-- name: setup repositories
-  apt_repository:
-    repo: "{{ item.repo }}"
-    filename: "{{ item.name }}"
-    state: present
+- name: Add repositories
+  deb822_repository:
+    name: "{{ item.name }}"
+    types: deb
+    uris: "{{ item.url }}"
+    architectures: "{{ item.architectures|default(omit) }}"
+    components: "{{ item.components|default(omit) }}"
+    suites: "{{ item.suites|default(omit) }}"
+    signed_by: "{{ item.apt_key_url }}"
   with_items: "{{ storage.apt_repositories }}"
 
 - name: install apt packages

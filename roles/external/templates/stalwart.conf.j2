@@ -1,0 +1,60 @@
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    ssl_certificate {{ external.certificates.mail.full_chain }};
+    ssl_certificate_key {{ external.certificates.mail.key }};
+
+    server_name mail.{{ domains.external }};
+
+    location / {
+        proxy_pass http://localhost:10443;
+        proxy_set_header X-Forwarded-For   $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    ssl_certificate {{ external.certificates.autodiscover.full_chain }};
+    ssl_certificate_key {{ external.certificates.autodiscover.key }};
+
+    server_name autodiscover.{{ domains.external }};
+
+    location / {
+        proxy_pass http://localhost:10443;
+        proxy_set_header X-Forwarded-For   $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    ssl_certificate {{ external.certificates.autoconfig.full_chain }};
+    ssl_certificate_key {{ external.certificates.autoconfig.key }};
+
+    server_name autoconfig.{{ domains.external }};
+
+    location / {
+        proxy_pass http://localhost:10443;
+        proxy_set_header X-Forwarded-For   $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name mail-users.{{ domains.internal }} mail-users.{{ domains.vpn }};
+
+    location / {
+        proxy_pass http://localhost:10080;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}

@@ -6,14 +6,12 @@
 - name: generate TLS certs
   shell: update-ca-certificates
 
-- name: create system groups
+- name: create/update system groups
   group:
     name: "{{ item.name }}"
-    gid: "{{ item.gid|default(omit) }}"
+    system: "{{ item.system|default(False) }}"
   with_items:
-    - name: vmail
-      gid: 5000
-    - name: userli
+    - name: "{{ email.stalwart.username }}"
 
 - name: create/update system users
   user:
@@ -25,45 +23,15 @@
     groups: "{{ item.groups|default(omit) }}"
     system: "{{ item.system|default(False) }}"
   with_items:
-    - username: vmail
-      home_dir: /var/vmail
-      group: vmail
-      uid: 5000
-      system: true
-    - username: userli
-      group: userli
-      system: true
-    - username: dovecot
-      append: true
-      groups: userli
+    - username: "{{ email.stalwart.username }}"
+      group: "{{ email.stalwart.username }}"
 
-- name: create required directories
-  file:
-    name: "{{ item.name }}"
-    mode: "{{ item.mode|default(omit) }}"
-    owner: "{{ item.owner|default(omit) }}"
-    group: "{{ item.group|default(omit) }}"
-    state: directory
-  with_items:
-    - name: /etc/dovecot/sieve-after
-      owner: vmail
-      group: vmail
-    - name: /etc/dovecot/sieve
-      owner: vmail
-      group: vmail
-    - name: /var/lib/rspamd/dkim
-      owner: _rspamd
-      group: _rspamd
-
-- import_tasks: userli.yml
-
-- name: generate DKIM private key files
-  copy:
-    dest: "/var/lib/rspamd/dkim/{{ domains.external }}.{{ item.key }}.key"
-    content: "{{ item.value }}"
-    owner: "_rspamd"
-    mode: "0600"
-  with_dict: "{{ email.dkim_private_keys }}"
+- name: Disable debconf for ClamAV
+  ansible.builtin.debconf:
+    name: clamav-daemon
+    question: clamav-daemon/debconf
+    value: "false"
+    vtype: select
 
 - name: generate configuration files
   template:
@@ -73,203 +41,20 @@
     group: "{{ item.group|default(omit) }}"
     mode: "{{ item.mode|default(omit) }}"
   with_items:
-    - name: pgsql-virtual_mailbox_domains.cf
-      path: /etc/postfix
-    - name: pgsql-virtual_mailbox_maps.cf
-      path: /etc/postfix
-    - name: pgsql-virtual_alias_maps.cf
-      path: /etc/postfix
-    - name: sasl_passwd
-      path: /etc/postfix
-      mode: "0600"
-    - name: 10-auth.conf
-      path: /etc/dovecot/conf.d
-    - name: 10-ssl.conf
-      path: /etc/dovecot/conf.d
-    - name: 10-mail.conf
-      path: /etc/dovecot/conf.d
-    - name: 10-master.conf
-      path: /etc/dovecot/conf.d
-    - name: 20-lmtp.conf
-      path: /etc/dovecot/conf.d
-    - name: 20-imap.conf
-      path: /etc/dovecot/conf.d
-    - name: 90-mail-crypt.conf
-      path: /etc/dovecot/conf.d
-    - name: 90-quota.conf
-      path: /etc/dovecot/conf.d
-    - name: 90-sieve.conf
-      path: /etc/dovecot/conf.d
-    - name: auth-checkpassword.conf.ext
-      path: /etc/dovecot/conf.d
-    - name: spam-to-folder.sieve
-      path: /etc/dovecot/sieve-after
-      owner: vmail
-      group: vmail
-    - name: learn-spam.sieve
-      owner: vmail
-      group: vmail
-      path: /etc/dovecot/sieve
-    - name: learn-ham.sieve
-      owner: vmail
-      group: vmail
-      path: /etc/dovecot/sieve
-    - name: rspamd-learn-spam.sh
-      path: /etc/dovecot/sieve
-      owner: vmail
-      group: vmail
-      mode: "0755"
-    - name: rspamd-learn-ham.sh
-      path: /etc/dovecot/sieve
-      owner: vmail
-      group: vmail
-      mode: "0755"
-    - name: master.cf
-      path: /etc/postfix
-    - name: dkim_selectors.map
-      path: /etc/rspamd
-    - name: worker-controller.inc
-      path: /etc/rspamd/local.d
-    - name: dkim_signing.conf
-      path: /etc/rspamd/local.d
-    - name: multimap.conf
-      path: /etc/rspamd/local.d
-    - name: whitelist.sender.domain.map
-      path: /etc/rspamd/local.d
-    - name: milter_headers.conf
-      path: /etc/rspamd/override.d
-    - name: classifier-bayes.conf
-      path: /etc/rspamd/override.d
-    - name: redis.conf
-      path: /etc/rspamd/override.d
-    - name: statistic.conf
-      path: /etc/rspamd/override.d
-    - name: antivirus.conf
-      path: /etc/rspamd/override.d
     - name: 00-clamav-unofficial-sigs.conf
       path: /usr/share/clamav-unofficial-sigs/conf.d
-    - name: quota-warning.sh
-      path: /usr/local/bin
-      mode: "0755"
+    - name: clamd.conf
+      path: /etc/clamav
+    - name: clamav-daemon.socket
+      path: /lib/systemd/system
 
-- name: restart dovecot before compilation
-  systemd:
+- name: Reload clamav daemon
+  ansible.builtin.systemd_service:
+    name: clamav-daemon.socket
+    daemon_reload: true
     state: restarted
-    name: dovecot
 
-- name: compile dovecot sieve files
-  shell: sievec {{ item }}
-  with_items:
-    - /etc/dovecot/sieve-after/spam-to-folder.sieve
-    - /etc/dovecot/sieve/learn-spam.sieve
-    - /etc/dovecot/sieve/learn-ham.sieve
-
-- name: correct file permissions
-  file:
-    path: "{{ item.path }}"
-    owner: "{{ item.owner }}"
-    group: "{{ item.group }}"
-    mode: "{{ item.mode|default(omit) }}"
-    state: file
-  with_items:
-    - path: /etc/dovecot/sieve-after/spam-to-folder.svbin
-      owner: vmail
-      group: vmail
-    - path: /etc/dovecot/sieve/learn-spam.svbin
-      owner: vmail
-      group: vmail
-    - path: /etc/dovecot/sieve/learn-ham.svbin
-      owner: vmail
-      group: vmail
-
-- name: update postfix configuration
-  shell: postconf "{{ item.key }}={{ item.value }}"
-  with_items:
-    - key: myhostname
-      value: "mail.{{ domains.external }}"
-    - key: mydomain
-      value: "{{ domains.external }}"
-    - key: myorigin
-      value: "{{ domains.external }}"
-    - key: relayhost
-      value: "{{ smtp2go.relay_host }}"
-    - key: mynetworks
-      value: 192.168.0.0/24,192.168.1.0/24,127.0.0.0/8
-    - key: virtual_mailbox_domains
-      value: pgsql:/etc/postfix/pgsql-virtual_mailbox_domains.cf
-    - key: virtual_mailbox_maps
-      value: pgsql:/etc/postfix/pgsql-virtual_mailbox_maps.cf
-    - key: virtual_alias_maps
-      value: pgsql:/etc/postfix/pgsql-virtual_alias_maps.cf
-    - key: virtual_transport
-      value: lmtp:unix:private/dovecot-lmtp
-    - key: smtpd_recipient_restrictions
-      value: reject_unauth_destination check_policy_service unix:private/quota-status
-    - key: smtpd_sasl_type
-      value: dovecot
-    - key: smtpd_sasl_auth_enable
-      value: "yes"
-    - key: smtpd_sasl_path
-      value: private/auth
-    - key: smtpd_tls_security_level
-      value: may
-    - key: smtpd_tls_auth_only
-      value: "yes"
-    - key: smtpd_tls_cert_file
-      value: /etc/letsencrypt/live/mail.somethinginterestinghere.com/fullchain.pem
-    - key: smtpd_tls_key_file
-      value: /etc/letsencrypt/live/mail.somethinginterestinghere.com/privkey.pem
-    - key: smtp_use_tls
-      value: "yes"
-    - key: smtp_sasl_auth_enable
-      value: "yes"
-    - key: smtp_sasl_password_maps
-      value: hash:/etc/postfix/sasl_passwd
-    - key: smtp_sasl_security_options
-      value: noanonymous
-    - key: smtp_sasl_tls_security_options
-      value: noanonymous
-    - key: smtp_tls_CApath
-      value: /etc/ssl/certs
-    - key: smtp_tls_CAfile
-      value: /etc/ssl/certs/ca-certificates.crt
-    - key: smtp_tls_security_level
-      value: encrypt
-    - key: delay_warning_time
-      value: "4h"
-    - key: message_size_limit
-      value: "41943040"
-    - key: disable_vrfy_command
-      value: "yes"
-    - key: smtpd_helo_required
-      value: "yes"
-    - key: smtpd_sasl_authenticated_header
-      value: "yes"
-    - key: smtpd_discard_ehlo_keywords
-      value: silent-discard, dsn
-    - key: smtpd_tls_received_header
-      value: "yes"
-    - key: show_user_unknown_table_name
-      value: "no"
-    - key: authorized_flush_users
-      value: root
-    - key: authorized_mailq_users
-      value: root
-    - key: enable_long_queue_ids
-      value: "yes"
-    - key: smtpd_tls_security_level
-      value: may
-    - key: smtpd_milters
-      value: inet:127.0.0.1:11332
-    - key: non_smtpd_milters
-      value: inet:127.0.0.1:11332
-    - key: milter_mail_macros
-      value: "i {mail_addr} {client_addr} {client_name} {auth_authen}"
-
-- name: update postfix lookup tables
-  shell: postmap {{ item }}
-  with_items:
-    - /etc/postfix/sasl_passwd
+- import_tasks: stalwart.yml
 
 - name: Create DNS records for email
   community.general.cloudflare_dns:

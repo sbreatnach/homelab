@@ -13,10 +13,16 @@ storage:
     - url: https://syncthing.net/release-key.gpg
       keyring: /usr/share/keyrings/syncthing-archive-keyring.gpg
   apt_repositories:
-    - repo: deb [arch=amd64 signed-by=/usr/share/keyrings/obs-onedrive.gpg] https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/Debian_12/ ./
+    - url: https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/Debian_12/
       name: onedrive
-    - repo: deb [signed-by=/usr/share/keyrings/syncthing-archive-keyring.gpg] https://apt.syncthing.net/ syncthing stable
+      architectures: amd64
+      suites: "./"
+      apt_key_url: https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/Debian_12/Release.key
+    - url: https://apt.syncthing.net/
       name: syncthing
+      suites: syncthing
+      components: "stable"
+      apt_key_url: https://syncthing.net/release-key.gpg
   apt_packages:
     - name: nfs-common
     - name: nfs-kernel-server
@@ -49,6 +55,8 @@ storage:
         owner: mailserver
       - name: userli
         owner: userli
+      - name: stalwart
+        owner: stalwart
       - name: photoview
         owner: photoview
       - name: grafana
@@ -68,6 +76,8 @@ storage:
         password: mailadmin
       - name: userli
         password: userli
+      - name: stalwart
+        password: stalwart
       - name: photoview
         password: photoview
       - name: grafana
@@ -101,5 +111,10 @@ storage:
       - connection_type: host
         databases: userli
         users: userli
+        source: ::1/128
+        method: md5
+      - connection_type: host
+        databases: stalwart
+        users: stalwart
         source: ::1/128
         method: md5

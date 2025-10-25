@@ -2,6 +2,10 @@
 
 set -e
 
+# copy relevant keys for use by stalwart user
+cp /etc/letsencrypt/live/mail.somethinginterestinghere.com/fullchain.pem /opt/stalwart/certs/
+cp /etc/letsencrypt/live/mail.somethinginterestinghere.com/privkey.pem /opt/stalwart/certs/
+chown -R stalwart:stalwart /opt/stalwart/certs/
+
 systemctl reload nginx
-systemctl reload postfix
-systemctl reload dovecot
+systemctl restart stalwart

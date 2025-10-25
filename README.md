@@ -65,6 +65,7 @@ restic -r b2:whizz-onedrive:/ init
 (umask 077 && wg genkey > wg-private-client.key)
 wg pubkey < wg-private-client.key > wg-public-client.key
 # create client config file
+# can get public key and free IP address from `sudo wg show wg0`
 export PUBLIC_SERVER_KEY=
 export PRIVATE_CLIENT_KEY=$(cat wg-private-client.key)
 export PUBLIC_CLIENT_KEY=$(cat wg-public-client.key)
@@ -116,6 +117,9 @@ EOF
 qrencode -r wg-client.conf -l M -o /mnt/Backup/tmp/qrdata.png
 # restart wireguard on server to pick up configuration
 sudo systemctl restart wg-quick@wg0.service
+
+# Linux client with Network Manager: add wireguard VPN with nmcli
+nmcli connection import type wireguard file wg-client.conf
 ```
 
 # Bugs TODO
