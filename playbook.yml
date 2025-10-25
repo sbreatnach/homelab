@@ -6,8 +6,6 @@
       tags: [base]
     - role: ANXS.hostname
       tags: [hostname]
-    - role: Stouts.locale
-      tags: [locale]
     - role: geerlingguy.ntp
       tags: [ntp]
     - role: ANXS.build-essential

@@ -4,14 +4,14 @@ version = "1.0.0"
 description = "Scripts for managing the homelab"
 readme = "README.md"
 dependencies = [
-    "ansible==2.10.7",
+    "ansible>=2.10.7",
     "pyexiftool>=0.5.6",
     "python-dateutil>=2.9.0.post0",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.13"
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "isort>=5.13.2",
     "ruff>=0.6.4",
 ]

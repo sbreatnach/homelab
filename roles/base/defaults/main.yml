@@ -1,5 +1,7 @@
 ---
 base:
+  locales:
+    - en_IE.UTF-8
   cronjobs: []
   # Leaving these out since they can cause instability and aren't necessary
   # for power savings because modern computers are very low on power draw

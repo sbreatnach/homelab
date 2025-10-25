@@ -95,6 +95,7 @@ domains:
   external_tld: com
 vpn_ip_address: "10.99.0.1"
 root_ip_address: 192.168.1.102
+root_ip_address_cidr: 192.168.1.0/24
 root_network_interface: eno1
 vpn_network_interface: wg0
 wifi:

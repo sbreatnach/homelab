@@ -1,7 +1,7 @@
 cloudflare:
     token: dummy
 external:
-    php_version: "8.2"
+    php_version: "8.4"
     dns_records:
       - record: auth
         type: CNAME
@@ -66,9 +66,9 @@ external:
         - mail
     apt_packages:
         - nginx
-        - php8.2
+        - php8.4
         - composer
-        - php8.2-fpm
+        - php8.4-fpm
         - python3-certbot
         - python3-certbot-dns-cloudflare
         - python3-certbot-nginx
