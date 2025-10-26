@@ -200,13 +200,14 @@ secret = "{{ smtp2go.password }}"
 implicit = false
 allow-invalid-certs = false
 
-[session.milter."clamav"]
-enable = [ { if = "listener = 'smtp'", then = true },
-           { else = false } ]
-hostname = "127.0.0.1"
-port = 3310
-tls = false
-allow-invalid-certs = false
+# TODO: re-enable this after resolving "Milter frame too large"
+#[session.milter."clamav"]
+#enable = [ { if = "listener = 'smtp'", then = true },
+#           { else = false } ]
+#hostname = "127.0.0.1"
+#port = 3310
+#tls = false
+#allow-invalid-certs = false
 
 [metrics.prometheus]
 enable = true
