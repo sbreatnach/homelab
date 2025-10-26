@@ -1,22 +1,16 @@
-- name: clone searx repository
+- name: clone searxng repository
   ansible.builtin.git:
-    repo: https://github.com/searx/searx.git
-    dest: "{{ search.directories.home }}/searx-src"
+    repo: https://github.com/searxng/searxng
+    dest: "{{ search.directories.home }}/searxng-src"
 
 - name: install base python dependencies
   ansible.builtin.pip:
     name: "{{ search.pip_packages }}"
     virtualenv: "{{ search.directories.home }}/venv"
 
-- name: install searx requirements
+- name: install searxng requirements
   ansible.builtin.pip:
-    requirements: "{{ search.directories.home }}/searx-src/requirements.txt"
-    virtualenv: "{{ search.directories.home }}/venv"
-
-- name: fix searx requirements
-  ansible.builtin.pip:
-    name:
-      - "werkzeug>=2.3.8,<3.0.0"
+    requirements: "{{ search.directories.home }}/searxng-src/requirements.txt"
     virtualenv: "{{ search.directories.home }}/venv"
 
 - name: create templates

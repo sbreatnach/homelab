@@ -41,12 +41,11 @@ media:
           dest: /opt/navidrome
         - url: https://github.com/sbreatnach/photoview/releases/download/v2.4.0/photoview_v2.4.0_linux_amd64.tar.gz
           dest: /opt/photoview
-    apt_keys:
-        - url: https://advplyr.github.io/audiobookshelf-ppa/KEY.gpg
-          keyring: /etc/apt/trusted.gpg.d/adb-archive-keyring.gpg
     apt_repositories:
-        - repo: deb https://advplyr.github.io/audiobookshelf-ppa ./
-          name: audiobookshelf
+        - name: audiobookshelf
+          url: https://advplyr.github.io/audiobookshelf-ppa
+          suites: "./"
+          apt_key_url: https://advplyr.github.io/audiobookshelf-ppa/KEY.gpg
     apt_packages:
         - name: mpd
         - name: ffmpeg

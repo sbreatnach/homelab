@@ -21,6 +21,12 @@ base:
     - name: wpa_supplicant
       has_template: true
     - name: dhcpcd
+  apt_repositories:
+    - name: zulu
+      url: https://repos.azul.com/zulu/deb
+      apt_key_url: https://repos.azul.com/azul-repo.key
+      suites: stable
+      components: main
   extra_paths: []
   packages:
     - name: git
@@ -56,9 +62,10 @@ base:
     - name: resolvconf
     - name: tk-dev
     - name: wget
-    - name: wpa_supplicant
+    - name: wpasupplicant
     - name: xz-utils
     - name: zlib1g-dev
+    - name: zulu25-jdk
 users: []
 system_users:
   - username: matrix-synapse

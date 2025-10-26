@@ -1,14 +1,14 @@
 [Unit]
-Description=Searx
-Documentation=https://searx.github.io
+Description=SearxNG
+Documentation=https://docs.searxng.org/index.html
 After=network.target
 
 [Service]
 User=searx
-WorkingDirectory={{ search.directories.home }}/searx-src
+WorkingDirectory={{ search.directories.home }}/searxng-src
 ExecStart={{ search.directories.home }}/venv/bin/gunicorn --access-logfile "-" -b "0.0.0.0:8888" -w 2 searx.webapp:app
 Restart=on-failure
-Environment="SEARX_SETTINGS_PATH={{ search.directories.home }}/settings.yml"
+Environment="SEARXNG_SETTINGS_PATH={{ search.directories.home }}/settings.yml"
 
 [Install]
 WantedBy=multi-user.target
