@@ -20,8 +20,8 @@ partitions:
     flags: defaults,nofail
   - path: /mnt/Backup2
     name: Backup2
-    device: UUID=AA6E40366E3FFA21
-    filesystem: ntfs
+    device: UUID=9cd988b3-893e-44e1-a00d-476abb5b846a
+    filesystem: ext4
     flags: defaults,nofail
   - path: /mnt/Backup3
     name: Backup3
@@ -54,3 +54,4 @@ nfs_exports:
   - /mnt/Backup4    192.168.1.0/24(rw,fsid=3,insecure,no_subtree_check,async)
   - /mnt/Backup5    192.168.1.0/24(rw,fsid=4,insecure,no_subtree_check,async)
 root_ip_address: 192.168.1.103
+root_network_interface: wlp2s0

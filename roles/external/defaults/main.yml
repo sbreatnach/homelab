@@ -6,9 +6,6 @@ external:
       - record: auth
         type: CNAME
         value: home.{{ domains.external }}
-      - record: killian
-        type: CNAME
-        value: home.{{ domains.external }}
       - record: matrix
         type: CNAME
         value: home.{{ domains.external }}
@@ -37,9 +34,6 @@ external:
         upload_max_filesize: 512M
         request_timeout: 60
     certificates:
-        killian:
-            full_chain: /etc/letsencrypt/live/killian.somethinginterestinghere.com/fullchain.pem
-            key: /etc/letsencrypt/live/killian.somethinginterestinghere.com/privkey.pem
         matrix:
             full_chain: /etc/letsencrypt/live/matrix.somethinginterestinghere.com/fullchain.pem
             key: /etc/letsencrypt/live/matrix.somethinginterestinghere.com/privkey.pem
@@ -63,7 +57,6 @@ external:
           key: /etc/letsencrypt/live/autoconfig.somethinginterestinghere.com/privkey.pem
     notification_email: sbreatnach@protonmail.com
     certificate_domains:
-        - killian.somethinginterestinghere.com
         - matrix.somethinginterestinghere.com
         - matrixweb.somethinginterestinghere.com
         - auth.somethinginterestinghere.com
@@ -72,7 +65,6 @@ external:
         - autodiscover.somethinginterestinghere.com
         - autoconfig.somethinginterestinghere.com
     subdomains:
-        - killian
         - matrix
         - matrixweb
         - auth
@@ -103,10 +95,6 @@ external:
           title: ⛅ Nextcloud
           subdomain: nextcloud
           description: Personal cloud web interface
-        - name: killian
-          title: 🧒🏼 killian
-          subdomain: killian
-          description: Killian's first website
         - name: stalwart
 internal:
     sites:
@@ -159,6 +147,10 @@ internal:
           title: 📺 Emby
           subdomain: media
           description: View and play music, photos and videos
+        - name: killian
+          title: 🧒🏼 killian
+          subdomain: killian
+          description: Killian's first website
         - name: homeassistant
           title: 🎩 Home Assistant
           subdomain: hass
