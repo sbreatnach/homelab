@@ -138,6 +138,10 @@ internal:
           title: 🎙 Navidrome
           subdomain: music
           description: View and play music collection
+        - name: localfm
+          title: 📻 LocalFM
+          subdomain: localfm
+          description: My own personal music nexus
         - name: launchpad
         - name: adguard
           title: 🔕 AdGuard Home
