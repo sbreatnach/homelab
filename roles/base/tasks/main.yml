@@ -24,6 +24,13 @@
        state=present
   with_items: "{{ base.packages }}"
 
+- name: install global pip packages
+  pip:
+    name: "{{ item.name }}"
+    version: "{{ item.version }}"
+    break_system_packages: true
+  with_items: "{{ base.pip_packages }}"
+
 - name: create users
   user: name={{ item.username }} comment="{{ item.name }}"
         password={{ item.password|default(defaults.password) }} shell={{ item.shell }}
@@ -64,7 +71,7 @@
     src: "{{ item.name }}.service.j2"
     dest: "/lib/systemd/system/{{ item.name }}.service"
   with_items: "{{ base.services }}"
-  when: "{{ item.has_template }}"
+  when: item.has_template|default(False)
 
 - name: enable base services
   systemd:

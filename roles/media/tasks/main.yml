@@ -33,6 +33,8 @@
       user: mpd
     - path: "{{ media.directories.calibre }}"
       user: calibre
+    - path: "{{ media.directories.localfm }}"
+      user: localfm
     - path: "{{ media.directories.photoview }}"
       user: photoview
     - path: "{{ media.directories.ytdlpwebui }}"
@@ -72,20 +74,11 @@
     force: true
   with_items: "{{ media.python_libraries }}"
 
-- name: install library dependencies
-  pip:
-    chdir: "{{ media.directories[item.directory_key] }}/{{ item.name }}"
-    requirements: requirements.txt
-    virtualenv: "{{ media.directories[item.directory_key] }}/{{ item.name }}/venv"
+- name: install dependencies
+  include_tasks: python_install.yml
   with_items: "{{ media.python_libraries }}"
-
-- name: install optional dependencies
-  pip:
-    chdir: "{{ media.directories[item.directory_key] }}/{{ item.name }}"
-    requirements: optional-requirements.txt
-    virtualenv: "{{ media.directories[item.directory_key] }}/{{ item.name }}/venv"
-  with_items:
-   - "{{ media.python_libraries }}"
+  loop_control:
+    loop_var: python_lib
 
 - name: give user library ownership
   command: chown -R {{ item.owner }}:{{ item.owner }}

@@ -1,0 +1,23 @@
+---
+- name: install with pip
+  when: python_lib.package_manager|default('pip') == 'pip'
+  block:
+    - name: install {{ python_lib.name }} library dependencies
+      pip:
+        chdir: "{{ media.directories[python_lib.directory_key] }}/{{ python_lib.name }}"
+        requirements: requirements.txt
+        virtualenv: "{{ media.directories[python_lib.directory_key] }}/{{ python_lib.name }}/venv"
+
+    - name: install {{ python_lib.name }} optional dependencies
+      pip:
+        chdir: "{{ media.directories[python_lib.directory_key] }}/{{ python_lib.name }}"
+        requirements: optional-requirements.txt
+        virtualenv: "{{ media.directories[python_lib.directory_key] }}/{{ python_lib.name }}/venv"
+
+- name: install with uv
+  when: python_lib.package_manager|default('pip') == 'uv'
+  block:
+    - name: install {{ python_lib.name }} library dependencies
+      shell:
+        chdir: "{{ media.directories[python_lib.directory_key] }}/{{ python_lib.name }}"
+        cmd: "uv sync --locked"

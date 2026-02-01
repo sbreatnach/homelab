@@ -6,10 +6,13 @@ PrivateKey = {{ vpn_private_key }}
 ListenPort = {{ vpn.listen_port }}
 DNS = {{ vpn_ip_address }}, 1.1.1.1
 
+PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ wifi.network_interface }} -j MASQUERADE
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o {{ wifi.network_interface }} -j MASQUERADE
+
 # Client peers that connect to this server peer
 {% for peer_key, peer_data in vpn.peers.items() %}
 [Peer]
 # {{ peer_key }}
 PublicKey = {{ peer_data.public_key }}
 AllowedIPs = {{ peer_data.ip_address }}/32
-{%   endfor %}
+{% endfor %}

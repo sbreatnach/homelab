@@ -100,7 +100,7 @@ AllowedIPs = 10.99.0.1/24
 # iOS does not work with the split VPN config, only with full
 # tunneling. Thus, we set the allowed IPs to all
 # TODO: fix the full tunnel to route internet traffic correctly
-#AllowedIPs = 0.0.0.0/0
+#AllowedIPs = 0.0.0.0/0, ::/0
 
 # public IP address and port of the WireGuard server
 Endpoint = vpn.somethinginterestinghere.com:51820

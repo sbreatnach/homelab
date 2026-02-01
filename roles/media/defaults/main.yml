@@ -5,6 +5,8 @@ media:
     users:
         calibre:
             shell: /bin/bash
+        localfm:
+            shell: /bin/bash
         photoview:
             shell: /bin/bash
         ytdlpwebui:
@@ -14,6 +16,7 @@ media:
         video: /var/lib/video
         navidrome: /opt/navidrome
         calibre: /opt/calibre
+        localfm: /opt/localfm
         photoview: /opt/photoview
         ytdlpwebui: /opt/ytdlpwebui
     python_libraries:
@@ -24,9 +27,18 @@ media:
           owner: calibre
           extra_dependencies:
             - python-ldap
+        - repo: https://github.com/sbreatnach/localfm.git
+          package_manager: uv
+          version: "main"
+          name: localfm
+          directory_key: localfm
+          owner: localfm
+          extra_dependencies: []
     package_directories:
         - directory_key: calibre
           owner: calibre
+        - directory_key: localfm
+          owner: localfm
         - directory_key: photoview
           owner: photoview
     prebuilt_binaries:

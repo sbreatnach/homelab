@@ -28,6 +28,9 @@ base:
       suites: stable
       components: main
   extra_paths: []
+  pip_packages:
+    - name: uv
+      version: "0.9.27"
   packages:
     - name: git
     - name: golang
