@@ -1,0 +1,13 @@
+[Unit]
+Description=Calibre-Web
+
+[Service]
+Type=simple
+WorkingDirectory={{ media.directories.localfm }}/localfm
+EnvironmentFile={{ media.directories.localfm }}/localfm.env
+ExecStart={{ media.directories.localfm }}/localfm/venv/bin/python -m localfm.main
+User=localfm
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

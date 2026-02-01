@@ -18,6 +18,7 @@
   when: python_lib.package_manager|default('pip') == 'uv'
   block:
     - name: install {{ python_lib.name }} library dependencies
+      become_user: "{{ python_lib.owner }}"
       shell:
         chdir: "{{ media.directories[python_lib.directory_key] }}/{{ python_lib.name }}"
         cmd: "uv sync --locked"

@@ -7,6 +7,7 @@ media:
             shell: /bin/bash
         localfm:
             shell: /bin/bash
+            create_home: true
         photoview:
             shell: /bin/bash
         ytdlpwebui:

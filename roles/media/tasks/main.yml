@@ -99,6 +99,10 @@
       path: /etc/mpd.conf
     - name: calibreweb.service
       path: /lib/systemd/system/calibreweb.service
+    - name: localfm.service
+      path: /lib/systemd/system/localfm.service
+    - name: localfm.env
+      path: /opt/localfm/localfm.env
     - name: navidrome.service
       path: /lib/systemd/system/navidrome.service
     - name: ytdlpwebui.service
