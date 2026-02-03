@@ -2,6 +2,15 @@ lastfm:
   api_key: dummy
   secret: dummy
 media:
+    localfm:
+      application_secret: dummy
+      allowed_hosts: localhost,localfm.nas.home,localfm.nas.vpn
+      db:
+        host: localhost
+        port: 5432
+        name: localfm
+        user: localfm
+        password: localfm
     users:
         calibre:
             shell: /bin/bash
@@ -30,7 +39,7 @@ media:
             - python-ldap
         - repo: https://github.com/sbreatnach/localfm.git
           package_manager: uv
-          version: "main"
+          version: "67a731d54420a89ed55ea29917003763b39290c6"
           name: localfm
           directory_key: localfm
           owner: localfm
