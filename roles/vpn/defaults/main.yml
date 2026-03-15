@@ -24,7 +24,7 @@ vpn:
       public_key: tKfu+KXHO5DUmPC9Mq/Jok5Z7ILB4gygp+redBB1rVk=
       ip_address: "10.99.0.5"
     linux_desktop:
-      public_key: WHY20vPW4rpp1aAUHWnYNMx9DByCe4vY5TyrXPU0aQY=
+      public_key: xiL7DXBoUja6vAQXjbWyO5ezzcmslBl6Y2Uh7RtYmzc=
       ip_address: "10.99.0.6"
     mac_mini:
       public:key: zwvIPGitz3oIvdqd+aKB3mHDoxzjhKv96jAcF0AyjFo=
