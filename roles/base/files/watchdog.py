@@ -28,10 +28,25 @@ def check_network(args):
 
 def run():
     parser = argparse.ArgumentParser("Basic watchdog for internet access")
-    parser.add_argument("--watchdog-file", default="/dev/watchdog", help="The watchdog file to keep active.")
-    parser.add_argument("--ping-url", default="https://www.google.com/", help="URL for checking internet access.")
-    parser.add_argument("--check-gap-secs", default=30, type=int, help="Time between access checks.")
-    parser.add_argument("--grace-period-secs", default=300, type=int, help="Grace period before watchdog writes stop.")
+    parser.add_argument(
+        "--watchdog-file",
+        default="/dev/watchdog",
+        help="The watchdog file to keep active.",
+    )
+    parser.add_argument(
+        "--ping-url",
+        default="https://www.google.com/",
+        help="URL for checking internet access.",
+    )
+    parser.add_argument(
+        "--check-gap-secs", default=30, type=int, help="Time between access checks."
+    )
+    parser.add_argument(
+        "--grace-period-secs",
+        default=300,
+        type=int,
+        help="Grace period before watchdog writes stop.",
+    )
     parser.add_argument("--log-level", default="INFO", help="Log level for the script.")
     args = parser.parse_args()
     logging.basicConfig(level=getattr(logging, args.log_level.upper()))
