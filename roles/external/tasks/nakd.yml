@@ -1,0 +1,31 @@
+
+- name: create service directory
+  file:
+    path: "/opt/nakd"
+    owner: "www-data"
+    state: directory
+
+- name: checkout library code
+  become_user: "www-data"
+  git:
+    repo: "https://github.com/sbreatnach/nakd.git"
+    dest: "/opt/nakd"
+    version: "d5d3064e78df660bf5a6d8d283145139ff195dad"
+    force: true
+
+- name: install library dependencies
+  become_user: "www-data"
+  shell:
+    chdir: "/opt/nakd"
+    cmd: "uv sync --locked"
+
+- name: create service file
+  template:
+    src: "nakd.service.j2"
+    dest: "/lib/systemd/system/nakd.service"
+
+- name: enable service
+  systemd:
+    state: started
+    enabled: true
+    name: "nakd"

@@ -9,6 +9,9 @@
        state=present
   with_items: "{{ external.pip_packages }}"
 
+- name: install naked domain redirect service
+  include_tasks: nakd.yml
+
 - name: create required directories
   file:
     name: "{{ item.name }}"

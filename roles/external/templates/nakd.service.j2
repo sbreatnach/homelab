@@ -1,0 +1,13 @@
+[Unit]
+Description=Naked domain redirect site
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+User=www-data
+Type=simple
+ExecStart=/opt/nakd/.venv/bin/python nakd.py
+WorkingDirectory=/opt/nakd
+KillMode=process
+Restart=always
