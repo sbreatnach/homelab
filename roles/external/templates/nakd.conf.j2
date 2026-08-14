@@ -1,0 +1,14 @@
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    ssl_certificate {{ external.certificates.nakd.full_chain }};
+    ssl_certificate_key {{ external.certificates.nakd.key }};
+
+    server_name {{ domains.external }};
+
+    location / {
+        proxy_pass http://localhost:8021;
+        proxy_set_header X-Forwarded-For $remote_addr;
+    }
+}

@@ -34,6 +34,9 @@ external:
         upload_max_filesize: 512M
         request_timeout: 60
     certificates:
+        nakd:
+            full_chain: /etc/letsencrypt/live/somethinginterestinghere.com/fullchain.pem
+            key: /etc/letsencrypt/live/somethinginterestinghere.com/privkey.pem
         matrix:
             full_chain: /etc/letsencrypt/live/matrix.somethinginterestinghere.com/fullchain.pem
             key: /etc/letsencrypt/live/matrix.somethinginterestinghere.com/privkey.pem
@@ -57,6 +60,7 @@ external:
           key: /etc/letsencrypt/live/autoconfig.somethinginterestinghere.com/privkey.pem
     notification_email: sbreatnach@protonmail.com
     certificate_domains:
+        - somethinginterestinghere.com
         - matrix.somethinginterestinghere.com
         - matrixweb.somethinginterestinghere.com
         - auth.somethinginterestinghere.com
