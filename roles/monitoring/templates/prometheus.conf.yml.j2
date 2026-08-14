@@ -42,3 +42,7 @@ scrape_configs:
     static_configs:
       - targets:
           - mail-users.nas.home:80
+
+tsdb:
+  retention:
+    time: 5y
