@@ -19,7 +19,7 @@ def check_network(args):
     request = Request(args.ping_url, method="HEAD")
     try:
         with urlopen(request, timeout=5) as response_context:
-            logging.info(f"Network check response status: %s", response_context.status)
+            logging.info("Network check response status: %s", response_context.status)
             return response_context.status == HTTPStatus.OK
     except Exception:
         logging.exception("No internet access due to error")

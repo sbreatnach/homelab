@@ -21,6 +21,8 @@ base:
     - name: wpa_supplicant
       has_template: true
     - name: dhcpcd
+    - name: watchdog
+    - has_template: true
   apt_repositories:
     - name: zulu
       url: https://repos.azul.com/zulu/deb

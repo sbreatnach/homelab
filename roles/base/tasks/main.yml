@@ -45,6 +45,9 @@
   copy: src=tmux.conf dest=/home/{{ item.username }}/.tmux.conf
   with_items: "{{ users }}"
 
+- name: create watchdog script
+  copy: src=watchdog.py dest=/root/watchdog.py mode=0755
+
 - name: enable sudo access for appropriate users
   template: src=sudoers.j2 dest=/etc/sudoers.d/users
 
