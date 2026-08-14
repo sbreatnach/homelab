@@ -3,6 +3,9 @@ cloudflare:
 external:
     php_version: "8.4"
     dns_records:
+      - record: "@"
+        type: CNAME
+        value: home.{{ domains.external }}
       - record: auth
         type: CNAME
         value: home.{{ domains.external }}
@@ -100,6 +103,7 @@ external:
           subdomain: nextcloud
           description: Personal cloud web interface
         - name: stalwart
+        - name: nakd
 internal:
     sites:
         - name: searx
