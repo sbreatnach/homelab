@@ -1,12 +1,18 @@
 
+- name: create user
+  user:
+    name: "nakd"
+    shell: "/bin/bash"
+    create_home: "true"
+
 - name: create service directory
   file:
     path: "/opt/nakd"
-    owner: "www-data"
+    owner: "nakd"
     state: directory
 
 - name: checkout library code
-  become_user: "www-data"
+  become_user: "nakd"
   git:
     repo: "https://github.com/sbreatnach/nakd.git"
     dest: "/opt/nakd"
@@ -14,7 +20,7 @@
     force: true
 
 - name: install library dependencies
-  become_user: "www-data"
+  become_user: "nakd"
   shell:
     chdir: "/opt/nakd"
     cmd: "uv sync --locked"
