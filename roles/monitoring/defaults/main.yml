@@ -13,7 +13,7 @@ monitoring:
       path: /opt/monitoring/node_exporter-1.11.1.linux-amd64
       owner: monitoring
     grafana:
-      path: /opt/monitoring/grafana-v13.1.0
+      path: /opt/monitoring/grafana-13.1.0
       owner: monitoring
   binary_archives:
     - url: https://github.com/prometheus/prometheus/releases/download/v3.13.0/prometheus-3.13.0.linux-amd64.tar.gz
