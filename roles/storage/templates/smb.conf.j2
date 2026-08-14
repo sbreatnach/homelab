@@ -1,7 +1,7 @@
 [global]
    server string = NAS
    server role = standalone server
-   interfaces = lo {{ vpn_network_interface }} {{ root_network_interface }} {{ wifi.network_interface }}
+   interfaces = lo {{ vpn_network_interface }} {{ wireguard_network_interface }} {{ root_network_interface }} {{ wifi.network_interface }}
    bind interfaces only = yes
    disable netbios = yes
    smb ports = 445

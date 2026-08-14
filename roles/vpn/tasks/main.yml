@@ -69,10 +69,10 @@
     interface_out: "{{ item.interface_out }}"
   with_items:
     - rule: allow
-      interface_in: "{{ vpn_network_interface }}"
-      interface_out: "{{ vpn_network_interface }}"
+      interface_in: "{{ wireguard_network_interface }}"
+      interface_out: "{{ wireguard_network_interface }}"
     - rule: allow
-      interface_in: "{{ vpn_network_interface }}"
+      interface_in: "{{ wireguard_network_interface }}"
       interface_out: "{{ root_network_interface }}"
 
 - name: Start and enable WireGuard service
