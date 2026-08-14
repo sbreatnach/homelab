@@ -9,7 +9,7 @@ WantedBy=multi-user.target
 [Service]
 User=ytdlpwebui
 Type=simple
-ExecStart={{ media.directories.ytdlpwebui }}/ytdlpwebui -out {{ media.directories.video }}/YouTube
+ExecStart={{ media.directories.ytdlpwebui }}/ytdlpwebui -conf {{ media.directories.ytdlpwebui }}/ytdlpwebui.yaml
 WorkingDirectory={{ media.directories.ytdlpwebui }}
 TimeoutStopSec=20
 KillMode=process

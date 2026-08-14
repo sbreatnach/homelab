@@ -107,6 +107,8 @@
       path: /lib/systemd/system/navidrome.service
     - name: ytdlpwebui.service
       path: /lib/systemd/system/ytdlpwebui.service
+    - name: ytdlpwebui.yaml
+      path: /opt/ytdlpwebui/ytdlpwebui.yaml
     - name: photoview.service
       path: /lib/systemd/system/photoview.service
     - name: navidrome.toml
