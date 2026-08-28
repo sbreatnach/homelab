@@ -24,7 +24,7 @@
 
 - name: download webadmin bundle
   get_url:
-    url: https://github.com/stalwartlabs/webadmin/releases/download/v{{ email.stalwart.webadmin.version }}/webadmin-oss.zip
+    url: https://github.com/stalwartlabs/webui/releases/download/v{{ email.stalwart.webadmin.version }}/webui.zip
     dest: "{{ email.stalwart.directory }}"
     checksum: "{{ email.stalwart.webadmin.checksum }}"
     mode: 0644
