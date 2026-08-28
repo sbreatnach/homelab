@@ -1,5 +1,5 @@
 restic:
-    version: "0.18.1"
+    version: "0.19.1"
     key: dummy
 backblaze:
     key_id: dummy

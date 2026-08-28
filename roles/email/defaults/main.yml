@@ -3,10 +3,10 @@ email:
     username: stalwart
     directory: /opt/stalwart
     download:
-      version: "0.14.0"
+      version: "0.15.5"
     webadmin:
-      version: "0.1.33"
-      checksum: sha256:731d78b4e17861be9b95a94053ca4f76b86ab34fb65a92480f85664accceac3f
+      version: "0.1.37"
+      checksum: sha256:f5b463229d1874d076e1a8c568ef8c0574af1058d3110df47c27e104e8beb2f5
     admin_password:
       # password format is hashed based on
       # https://stalw.art/docs/auth/authentication/password

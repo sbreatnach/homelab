@@ -1,6 +1,6 @@
 matrix:
     user: matrix-synapse
-    web_version: v1.11.55
+    web_version: v1.12.26
     directory:
         venv: /opt/venvs/matrix-synapse
         venv_base: /var/lib/matrix-synapse/venv

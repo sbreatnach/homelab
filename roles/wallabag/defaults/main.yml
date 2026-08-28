@@ -8,18 +8,18 @@ wallabag:
   clean_install: false
   secret: dummy
   apt_packages:
-    - php7.4-mbstring
-    - php7.4-xml
-    - php7.4-gd
-    - php7.4-json
-    - php7.4-intl
-    - php7.4-bcmath
-    - php7.4-curl
-    - php7.4-pgsql
-    - php7.4-tidy
-    - php7.4-json
+    - php8.4-mbstring
+    - php8.4-xml
+    - php8.4-gd
+    - php8.4-json
+    - php8.4-intl
+    - php8.4-bcmath
+    - php8.4-curl
+    - php8.4-pgsql
+    - php8.4-tidy
+    - php8.4-json
   directories:
     web: /var/www/wallabag
   repo:
-    tag: 2.6.8
+    tag: 2.6.14
     url: https://github.com/wallabag/wallabag.git

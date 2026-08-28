@@ -32,7 +32,7 @@ base:
   extra_paths: []
   pip_packages:
     - name: uv
-      version: "0.9.27"
+      version: "0.12.6"
   packages:
     - name: git
     - name: golang
