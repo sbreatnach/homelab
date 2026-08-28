@@ -16,13 +16,13 @@
 - name: download Restic
   get_url:
     url: https://github.com/restic/restic/releases/download/v{{ restic.version }}/restic_{{ restic.version }}_linux_amd64.bz2
+    checksum: "{{ restic.checksum }}"
     dest: /tmp/restic.bz2
 
 - name: unpack Restic to path
   shell: bzip2 -d -k /tmp/restic.bz2 && 
          chmod 755 /tmp/restic &&
          mv /tmp/restic /usr/bin/restic
-         creates=/usr/bin/restic
 
 - name: install credential files
   template:
