@@ -3,7 +3,6 @@ nextcloud:
   user: www-data
   repo_url: https://download.nextcloud.com/server/releases
   apt_packages:
-    - php-imap
     - php-imagick
     - php-redis
     - php-apcu
@@ -12,7 +11,6 @@ nextcloud:
     - php-mbstring
     - php-gd
     - php-ldap
-    - php-imap
     - php-json
     - php-curl
     - php-intl

@@ -1,4 +1,9 @@
 ---
+- name: remove existing installed version, if any
+  ansible.builtin.file:
+    path: "{{ nextcloud.directories.web }}"
+    state: absent
+
 - name: create all directories
   file:
     path: "{{ item.value }}"
