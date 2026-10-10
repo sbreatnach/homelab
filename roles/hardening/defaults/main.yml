@@ -1,3 +1,11 @@
 hardening:
+  apt_repositories:
+    - name: vaultwarden
+      url: https://apt.crunchy.run/vaultwarden
+      components: main
+      suites: "{{ distro_name }}"
+      apt_key_url: https://apt.crunchy.run/keys/signing-key.gpg
   apt_packages:
     - fail2ban
+    - vaultwarden
+    - vaultwarden-web-vault

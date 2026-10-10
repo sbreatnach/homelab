@@ -1,6 +1,18 @@
+- name: Add repositories
+  deb822_repository:
+    name: "{{ item.name }}"
+    types: deb
+    uris: "{{ item.url }}"
+    architectures: "{{ item.architectures|default(omit) }}"
+    components: "{{ item.components|default(omit) }}"
+    suites: "{{ item.suites|default(omit) }}"
+    signed_by: "{{ item.apt_key_url }}"
+  with_items: "{{ hardening.apt_repositories }}"
+
 - name: install required packages
   apt:
     name: "{{ hardening.apt_packages }}"
+    update_cache: yes
     state: present
 
 - name: generate configuration files
