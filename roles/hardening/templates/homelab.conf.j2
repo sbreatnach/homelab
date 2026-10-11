@@ -13,8 +13,18 @@ maxretry = 5
 
 [keycloak]
 enabled = true
-port = https,8443
+port = https,8080
 logpath = /home/auth/keycloak/data/log/keycloak.log
 maxretry = 6
 findtime = 600
 bantime = 600
+
+[vaultwarden]
+enabled = true
+port = http,https,8715
+filter = vaultwarden
+logpath = /var/log/vaultwarden.log
+maxretry = 3
+findtime = 600
+bantime = 3600
+backend = auto

@@ -33,6 +33,9 @@ external:
       - record: vpn
         type: CNAME
         value: home.{{ domains.external }}
+      - record: vault
+        type: CNAME
+        value: home.{{ domains.external }}
     php:
         upload_max_filesize: 512M
         request_timeout: 60
@@ -61,6 +64,9 @@ external:
         autoconfig:
           full_chain: /etc/letsencrypt/live/autoconfig.somethinginterestinghere.com/fullchain.pem
           key: /etc/letsencrypt/live/autoconfig.somethinginterestinghere.com/privkey.pem
+        vault:
+            full_chain: /etc/letsencrypt/live/vault.somethinginterestinghere.com/fullchain.pem
+            key: /etc/letsencrypt/live/vault.somethinginterestinghere.com/privkey.pem
     notification_email: sbreatnach@protonmail.com
     certificate_domains:
         - somethinginterestinghere.com
@@ -71,7 +77,9 @@ external:
         - mail.somethinginterestinghere.com
         - autodiscover.somethinginterestinghere.com
         - autoconfig.somethinginterestinghere.com
+        - vault.somethinginterestinghere.com
     subdomains:
+        - vault
         - matrix
         - matrixweb
         - auth
@@ -102,6 +110,10 @@ external:
           title: ⛅ Nextcloud
           subdomain: nextcloud
           description: Personal cloud web interface
+        - name: vaultwarden
+          title: 👮 Vaultwarden
+          subdomain: vault
+          description: Secure password manager
         - name: stalwart
         - name: nakd
 internal:

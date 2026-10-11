@@ -15,6 +15,14 @@
     update_cache: yes
     state: present
 
+- name: create required directories
+  file:
+    name: "{{ vaultwarden.data_directory }}"
+    mode: "700"
+    owner: "vaultwarden"
+    group: "vaultwarden"
+    state: directory
+
 - name: generate configuration files
   template:
     src: "{{ item.name }}.j2"
@@ -29,3 +37,7 @@
       path: /etc/fail2ban/filter.d
     - name: keycloak.conf
       path: /etc/fail2ban/filter.d
+    - name: vaultwarden.conf
+      path: /etc/fail2ban/filter.d
+    - name: vaultwarden.env
+      path: /etc/vaultwarden/vaultwarden.env

@@ -69,6 +69,12 @@
     dest: /etc/wpa_supplicant/wpa_supplicant.conf
     mode: "0600"
 
+- name: create base configs
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items: "{{ base.config_files }}"
+
 - name: create base service files
   template:
     src: "{{ item.name }}.service.j2"

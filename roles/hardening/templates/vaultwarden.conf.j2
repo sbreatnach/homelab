@@ -1,0 +1,8 @@
+[INCLUDES]
+before = common.conf
+
+[Definition]
+# Matches standard failed login attempts logged by Vaultwarden
+failregex = ^.*Username or password is incorrect\. Try again\. IP: <HOST> Username:.*$
+
+ignoreregex =

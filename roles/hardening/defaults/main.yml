@@ -9,3 +9,9 @@ hardening:
     - fail2ban
     - vaultwarden
     - vaultwarden-web-vault
+vaultwarden:
+  admin_token: dummy
+  data_directory: /opt/vaultwarden/data
+  oidc:
+    client_id: vaultwarden
+    client_secret: dummy

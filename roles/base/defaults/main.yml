@@ -15,6 +15,9 @@ base:
   #   minute: 30
   #   hour: 5
   #   day: "*"
+  config_files:
+    - src: logrotate.conf.j2
+      dest: /etc/logrotate.d/base
   services:
     - name: powertop
       has_template: true
@@ -53,6 +56,7 @@ base:
     - name: curl
     - name: dhcpcd5
     - name: llvm
+    - name: logrotate
     - name: libbz2-dev
     - name: libffi-dev
     - name: liblzma-dev
