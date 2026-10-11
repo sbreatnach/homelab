@@ -15,7 +15,7 @@ partitions:
   - path: /
   - path: /mnt/Backup1
     name: Backup1
-    device: UUID=55490f6f-0af7-454c-8b54-878ab03b9ab5
+    device: UUID=6a4d139a-a4b2-45c0-b568-1f498a5235de
     filesystem: ext4
     flags: defaults,nofail
   - path: /mnt/Backup2
