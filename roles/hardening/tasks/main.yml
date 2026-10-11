@@ -40,4 +40,4 @@
     - name: vaultwarden.conf
       path: /etc/fail2ban/filter.d
     - name: vaultwarden.env
-      path: /etc/vaultwarden/vaultwarden.env
+      path: /etc/vaultwarden
