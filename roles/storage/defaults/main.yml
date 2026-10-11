@@ -1,6 +1,4 @@
 storage:
-  syncthing:
-    api_key: dummy
   samba_users:
     sambauser:
       password: dummy
