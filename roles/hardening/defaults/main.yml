@@ -11,7 +11,7 @@ hardening:
     - vaultwarden-web-vault
 vaultwarden:
   admin_token: dummy
-  data_directory: /opt/vaultwarden/data
+  directory: /var/lib/vaultwarden
   oidc:
     client_id: vaultwarden
     client_secret: dummy

@@ -15,14 +15,6 @@
     update_cache: yes
     state: present
 
-- name: create required directories
-  file:
-    name: "{{ vaultwarden.data_directory }}"
-    mode: "700"
-    owner: "vaultwarden"
-    group: "vaultwarden"
-    state: directory
-
 - name: generate configuration files
   template:
     src: "{{ item.name }}.j2"

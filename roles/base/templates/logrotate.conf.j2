@@ -1,9 +1,9 @@
-/var/log/vaultwarden.log {
+/var/lib/vaultwarden/vaultwarden.log {
     daily
     rotate 7
     compress
     delaycompress
     missingok
     notifempty
-    create 644 root root
+    create 644 vaultwarden vaultwarden
 }
