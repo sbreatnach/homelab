@@ -2,6 +2,7 @@
 import argparse
 import logging
 import signal
+import subprocess
 import time
 from http import HTTPStatus
 from urllib.request import urlopen, Request
@@ -69,6 +70,9 @@ def run():
             elif grace_start > cur_time - args.grace_period_secs:
                 file_handle.write("1")
                 file_handle.flush()
+            elif grace_start + (args.grace_period_secs * 2) < cur_time:
+                logging.warning("Hardware watchdog failed, trigger manual reboot")
+                subprocess.check_call("reboot")
             time.sleep(1)
 
 
