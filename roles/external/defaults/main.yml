@@ -167,8 +167,8 @@ internal:
           title: 🔕 AdGuard Home
           subdomain: adblock
           description: Ad blocking management panel
-        - name: emby
-          title: 📺 Emby
+        - name: jellyfin
+          title: 📺 Jellyfin
           subdomain: media
           description: View and play music, photos and videos
         - name: killian

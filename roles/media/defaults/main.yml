@@ -69,14 +69,20 @@ media:
           url: https://advplyr.github.io/audiobookshelf-ppa
           suites: "./"
           apt_key_url: https://advplyr.github.io/audiobookshelf-ppa/KEY.gpg
+        - name: jellyfin
+          url: https://repo.jellyfin.org/debian
+          suites: "trixie"
+          components: "main"
+          architectures: "amd64"
+          apt_key_url: https://repo.jellyfin.org/jellyfin_team.gpg.key
     apt_packages:
         - name: mpd
         - name: ffmpeg
         - name: audiobookshelf
+        - name: jellyfin
         - name: calibre
           install_recommends: false
     java_packages: []
     java_home: /usr/lib/jvm/java-11-openjdk-amd64
     deb_packages:
-        - path: https://github.com/MediaBrowser/Emby.Releases/releases/download/4.9.1.80/emby-server-deb_4.9.1.80_amd64.deb
         - path: https://github.com/badaix/snapcast/releases/download/v0.35.0/snapserver_0.35.0-1_amd64_trixie.deb

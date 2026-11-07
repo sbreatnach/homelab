@@ -12,6 +12,7 @@
 
 - name: install apt packages
   apt:
+    update_cache: yes
     name: "{{ item.name }}"
     install_recommends: "{{ item.install_recommends|default(True) }}"
   with_items: "{{ media.apt_packages }}"
@@ -93,8 +94,6 @@
   with_items:
     - name: snapserver.conf
       path: /etc/snapserver.conf
-    - name: emby_system.xml
-      path: /var/lib/emby/config/system.xml
     - name: mpd.conf
       path: /etc/mpd.conf
     - name: calibreweb.service
